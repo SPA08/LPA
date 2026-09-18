@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siddhu Property Advisor | Chichawatni Blog</title>
+  <meta name="description" content="Read the latest insights and guides on buying, selling, and verifying property in Chichawatni. Expert advice from Siddhu Property Advisor.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 32 L8 12 L20 4 L32 12 L32 32' stroke='%23B88A3B' stroke-width='1.5' stroke-linejoin='round' opacity='0.4'/%3E%3Cpath d='M14 32 L14 16 L20 12 L26 16 L26 32' stroke='%23B88A3B' stroke-width='1' stroke-linejoin='round' opacity='0.2'/%3E%3Cpath d='M26 18 C26 15.5 24 14 20 14 C16 14 14 16 14 18.5 C14 21.5 26 21.5 26 24.5 C26 27.5 24 29 20 29 C16 29 14 27.5 14 25' stroke='%23B88A3B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='18.5' y='20.5' width='3' height='3' transform='rotate(45 20 22)' fill='%23B88A3B' /%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .blog-header {
+      padding: 160px 0 60px;
+      text-align: center;
+      background: var(--bg-main);
+      border-bottom: 1px solid var(--border);
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+      padding: 60px 0;
+    }
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .blog-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-primary);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    }
+    .blog-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .blog-content {
+      padding: 24px;
+    }
+    .blog-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+    }
+    .blog-title {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .blog-excerpt {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    .read-more {
+      font-weight: 600;
+      color: var(--gold-primary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .read-more:hover {
+      color: var(--gold-hover);
+    }
+    .category-filter {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--gold-primary);
+      color: #fff;
+      border-color: var(--gold-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="../index.html" class="logo-brand-wrap">
+        <div class="logo-crest-box">
+          <svg class="logo-svg-emblem" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="SIDDHU Property Advisor Logo">
+            <!-- Architectural Background Lines -->
+            <path d="M8 32 L8 12 L20 4 L32 12 L32 32" stroke="url(#premiumGoldBlog)" stroke-width="1.5" stroke-linejoin="round" opacity="0.4"/>
+            <path d="M14 32 L14 16 L20 12 L26 16 L26 32" stroke="url(#premiumGoldBlog)" stroke-width="1" stroke-linejoin="round" opacity="0.2"/>
+            
+            <!-- The Clean 'S' Icon -->
+            <path d="M26 18 C26 15.5 24 14 20 14 C16 14 14 16 14 18.5 C14 21.5 26 21.5 26 24.5 C26 27.5 24 29 20 29 C16 29 14 27.5 14 25" stroke="#B88A3B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Central Diamond Accent -->
+            <rect x="18.5" y="20.5" width="3" height="3" transform="rotate(45 20 22)" fill="#B88A3B" />
+            
+            <defs>
+              <linearGradient id="premiumGoldBlog" x1="8" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#B88A3B"/>
+                <stop offset="1" stop-color="#8A6428"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-title-group">
+          <div class="logo-title"><span>SIDDHU</span> <span class="highlight-accent">PROPERTY</span></div>
+          <div class="logo-subtitle">REAL ESTATE ADVISOR</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Blog</a></li>
+      </ul>
+      <div>
+        <a href="tel:+923063996764" class="btn-header-cta"><i class="fa-solid fa-phone"></i> Call Now</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="blog-header">
+    <div class="container">
+      <span class="section-tag"><i class="fa-solid fa-pen-nib"></i> Knowledge Base</span>
+      <h1 class="section-title editorial-title">Real Estate <span class="editorial-italic highlight-accent">Insights</span></h1>
+      <p class="section-subtitle" style="margin: 0 auto;">Expert guides, market updates, and buying tips for Chichawatni.</p>
+      
+      <div class="category-filter" id="categoryFilter">
+        <button class="filter-btn active" data-filter="all">All Posts</button>
+        <button class="filter-btn" data-filter="Buying Guide">Buying</button>
+        <button class="filter-btn" data-filter="Selling Guide">Selling</button>
+        <button class="filter-btn" data-filter="Market Update">Market Updates</button>
+      </div>
+    </div>
+  </div>
+
+  <section style="background: var(--bg-secondary); min-height: 50vh;">
+    <div class="container">
+      <div class="blog-grid" id="blogGrid">
+        <!-- Posts injected via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background: var(--bg-secondary); padding: 40px 0; border-top: 1px solid var(--border); text-align: center;">
+    <p style="color: var(--text-muted);">&copy; 2026 Siddhu Property Advisor. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('posts.json')
+        .then(res => res.json())
+        .then(posts => {
+          window.allPosts = posts;
+          renderPosts(posts);
+        });
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          const filter = e.target.getAttribute('data-filter');
+          if (filter === 'all') {
+            renderPosts(window.allPosts);
+          } else {
+            renderPosts(window.allPosts.filter(p => p.category === filter));
+          }
+        });
+      });
+    });
+
+    function renderPosts(posts) {
+      const grid = document.getElementById('blogGrid');
+      grid.innerHTML = '';
+      posts.forEach(post => {
+        grid.innerHTML += `
+          <div class="blog-card reveal-on-scroll">
+            <img src="${post.thumbnail}" alt="${post.title}" class="blog-img" onerror="this.src='../assets/images/hero-chichawatni.jpg'">
+            <div class="blog-content">
+              <div class="blog-meta">
+                <span><i class="fa-solid fa-calendar"></i> ${post.date}</span>
+                <span><i class="fa-solid fa-tag"></i> ${post.category}</span>
+              </div>
+              <h2 class="blog-title">${post.title}</h2>
+              <p class="blog-excerpt">${post.excerpt}</p>
+              <a href="article.html?id=${post.id}" class="read-more">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        `;
+      });
+      // Re-trigger reveal animation for newly injected items
+      setTimeout(() => {
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));
+      }, 100);
+    }
+  </script>
+</body>
+</html>

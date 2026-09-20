@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let desc = item.services || item.address || item.parentChak || "Chichawatni";
         if (item.legalStatus === "APPROVED_VERIFIED") {
-          desc += " Ã¢â‚¬Â¢ Verified Record";
+          desc += " • Verified Record";
         }
 
         index.push({
@@ -223,6 +223,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const heroSearchLocation = document.getElementById("searchLocation");
   const heroSearchType = document.getElementById("searchType");
   const heroSearchBtn = document.getElementById("heroSearchBtn");
+
+  if (heroSearchLocation) {
+    heroSearchLocation.addEventListener("change", (e) => {
+      const loc = e.target.value;
+      if (loc && loc !== "all") {
+        const mapSection = document.getElementById("areas");
+        if (mapSection) {
+          mapSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          setTimeout(() => {
+            if (typeof window.syncMapToItem === "function") {
+              window.syncMapToItem(loc);
+            }
+          }, 450);
+        }
+      }
+    });
+  }
 
   if (heroSearchBtn) {
     heroSearchBtn.addEventListener("click", (e) => {

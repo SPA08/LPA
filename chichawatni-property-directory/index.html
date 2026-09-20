@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -19,33 +19,37 @@
     }
     
     .directory-hero {
-      padding: 120px 20px 60px;
+      padding: 48px 20px 40px;
       text-align: center;
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-glass);
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-main);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 32px;
     }
     .search-container {
       max-width: 600px;
-      margin: 40px auto 20px;
+      margin: 32px auto 16px;
       position: relative;
     }
     .search-input {
       width: 100%;
-      padding: 18px 24px 18px 50px;
-      font-size: 16px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-glass);
+      padding: 16px 20px 16px 48px;
+      font-size: 15px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
       border-radius: 8px;
-      color: var(--text-light);
+      color: var(--text-main);
       outline: none;
-      transition: border-color 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
     .search-input:focus {
       border-color: var(--primary-accent);
+      box-shadow: 0 0 0 3px rgba(184, 138, 59, 0.15);
     }
     .search-icon {
       position: absolute;
-      left: 20px;
+      left: 18px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
@@ -62,13 +66,13 @@
       padding-bottom: 10px;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
-      scrollbar-color: var(--primary-accent) rgba(255,255,255,0.05);
+      scrollbar-color: var(--primary-accent) rgba(0,0,0,0.05);
     }
     .filters-container::-webkit-scrollbar {
       height: 6px;
     }
     .filters-container::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.05);
       border-radius: 4px;
     }
     .filters-container::-webkit-scrollbar-thumb {
@@ -76,12 +80,12 @@
       border-radius: 4px;
     }
     .filter-btn {
-      background: transparent;
-      border: 1px solid var(--border-glass);
-      color: var(--text-muted);
-      padding: 10px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-main);
+      color: var(--text-secondary);
+      padding: 8px 18px;
       border-radius: 50px;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -89,12 +93,12 @@
       white-space: nowrap;
     }
     .filter-btn:hover {
-      border-color: var(--text-light);
-      color: var(--text-light);
+      border-color: var(--primary-accent);
+      color: var(--primary-accent);
     }
     .filter-btn.active {
       background: var(--primary-accent);
-      color: var(--bg-dark);
+      color: #FFFFFF;
       border-color: var(--primary-accent);
     }
     
@@ -108,8 +112,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .result-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-glass);
+      background: var(--bg-card);
+      border: 1px solid var(--border-main);
       border-radius: 8px;
       padding: 16px 20px;
       margin-bottom: 12px;
@@ -123,7 +127,7 @@
     }
     .result-card:hover {
       border-color: var(--primary-accent);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+      box-shadow: 0 4px 16px rgba(184, 138, 59, 0.12);
       transform: translateY(-2px);
     }
     .result-type-label {
@@ -135,13 +139,13 @@
     }
     .result-title {
       font-size: 16px;
-      font-weight: 600;
-      color: var(--text-light);
+      font-weight: 700;
+      color: var(--text-main);
       margin: 0;
     }
     .result-subtitle {
-      font-size: 13px;
-      color: var(--text-muted);
+      font-size: 13.5px;
+      color: var(--text-secondary);
     }
 
     /* Detail Panel */
@@ -153,16 +157,17 @@
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0,0,0,0.5);
       z-index: 1000;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(6px);
     }
     .detail-content {
-      background: var(--bg-dark);
-      border: 1px solid var(--border-glass);
+      background: var(--bg-card);
+      border: 1px solid var(--border-main);
+      box-shadow: var(--shadow-card);
       border-radius: 12px;
       width: 100%;
       max-width: 600px;
@@ -181,18 +186,18 @@
       transition: color 0.3s;
     }
     .close-modal:hover {
-      color: var(--text-light);
+      color: var(--text-main);
     }
     .detail-section {
       margin-top: 24px;
       padding-top: 24px;
-      border-top: 1px solid var(--border-glass);
+      border-top: 1px solid var(--border-main);
     }
     .detail-section h4 {
       font-size: 14px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       margin-bottom: 12px;
     }
     .status-badge {
@@ -212,13 +217,148 @@
 </head>
 <body class="dark-theme">
   <!-- Header placeholder -->
-  <header class="site-header">
-    <div class="nav-container">
-      <a href="../index.html" class="brand-logo">SIDDHU Property Advisor</a>
-      <nav class="desktop-nav">
-        <a href="../index.html">Home</a>
-        <a href="../sell-my-property/index.html" style="color:var(--primary-accent)">Sell Property</a>
-      </nav>
+    <!-- ==================== HEADER & NAVIGATION ==================== -->
+  <header>
+    <div class="container nav-wrapper">
+      
+      <!-- LOGO BRAND EMBLEM (CUSTOM ARCHITECTURAL MONOGRAM CREST) -->
+      <a href="../index.html" class="logo-brand-wrap">
+        <div class="logo-crest-box">
+          <svg class="logo-svg-emblem" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="SIDDHU Property Advisor Logo">
+            <!-- Architectural Background Lines -->
+            <path d="M8 32 L8 12 L20 4 L32 12 L32 32" stroke="url(#premiumGoldNav)" stroke-width="1.5" stroke-linejoin="round" opacity="0.4"/>
+            <path d="M14 32 L14 16 L20 12 L26 16 L26 32" stroke="url(#premiumGoldNav)" stroke-width="1" stroke-linejoin="round" opacity="0.2"/>
+            
+            <!-- The Clean 'S' Icon -->
+            <path d="M26 18 C26 15.5 24 14 20 14 C16 14 14 16 14 18.5 C14 21.5 26 21.5 26 24.5 C26 27.5 24 29 20 29 C16 29 14 27.5 14 25" stroke="#B88A3B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Central Diamond Accent -->
+            <rect x="18.5" y="20.5" width="3" height="3" transform="rotate(45 20 22)" fill="#B88A3B" />
+            
+            <defs>
+              <linearGradient id="premiumGoldNav" x1="8" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#B88A3B"/>
+                <stop offset="1" stop-color="#8A6428"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-title-group">
+          <div class="logo-title">
+            <span>SIDDHU</span> <span class="highlight-accent">PROPERTY</span>
+          </div>
+          <div class="logo-subtitle">REAL ESTATE ADVISOR</div>
+        </div>
+      </a>
+
+      <!-- NAVIGATION LINKS (CLEAN & ARCHITECTURAL WITH DROPDOWN) -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html" >Home</a></li>
+        <li><a href="../index.html#featured">Featured</a></li>
+        <li><a href="../index.html#properties">Properties</a></li>
+        <li><a href="../index.html#areas">Market Map</a></li>
+        
+        <!-- BLOG DROPDOWN -->
+        <li class="nav-item-dropdown">
+          <a href="../blog/index.html" class="nav-dropdown-trigger">
+            <span>Property Blog</span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 0.72rem; margin-left: 3px;"></i>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="../blog/index.html">
+              <i class="fa-solid fa-pen-nib highlight-accent"></i>
+              <span>All Articles</span>
+            </a>
+            <a href="../blog/index.html?category=buying">
+              <i class="fa-solid fa-house highlight-deep"></i>
+              <span>Buying Guides</span>
+            </a>
+            <a href="../blog/index.html?category=selling">
+              <i class="fa-solid fa-tags highlight-accent"></i>
+              <span>Selling Tips</span>
+            </a>
+          </div>
+        </li>
+        
+        <!-- CITY & GUIDES DROPDOWN -->
+        <li class="nav-item-dropdown">
+          <a href="../chichawatni-city-guide.html" class="nav-dropdown-trigger">
+            <span>City & Guides</span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 0.72rem; margin-left: 3px;"></i>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="../chichawatni-history-heritage.html">
+              <i class="fa-solid fa-landmark highlight-deep"></i>
+              <span>History & 1913 Forest</span>
+            </a>
+            <a href="../chichawatni-city-guide.html">
+              <i class="fa-solid fa-city highlight-accent"></i>
+              <span>Chichawatni City Guide</span>
+            </a>
+            <a href="../chichawatni-residential-colonies-guide.html">
+              <i class="fa-solid fa-house-chimney-window highlight-deep"></i>
+              <span>Residential Colonies Guide</span>
+            </a>
+            <a href="../chichawatni-commercial-property-guide.html">
+              <i class="fa-solid fa-building-user highlight-accent"></i>
+              <span>Commercial Property Guide</span>
+            </a>
+            <a href="../fbr-property-valuation-chichawatni.html">
+              <i class="fa-solid fa-calculator highlight-accent"></i>
+              <span>FBR Property Valuation</span>
+            </a>
+            <a href="../chichawatni-roads-guide.html">
+              <i class="fa-solid fa-road highlight-deep"></i>
+              <span>Roads & Highways Guide</span>
+            </a>
+            <a href="../chichawatni-hospitals-guide.html">
+              <i class="fa-solid fa-hospital highlight-accent"></i>
+              <span>Hospitals & Healthcare</span>
+            </a>
+            <a href="../chichawatni-schools-guide.html">
+              <i class="fa-solid fa-graduation-cap highlight-deep"></i>
+              <span>Schools & Colleges</span>
+            </a>
+            <a href="../chichawatni-markets-guide.html">
+              <i class="fa-solid fa-store highlight-accent"></i>
+              <span>Markets & Bazaars</span>
+            </a>
+            <a href="../chichawatni-public-offices.html">
+              <i class="fa-solid fa-building-columns highlight-deep"></i>
+              <span>Public & Revenue Offices</span>
+            </a>
+            <a href="../chichawatni-land-records-plra-guide.html">
+              <i class="fa-solid fa-file-signature highlight-accent"></i>
+              <span>PLRA & Revenue Records</span>
+            </a>
+            <a href="../chichawatni-overseas-investor-guide.html">
+              <i class="fa-solid fa-plane-arrival highlight-deep"></i>
+              <span>Overseas Investor Guide</span>
+            </a>
+            <a href="../chichawatni-city-facts.html">
+              <i class="fa-solid fa-compass highlight-accent"></i>
+              <span>City Encyclopedia & Directory</span>
+            </a>
+          </div>
+        </li>
+
+      </ul>
+
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <!-- Header Search Bar (Triggers Overlay) -->
+        <div class="header-search-bar" id="headerSearchBarTrigger">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" placeholder="Search Chichawatni..." readonly>
+        </div>
+
+        <a href="../sell-my-property/index.html" class="btn-primary" style="padding: 7px 16px; font-size: 0.85rem; border-radius: 50px; font-weight: 600; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-plus"></i> List Property
+        </a>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -255,9 +395,73 @@
     </div>
   </div>
 
+    <!-- ==================== FOOTER ==================== -->
   <footer class="site-footer">
-    <div class="footer-bottom">
-      <p>Â© 2026 SIDDHU. All rights reserved. â€¢ Verified Real Estate Advisory</p>
+    <div class="footer-container">
+      <div class="footer-grid">
+        
+        <!-- COLUMN 1 — BRAND -->
+        <div class="footer-col">
+          <a href="../index.html" class="logo-brand-wrap" style="margin-bottom: 12px; display: inline-flex;">
+            <div class="logo-crest-box" style="width: 38px; height: 38px;">
+              <svg class="logo-svg-emblem" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="SIDDHU Property Advisor Logo">
+                <path d="M8 32 L8 12 L20 4 L32 12 L32 32" stroke="url(#premiumGoldFooter)" stroke-width="1.5" stroke-linejoin="round" opacity="0.4"/>
+                <path d="M14 32 L14 16 L20 12 L26 16 L26 32" stroke="url(#premiumGoldFooter)" stroke-width="1" stroke-linejoin="round" opacity="0.2"/>
+                <path d="M26 18 C26 15.5 24 14 20 14 C16 14 14 16 14 18.5 C14 21.5 26 21.5 26 24.5 C26 27.5 24 29 20 29 C16 29 14 27.5 14 25" stroke="#B88A3B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="18.5" y="20.5" width="3" height="3" transform="rotate(45 20 22)" fill="#B88A3B" />
+                <defs>
+                  <linearGradient id="premiumGoldFooter" x1="8" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#B88A3B"/>
+                    <stop offset="1" stop-color="#8A6428"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="logo-title-group">
+              <div class="logo-title" style="font-size: 1.25rem;">
+                <span>SIDDHU</span> <span class="highlight-accent">PROPERTY</span>
+              </div>
+              <div class="logo-subtitle" style="font-size: 0.64rem;">REAL ESTATE ADVISOR</div>
+            </div>
+          </a>
+          <p class="footer-brand-copy">Local residential property guidance in Chichawatni.</p>
+          <p class="footer-brand-muted">Residential Homes • Family Homes</p>
+        </div>
+
+        <!-- COLUMN 2 — EXPLORE -->
+        <div class="footer-col">
+          <h4 class="footer-heading">EXPLORE</h4>
+          <ul class="footer-links-list">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#properties">Properties</a></li>
+            <li><a href="../chichawatni-city-guide.html">Chichawatni City Guide</a></li>
+            <li><a href="../chichawatni-land-records-plra-guide.html">Property Record Guide</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+            <li><a href="../policy-pages.html">Policy Pages</a></li>
+          </ul>
+        </div>
+
+        <!-- COLUMN 3 — CONTACT -->
+        <div class="footer-col">
+          <h4 class="footer-heading">CONTACT</h4>
+          <div class="footer-contact-details">
+            <a href="tel:+923063996764" class="footer-contact-link"><i class="fa-solid fa-phone" style="color: #25D366; margin-right: 8px;"></i>0306 3996764</a>
+            <a href="mailto:info@siddhupropertyadvisor.com" class="footer-contact-link"><i class="fa-solid fa-envelope" style="color: #EA4335; margin-right: 8px;"></i>info@siddhupropertyadvisor.com</a>
+            <div class="footer-address" style="display: flex; align-items: flex-start; gap: 8px;"><i class="fa-solid fa-location-dot" style="color: #EA4335; margin-top: 3px;"></i><span>Hayat Abad St 08 Tower Road, 57200</span></div>
+          </div>
+          <div class="footer-social-simple">
+            <a href="https://www.facebook.com/Naeem.siddhu08/" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+            <a href="https://share.google/yhgN2BYjI3bhnfCiF" target="_blank" rel="noopener"><i class="fa-brands fa-google"></i> Google Business Profile</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 SIDDHU. All rights reserved.</p>
+      </div>
     </div>
   </footer>
 

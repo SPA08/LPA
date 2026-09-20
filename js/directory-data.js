@@ -39,13 +39,44 @@ const LEGAL_STATUS = {
 
 const KNOWN_COORDINATES = {
     "Hayat Abad": { lat: 30.5285, lng: 72.6840 },
-    "Model Town": { lat: 30.5390, lng: 72.6950 },
     "Housing Colony": { lat: 30.5420, lng: 72.6880 },
+    "Model Town": { lat: 30.5390, lng: 72.6950 },
+    "Okanwala Road": { lat: 30.5330, lng: 72.6960 },
+    "GT Road": { lat: 30.5360, lng: 72.6900 },
+    "Old Chichawatni": { lat: 30.5315, lng: 72.7010 },
+    "Chichawatni Burewala Road": { lat: 30.5270, lng: 72.6810 },
+    "Toba Chichawatni Road": { lat: 30.5450, lng: 72.6820 },
+    "Wali Town": { lat: 30.5385, lng: 72.6790 },
+    "3 Marla Scheme": { lat: 30.5430, lng: 72.6890 },
+    "Gulshan e Moazzam": { lat: 30.5440, lng: 72.6980 },
+    "Oddh Colony": { lat: 30.5470, lng: 72.6920 },
+    "Ali Town": { lat: 30.5260, lng: 72.6870 },
+    "Hassan Town": { lat: 30.5250, lng: 72.6890 },
+    "Gulshan Hurmat": { lat: 30.5410, lng: 72.6930 },
+    "Babu Town": { lat: 30.5480, lng: 72.6860 },
+    "Meherabad": { lat: 30.5300, lng: 72.6980 },
+    "Cheema Town": { lat: 30.5240, lng: 72.6840 },
+    "Faisal Town": { lat: 30.5230, lng: 72.6910 },
+    "Amirabad": { lat: 30.5310, lng: 72.7040 },
+    "Ashraf Town": { lat: 30.5490, lng: 72.6840 },
+    "Darvesh Pura": { lat: 30.5380, lng: 72.6760 },
+    "Allama Iqbal Road": { lat: 30.5350, lng: 72.6920 },
+    "Canal Road": { lat: 30.5445, lng: 72.7050 },
     "Civil Line": { lat: 30.5370, lng: 72.6820 },
+    "Civil Lines": { lat: 30.5370, lng: 72.6820 },
     "Green Town": { lat: 30.5460, lng: 72.7010 },
     "Hamza Block": { lat: 30.5310, lng: 72.6860 },
     "Iqbal Town": { lat: 30.5270, lng: 72.6930 },
     "Madina Colony": { lat: 30.5320, lng: 72.6770 },
+    "Satellite Town": { lat: 30.5480, lng: 72.7030 },
+    "Bilal Town": { lat: 30.5495, lng: 72.6890 },
+    "Maqsood Town": { lat: 30.5475, lng: 72.6880 },
+    "Royal City": { lat: 30.5400, lng: 72.6990 },
+    "Rehman City": { lat: 30.5415, lng: 72.7020 },
+    "Al Noor City": { lat: 30.5465, lng: 72.6850 },
+    "Canal View City": { lat: 30.5455, lng: 72.7070 },
+    "City Blocks": { lat: 30.5345, lng: 72.6905 },
+    "Commercial Areas": { lat: 30.5342, lng: 72.6915 },
     "Block 8": { lat: 30.5345, lng: 72.6905 },
     "Block 12": { lat: 30.5335, lng: 72.6895 },
     "Block 16": { lat: 30.5325, lng: 72.6885 },
@@ -78,7 +109,9 @@ const KNOWN_COORDINATES = {
     "Islamabad": { lat: 33.6844, lng: 73.0479 },
     "Karachi": { lat: 24.8607, lng: 67.0011 },
     "Faisalabad": { lat: 31.4504, lng: 73.1350 },
-    "Multan": { lat: 30.1575, lng: 71.5249 }
+    "Multan": { lat: 30.1575, lng: 71.5249 },
+    "Peshawar": { lat: 34.0151, lng: 71.5249 },
+    "Quetta": { lat: 30.1798, lng: 66.9750 }
 };
 
 const DIRECTORY_DATA = [];
@@ -86,9 +119,46 @@ const DIRECTORY_DATA = [];
 // Helper to add
 function addArea(name, parentChak, statusId, source, dateChecked, mapCoordinates = null) {
     let aliases = [name.toLowerCase()];
-    if(name === "Hayat Abad") aliases.push("hayatabad");
-    if(name === "Chichawatni City") aliases.push("chichawatni", "chicha watni");
-    if(name === "Maqsood Town") aliases.push("mawsood town");
+    aliases.push(name.toLowerCase().replace(/[\s\/,]+/g, "-"));
+    aliases.push(name.toLowerCase().replace(/[\s\/,]+/g, " "));
+
+    if (name === "Hayat Abad") aliases.push("hayatabad", "hayat-abad");
+    if (name === "Housing Colony") aliases.push("housing-colony", "housing colony");
+    if (name === "Model Town") aliases.push("model-town", "model town");
+    if (name === "Okanwala Road") aliases.push("okanwala-road", "okanwala road");
+    if (name === "GT Road") aliases.push("gt-road", "gt road", "g.t. road", "national highway", "n-5");
+    if (name === "Old Chichawatni") aliases.push("old-chichawatni", "old chichawatni", "purana chichawatni");
+    if (name === "Chichawatni Burewala Road") aliases.push("chichawatni-burewala-road", "burewala road", "burewala-road");
+    if (name === "Toba Chichawatni Road") aliases.push("toba-chichawatni-road", "toba road", "toba-road");
+    if (name === "Wali Town") aliases.push("wali-town", "wali town");
+    if (name === "3 Marla Scheme" || name === "Housing Colony 3 Marla Scheme") aliases.push("3-marla-scheme", "3 marla scheme", "housing colony 3 marla scheme");
+    if (name === "Gulshan e Moazzam" || name === "Gulshan Muazzam Colony") aliases.push("gulshan-e-moazzam", "gulshan e moazzam", "gulshan muazzam colony", "gulshan muazzam");
+    if (name === "Oddh Colony" || name === "Oudh Colony") aliases.push("oddh-colony", "oddh colony", "oudh colony", "oudh-colony");
+    if (name === "Ali Town") aliases.push("ali-town", "ali town");
+    if (name === "Hassan Town") aliases.push("hassan-town", "hassan town");
+    if (name === "Gulshan Hurmat") aliases.push("gulshan-hurmat", "gulshan hurmat");
+    if (name === "Babu Town") aliases.push("babu-town", "babu town");
+    if (name === "Meherabad" || name === "Mehar Abad") aliases.push("meherabad", "meher-abad", "mehar abad", "mehar-abad");
+    if (name === "Cheema Town") aliases.push("cheema-town", "cheema town");
+    if (name === "Faisal Town") aliases.push("faisal-town", "faisal town");
+    if (name === "Amirabad") aliases.push("amirabad", "amir-abad", "ameerabad");
+    if (name === "Ashraf Town") aliases.push("ashraf-town", "ashraf town");
+    if (name === "Darvesh Pura") aliases.push("darvesh-pura", "darvesh pura");
+    if (name === "Allama Iqbal Road") aliases.push("allama-iqbal-road", "allama iqbal road", "iqbal road");
+    if (name === "Canal Road") aliases.push("canal-road", "canal road", "nehar road");
+    if (name === "Green Town") aliases.push("green-town", "green town");
+    if (name === "Civil Line" || name === "Civil Lines") aliases.push("civil-lines", "civil lines", "civil-line", "civil line");
+    if (name === "Iqbal Town") aliases.push("iqbal-town", "iqbal town");
+    if (name === "Madina Colony") aliases.push("madina-colony", "madina colony");
+    if (name === "Satellite Town") aliases.push("satellite-town", "satellite town");
+    if (name === "Bilal Town") aliases.push("bilal-town", "bilal town");
+    if (name === "Maqsood Town") aliases.push("maqsood-town", "maqsood town", "mawsood town");
+    if (name === "Hamza Block") aliases.push("hamza-block", "hamza block");
+    if (name === "Royal City") aliases.push("royal-city", "royal city");
+    if (name === "Rehman City") aliases.push("rehman-city", "rehman city");
+    if (name === "Al Noor City") aliases.push("al-noor-city", "al noor city");
+    if (name === "Canal View City") aliases.push("canal-view-city", "canal view city");
+    if (name === "Chichawatni City") aliases.push("chichawatni", "chicha watni");
 
     const coords = mapCoordinates || KNOWN_COORDINATES[name] || null;
     const lat = coords ? coords.lat : null;
@@ -97,7 +167,7 @@ function addArea(name, parentChak, statusId, source, dateChecked, mapCoordinates
     DIRECTORY_DATA.push({
         id: name.toLowerCase().replace(/[\s\/,]+/g, "-") + "-" + (parentChak ? parentChak.toLowerCase().replace(/[\s\/,]+/g, "-") : "unknown"),
         name: name,
-        aliases: aliases,
+        aliases: Array.from(new Set(aliases)),
         type: "AREA",
         parentChak: parentChak,
         legalStatus: statusId,
@@ -201,9 +271,21 @@ const localNames = [
 ];
 localNames.forEach(a => addArea(a, "Chichawatni", "LOCAL_CONFIRMED", "Web / Courier / Address Datasets"));
 
-// 10. Tumhari local additions
+// 10. Key Roads, Schemes and City Localities
 addArea("Awan Town", "Chak 40/12-L", "LOCAL_CONFIRMED", "PULSE property-transfer rollout reporting 2025");
 addArea("Saddiq Block", "Unknown", "LOCAL_CONFIRMED", "Local Knowledge");
+addArea("Okanwala Road", "Chichawatni", "MAP_VERIFIED", "City Road Network");
+addArea("GT Road", "Chichawatni", "MAP_VERIFIED", "National Highway N-5 Network");
+addArea("Chichawatni Burewala Road", "Chichawatni", "MAP_VERIFIED", "Provincial Highway Network");
+addArea("Toba Chichawatni Road", "Chichawatni", "MAP_VERIFIED", "Regional Road Network");
+addArea("Allama Iqbal Road", "Chichawatni", "MAP_VERIFIED", "City Central Road Network");
+addArea("Canal Road", "Chichawatni", "MAP_VERIFIED", "Canal Expressway Network");
+addArea("Gulshan Hurmat", "Chak 40/12-L", "LOCAL_CONFIRMED", "Map and Local Survey");
+addArea("3 Marla Scheme", "Housing Colony", "APPROVED_VERIFIED", "Housing Scheme Reference");
+addArea("Gulshan e Moazzam", "Chak 39/12-L", "MAP_VERIFIED", "Local Scheme Registry");
+addArea("Oddh Colony", "Chak 109/12-L", "MAP_VERIFIED", "Local Scheme Registry");
+addArea("City Blocks", "Chichawatni City", "MAP_VERIFIED", "Blocks 1-16 Master Plan");
+addArea("Commercial Areas", "Chichawatni City", "MAP_VERIFIED", "Central Bazaars & Commercial Zones");
 
 // Unapproved Official List (April 2026 District Administration)
 const rawUnapproved = [
@@ -487,20 +569,3 @@ const verifiedPropertyListings = [
     }
 ];
 verifiedPropertyListings.forEach(p => DIRECTORY_DATA.push(p));
-
-// Major Cities for Map Search
-const majorCities = ["Lahore", "Islamabad", "Karachi", "Faisalabad", "Multan"];
-majorCities.forEach(city => {
-    DIRECTORY_DATA.push({
-        id: city.toLowerCase(),
-        name: city,
-        aliases: [city.toLowerCase()],
-        type: "CITY_CENTER",
-        parentChak: "Pakistan",
-        legalStatus: null,
-        legalSourceUrl: null,
-        lastVerified: new Date().toISOString().split("T")[0],
-        latitude: KNOWN_COORDINATES[city].lat,
-        longitude: KNOWN_COORDINATES[city].lng
-    });
-});

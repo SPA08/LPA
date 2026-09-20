@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,29 +10,42 @@
   <style>
     .seller-container {
       max-width: 800px;
-      margin: 120px auto 60px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-glass);
+      margin: 40px auto 60px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-main);
       border-radius: 12px;
+      box-shadow: var(--shadow-card);
       padding: 40px;
     }
+
     .step-container {
       display: none;
     }
+
     .step-container.active {
       display: block;
       animation: fadeIn 0.3s ease-in;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
     .progress-bar {
       display: flex;
       justify-content: space-between;
       margin-bottom: 40px;
       position: relative;
     }
+
     .progress-bar::before {
       content: '';
       position: absolute;
@@ -39,15 +53,16 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: var(--border-glass);
+      background: var(--border-soft);
       z-index: 1;
     }
+
     .step-indicator {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: var(--bg-dark);
-      border: 2px solid var(--border-glass);
+      background: var(--bg-card);
+      border: 2px solid var(--border-soft);
       color: var(--text-muted);
       display: flex;
       align-items: center;
@@ -57,83 +72,102 @@
       z-index: 2;
       position: relative;
     }
+
     .step-indicator.active {
       border-color: var(--primary-accent);
       color: var(--primary-accent);
+      background: var(--bg-card);
     }
+
     .step-indicator.completed {
       background: var(--primary-accent);
       border-color: var(--primary-accent);
-      color: var(--bg-dark);
+      color: #FFFFFF;
     }
+
     .form-group {
       margin-bottom: 24px;
     }
+
     .form-label {
       display: block;
       font-size: 14px;
-      color: var(--text-light);
+      font-weight: 600;
+      color: var(--text-main);
       margin-bottom: 8px;
     }
-    .form-input, .form-select {
+
+    .form-input,
+    .form-select {
       width: 100%;
       padding: 14px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border-glass);
+      background: #FFFFFF;
+      border: 1px solid var(--border-main);
       border-radius: 8px;
-      color: var(--text-light);
-      font-size: 16px;
+      color: var(--text-main);
+      font-size: 15px;
     }
-    .form-input:focus, .form-select:focus {
+
+    .form-input:focus,
+    .form-select:focus {
       outline: none;
       border-color: var(--primary-accent);
     }
+
     .btn {
       padding: 14px 28px;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       border: none;
       transition: all 0.3s;
     }
+
     .btn-primary {
       background: var(--primary-accent);
-      color: var(--bg-dark);
+      color: #FFFFFF;
     }
+
     .btn-primary:hover {
-      background: #1eb89f;
+      background: var(--gold-hover);
     }
+
     .btn-secondary {
       background: transparent;
-      color: var(--text-light);
-      border: 1px solid var(--border-glass);
+      color: var(--text-main);
+      border: 1px solid var(--border-main);
     }
+
     .btn-secondary:hover {
-      border-color: var(--text-light);
+      background: var(--bg-secondary);
     }
+
     .camera-view {
       width: 100%;
       height: 300px;
-      background: #000;
+      background: #111;
       border-radius: 8px;
       margin-bottom: 16px;
       position: relative;
       overflow: hidden;
     }
+
     #videoElement {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .photo-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-bottom: 24px;
     }
+
     .photo-slot {
-      border: 1px dashed var(--border-glass);
+      border: 1px dashed var(--border-main);
       height: 100px;
       border-radius: 8px;
       display: flex;
@@ -144,13 +178,16 @@
       position: relative;
       background-size: cover;
       background-position: center;
+      background-color: var(--bg-secondary);
     }
+
     .photo-slot.has-image {
       border-style: solid;
       color: transparent;
     }
+
     .status-box {
-      background: rgba(37, 99, 235, 0.1);
+      background: rgba(184, 138, 59, 0.08);
       border: 1px solid var(--primary-accent);
       padding: 16px;
       border-radius: 8px;
@@ -158,14 +195,157 @@
     }
   </style>
 </head>
-<body class="dark-theme">
 
-  <header class="site-header">
-    <div class="nav-container">
-      <a href="../index.html" class="brand-logo">SIDDHU Property Advisor</a>
-      <nav class="desktop-nav">
-        <a href="../chichawatni-property-directory/index.html">Directory</a>
-      </nav>
+<body>
+
+  <!-- ==================== HEADER & NAVIGATION ==================== -->
+  <header>
+    <div class="container nav-wrapper">
+
+      <!-- LOGO BRAND EMBLEM (CUSTOM ARCHITECTURAL MONOGRAM CREST) -->
+      <a href="../index.html" class="logo-brand-wrap">
+        <div class="logo-crest-box">
+          <svg class="logo-svg-emblem" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
+            aria-label="SIDDHU Property Advisor Logo">
+            <!-- Architectural Background Lines -->
+            <path d="M8 32 L8 12 L20 4 L32 12 L32 32" stroke="url(#premiumGoldNav)" stroke-width="1.5"
+              stroke-linejoin="round" opacity="0.4" />
+            <path d="M14 32 L14 16 L20 12 L26 16 L26 32" stroke="url(#premiumGoldNav)" stroke-width="1"
+              stroke-linejoin="round" opacity="0.2" />
+
+            <!-- The Clean 'S' Icon -->
+            <path
+              d="M26 18 C26 15.5 24 14 20 14 C16 14 14 16 14 18.5 C14 21.5 26 21.5 26 24.5 C26 27.5 24 29 20 29 C16 29 14 27.5 14 25"
+              stroke="#B88A3B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+            <!-- Central Diamond Accent -->
+            <rect x="18.5" y="20.5" width="3" height="3" transform="rotate(45 20 22)" fill="#B88A3B" />
+
+            <defs>
+              <linearGradient id="premiumGoldNav" x1="8" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#B88A3B" />
+                <stop offset="1" stop-color="#8A6428" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-title-group">
+          <div class="logo-title">
+            <span>SIDDHU</span> <span class="highlight-accent">PROPERTY</span>
+          </div>
+          <div class="logo-subtitle">REAL ESTATE ADVISOR</div>
+        </div>
+      </a>
+
+      <!-- NAVIGATION LINKS (CLEAN & ARCHITECTURAL WITH DROPDOWN) -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#featured">Featured</a></li>
+        <li><a href="../index.html#properties">Properties</a></li>
+        <li><a href="../index.html#areas">Market Map</a></li>
+
+        <!-- BLOG DROPDOWN -->
+        <li class="nav-item-dropdown">
+          <a href="../blog/index.html" class="nav-dropdown-trigger">
+            <span>Property Blog</span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 0.72rem; margin-left: 3px;"></i>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="../blog/index.html">
+              <i class="fa-solid fa-pen-nib highlight-accent"></i>
+              <span>All Articles</span>
+            </a>
+            <a href="../blog/index.html?category=buying">
+              <i class="fa-solid fa-house highlight-deep"></i>
+              <span>Buying Guides</span>
+            </a>
+            <a href="../blog/index.html?category=selling">
+              <i class="fa-solid fa-tags highlight-accent"></i>
+              <span>Selling Tips</span>
+            </a>
+          </div>
+        </li>
+
+        <!-- CITY & GUIDES DROPDOWN -->
+        <li class="nav-item-dropdown">
+          <a href="../chichawatni-city-guide.html" class="nav-dropdown-trigger">
+            <span>City & Guides</span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 0.72rem; margin-left: 3px;"></i>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="../chichawatni-history-heritage.html">
+              <i class="fa-solid fa-landmark highlight-deep"></i>
+              <span>History & 1913 Forest</span>
+            </a>
+            <a href="../chichawatni-city-guide.html">
+              <i class="fa-solid fa-city highlight-accent"></i>
+              <span>Chichawatni City Guide</span>
+            </a>
+            <a href="../chichawatni-residential-colonies-guide.html">
+              <i class="fa-solid fa-house-chimney-window highlight-deep"></i>
+              <span>Residential Colonies Guide</span>
+            </a>
+            <a href="../chichawatni-commercial-property-guide.html">
+              <i class="fa-solid fa-building-user highlight-accent"></i>
+              <span>Commercial Property Guide</span>
+            </a>
+            <a href="../fbr-property-valuation-chichawatni.html">
+              <i class="fa-solid fa-calculator highlight-accent"></i>
+              <span>FBR Property Valuation</span>
+            </a>
+            <a href="../chichawatni-roads-guide.html">
+              <i class="fa-solid fa-road highlight-deep"></i>
+              <span>Roads & Highways Guide</span>
+            </a>
+            <a href="../chichawatni-hospitals-guide.html">
+              <i class="fa-solid fa-hospital highlight-accent"></i>
+              <span>Hospitals & Healthcare</span>
+            </a>
+            <a href="../chichawatni-schools-guide.html">
+              <i class="fa-solid fa-graduation-cap highlight-deep"></i>
+              <span>Schools & Colleges</span>
+            </a>
+            <a href="../chichawatni-markets-guide.html">
+              <i class="fa-solid fa-store highlight-accent"></i>
+              <span>Markets & Bazaars</span>
+            </a>
+            <a href="../chichawatni-public-offices.html">
+              <i class="fa-solid fa-building-columns highlight-deep"></i>
+              <span>Public & Revenue Offices</span>
+            </a>
+            <a href="../chichawatni-land-records-plra-guide.html">
+              <i class="fa-solid fa-file-signature highlight-accent"></i>
+              <span>PLRA & Revenue Records</span>
+            </a>
+            <a href="../chichawatni-overseas-investor-guide.html">
+              <i class="fa-solid fa-plane-arrival highlight-deep"></i>
+              <span>Overseas Investor Guide</span>
+            </a>
+            <a href="../chichawatni-city-facts.html">
+              <i class="fa-solid fa-compass highlight-accent"></i>
+              <span>City Encyclopedia & Directory</span>
+            </a>
+          </div>
+        </li>
+
+      </ul>
+
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <!-- Header Search Bar (Triggers Overlay) -->
+        <div class="header-search-bar" id="headerSearchBarTrigger">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" placeholder="Search Chichawatni..." readonly>
+        </div>
+
+        <a href="../sell-my-property/index.html" class="btn-primary"
+          style="padding: 7px 16px; font-size: 0.85rem; border-radius: 50px; font-weight: 600; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-plus"></i> List Property
+        </a>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -192,7 +372,8 @@
         <label class="form-label">Mobile Number (WhatsApp preferred)</label>
         <input type="text" id="phoneNum" class="form-input" placeholder="0300 1234567">
       </div>
-      <div id="otp-section" style="display:none; margin-top:20px; padding-top:20px; border-top: 1px solid var(--border-glass);">
+      <div id="otp-section"
+        style="display:none; margin-top:20px; padding-top:20px; border-top: 1px solid var(--border-glass);">
         <label class="form-label">Enter 4-Digit OTP</label>
         <div style="display:flex; gap:10px;">
           <input type="text" id="otpCode" class="form-input" placeholder="1234" maxlength="4" style="width:150px;">
@@ -212,11 +393,12 @@
         To ensure listing authenticity, we require live GPS capture from the property location.
         Exact coordinates will NOT be shown publicly.
       </p>
-      
+
       <div id="gpsStatus" class="status-box" style="display:none;"></div>
 
       <div style="text-align: center; padding: 40px 0;">
-        <i class="fa-solid fa-location-crosshairs" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 20px;"></i><br>
+        <i class="fa-solid fa-location-crosshairs"
+          style="font-size: 48px; color: var(--primary-accent); margin-bottom: 20px;"></i><br>
         <button class="btn btn-primary" onclick="captureGPS()">Capture My Location Now</button>
       </div>
 
@@ -226,73 +408,121 @@
       </div>
     </div>
 
-    <!-- Step 3: Live Camera -->
+    <!-- Step 3: Live Camera & Photo Upload -->
     <div class="step-container" id="step-3">
-      <h2 style="font-size: 20px; margin-bottom: 20px;">Live Camera Capture</h2>
+      <h2 style="font-size: 20px; margin-bottom: 8px;">Property Live Photos</h2>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
-        Capture photos directly from your camera to verify property condition.
+        Capture live photos using your camera or snap/upload directly from your smartphone.
       </p>
 
-      <div class="camera-view">
+      <div class="camera-view" id="cameraViewBox">
         <video id="videoElement" autoplay playsinline></video>
-        <div style="position:absolute; bottom:20px; left:0; right:0; text-align:center;">
-          <button class="btn btn-primary" onclick="takePhoto()" style="border-radius:50px; padding: 12px 24px;"><i class="fa-solid fa-camera"></i> Capture</button>
+        <div
+          style="position:absolute; bottom:16px; left:0; right:0; text-align:center; display:flex; justify-content:center; gap:10px;">
+          <button type="button" class="btn btn-primary" onclick="takePhoto()"
+            style="border-radius:50px; padding: 10px 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"><i
+              class="fa-solid fa-camera"></i> Live Snap</button>
         </div>
+      </div>
+
+      <div id="cameraFallbackMsg"
+        style="display:none; text-align:center; margin-bottom:16px; padding:12px; background:rgba(184,138,59,0.08); border-radius:8px; border:1px solid var(--border);">
+        <p style="font-size:13.5px; color:var(--text-main); margin-bottom:6px;">Camera preview unavailable on this
+          browser/permission mode.</p>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 24px;">
+        <input type="file" id="photoFileInput" accept="image/*" capture="environment" multiple style="display: none;"
+          onchange="handleFileInput(event)">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('photoFileInput').click()"
+          style="padding: 10px 20px; font-size: 14px; border-radius: 8px; border: 1px solid var(--primary-accent); color: var(--primary-accent); background: #FFFFFF; font-weight: 600;">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Snap Photo / Upload from Phone Gallery
+        </button>
       </div>
 
       <div class="photo-grid">
         <div class="photo-slot" id="photo-1">1. Front Elevation</div>
         <div class="photo-slot" id="photo-2">2. Street View</div>
-        <div class="photo-slot" id="photo-3">3. Main Entrance</div>
-        <div class="photo-slot" id="photo-4">4. Interior View</div>
+        <div class="photo-slot" id="photo-3">3. Main Lounge / Rooms</div>
+        <div class="photo-slot" id="photo-4">4. Kitchen / Bath</div>
       </div>
 
       <div style="display:flex; justify-content: space-between; margin-top: 30px;">
         <button class="btn btn-secondary" onclick="stopCamera(); prevStep();">Back</button>
-        <button class="btn btn-primary" id="btnNextCamera" onclick="stopCamera(); nextStep();" disabled>Continue</button>
+        <button class="btn btn-primary" id="btnNextCamera" onclick="stopCamera(); nextStep();"
+          disabled>Continue</button>
       </div>
     </div>
 
     <!-- Step 4: Details & Ownership -->
     <div class="step-container" id="step-4">
-      <h2 style="font-size: 20px; margin-bottom: 20px;">Property Details</h2>
-      
+      <h2 style="font-size: 20px; margin-bottom: 20px;">Property Details & Valuation</h2>
+
       <div class="form-group">
-        <label class="form-label">Locality / Town (must match GPS)</label>
-        <input type="text" id="locality" class="form-input" placeholder="e.g. Hayat Abad">
+        <label class="form-label">Locality / Colony in Chichawatni</label>
+        <input type="text" id="locality" class="form-input"
+          placeholder="e.g. Hayat Abad, Civil Lines, Housing Scheme, Model Town, Chak 40/12-L">
       </div>
-      
-      <div style="display:flex; gap:16px;">
-        <div class="form-group" style="flex:1;">
+
+      <div style="display:flex; gap:16px; flex-wrap: wrap;">
+        <div class="form-group" style="flex:1; min-width: 200px;">
           <label class="form-label">Property Type</label>
           <select id="propType" class="form-select">
-            <option>House</option>
-            <option>Plot</option>
-            <option>Commercial</option>
+            <option>Residential House (Single Storey)</option>
+            <option selected>Residential House (Double Storey)</option>
+            <option>Residential Plot</option>
+            <option>Commercial Plaza / Shop</option>
+            <option>Agricultural / Farm Land</option>
           </select>
         </div>
-        <div class="form-group" style="flex:1;">
-          <label class="form-label">Size (Marla)</label>
-          <input type="text" id="propSize" class="form-input" placeholder="e.g. 5">
+        <div class="form-group" style="flex:1; min-width: 200px;">
+          <label class="form-label">Plot / House Size</label>
+          <select id="propSize" class="form-select">
+            <option selected>5 Marla (25 × 45)</option>
+            <option>8 Marla (30 × 60)</option>
+            <option>10 Marla (35 × 65)</option>
+            <option>12 Marla</option>
+            <option>1 Kanal (50 × 90)</option>
+            <option>3 Marla</option>
+            <option>4 Marla</option>
+            <option>Other / Custom</option>
+          </select>
         </div>
       </div>
 
-      <h2 style="font-size: 20px; margin-top: 30px; margin-bottom: 20px;">Ownership</h2>
-      <div class="form-group">
-        <label class="form-label">Are you the:</label>
-        <select id="ownerType" class="form-select">
-          <option>Owner</option>
-          <option>Authorized Representative</option>
-        </select>
+      <div style="display:flex; gap:16px; flex-wrap: wrap;">
+        <div class="form-group" style="flex:1; min-width: 200px;">
+          <label class="form-label">Expected Demand (PKR / Lakhs)</label>
+          <input type="text" id="propDemand" class="form-input" placeholder="e.g. 1 Crore 20 Lakh / Negotiable">
+        </div>
+        <div class="form-group" style="flex:1; min-width: 200px;">
+          <label class="form-label">Ownership Capacity</label>
+          <select id="ownerType" class="form-select">
+            <option>Direct Owner (Self)</option>
+            <option>Family Member / Heir</option>
+            <option>Authorized Representative / Power of Attorney</option>
+          </select>
+        </div>
       </div>
-      
+
       <div class="form-group">
-        <label class="form-label">Available Documents</label>
-        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:10px;">
-          <label><input type="checkbox" class="doc-check" value="CNIC"> CNIC</label>
-          <label><input type="checkbox" class="doc-check" value="Fard"> Fard</label>
-          <label><input type="checkbox" class="doc-check" value="Registry"> Registry</label>
-          <label><input type="checkbox" class="doc-check" value="Mutation"> Intiqal/Mutation</label>
+        <label class="form-label">Special Features & Short Note</label>
+        <input type="text" id="propDesc" class="form-input"
+          placeholder="e.g. Corner plot, 40-ft wide road, Sui Gas connected, Brand new A-Grade construction">
+      </div>
+
+      <h3 style="font-size: 16px; font-weight: 700; margin-top: 24px; margin-bottom: 12px; color: var(--text-main);">
+        Available Legal Documents</h3>
+      <div class="form-group">
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:6px;">
+          <label style="cursor:pointer; display:flex; align-items:center; gap:6px; font-size:14px;"><input
+              type="checkbox" class="doc-check" value="Computerized Fard"> Computerized Fard Malkiat</label>
+          <label style="cursor:pointer; display:flex; align-items:center; gap:6px; font-size:14px;"><input
+              type="checkbox" class="doc-check" value="Registry / Sale Deed"> Sub-Registrar Registry</label>
+          <label style="cursor:pointer; display:flex; align-items:center; gap:6px; font-size:14px;"><input
+              type="checkbox" class="doc-check" value="Intiqal Mutation"> Intiqal / Mutation</label>
+          <label style="cursor:pointer; display:flex; align-items:center; gap:6px; font-size:14px;"><input
+              type="checkbox" class="doc-check" value="CNIC of Owner"> CNIC Copy</label>
         </div>
       </div>
 
@@ -305,13 +535,14 @@
     <!-- Step 5: Declaration -->
     <div class="step-container" id="step-5">
       <h2 style="font-size: 20px; margin-bottom: 20px;">Final Declaration</h2>
-      
+
       <div class="status-box" style="margin-bottom: 30px;">
         <p style="margin-bottom: 10px;"><strong>Privacy & Verification Notice</strong></p>
         <ul style="font-size: 14px; color: var(--text-light); margin-left: 20px; line-height: 1.6;">
           <li>Exact GPS coordinates remain internal and will not be published.</li>
           <li>Documents will be reviewed privately by SIDDHU Admin.</li>
-          <li>Your listing will be marked with "Phone Verified", "Location Captured", and "Photos Captured On Site" trust labels.</li>
+          <li>Your listing will be marked with "Phone Verified", "Location Captured", and "Photos Captured On Site"
+            trust labels.</li>
         </ul>
       </div>
 
@@ -319,12 +550,15 @@
         <label style="display:flex; gap:12px; align-items:flex-start; cursor:pointer;">
           <input type="checkbox" id="declaration" style="margin-top:4px;">
           <span style="font-size: 14px; color: var(--text-light);">
-            I confirm that I am the owner or authorized representative and that the information and photographs submitted are accurate.
+            I confirm that I am the owner or authorized representative and that the information and photographs
+            submitted are accurate.
           </span>
         </label>
       </div>
 
-      <div id="submitResult" style="display:none; margin-top:20px; padding:16px; background:rgba(37, 99, 235, 0.1); border:1px solid var(--primary-accent); border-radius:8px;"></div>
+      <div id="submitResult"
+        style="display:none; margin-top:20px; padding:16px; background:rgba(37, 99, 235, 0.1); border:1px solid var(--primary-accent); border-radius:8px;">
+      </div>
 
       <div style="display:flex; justify-content: space-between; margin-top: 30px;">
         <button class="btn btn-secondary" onclick="prevStep()" id="btnFinalBack">Back</button>
@@ -332,8 +566,89 @@
       </div>
     </div>
 
-  </div>
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-grid">
 
-  <script src="../js/seller-app.js"></script>
+          <!-- COLUMN 1 — BRAND -->
+          <div class="footer-col">
+            <a href="../index.html" class="logo-brand-wrap" style="margin-bottom: 12px; display: inline-flex;">
+              <div class="logo-crest-box" style="width: 38px; height: 38px;">
+                <svg class="logo-svg-emblem" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-label="SIDDHU Property Advisor Logo">
+                  <path d="M8 32 L8 12 L20 4 L32 12 L32 32" stroke="url(#premiumGoldFooter)" stroke-width="1.5"
+                    stroke-linejoin="round" opacity="0.4" />
+                  <path d="M14 32 L14 16 L20 12 L26 16 L26 32" stroke="url(#premiumGoldFooter)" stroke-width="1"
+                    stroke-linejoin="round" opacity="0.2" />
+                  <path
+                    d="M26 18 C26 15.5 24 14 20 14 C16 14 14 16 14 18.5 C14 21.5 26 21.5 26 24.5 C26 27.5 24 29 20 29 C16 29 14 27.5 14 25"
+                    stroke="#B88A3B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <rect x="18.5" y="20.5" width="3" height="3" transform="rotate(45 20 22)" fill="#B88A3B" />
+                  <defs>
+                    <linearGradient id="premiumGoldFooter" x1="8" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#B88A3B" />
+                      <stop offset="1" stop-color="#8A6428" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div class="logo-title-group">
+                <div class="logo-title" style="font-size: 1.25rem;">
+                  <span>SIDDHU</span> <span class="highlight-accent">PROPERTY</span>
+                </div>
+                <div class="logo-subtitle" style="font-size: 0.64rem;">REAL ESTATE ADVISOR</div>
+              </div>
+            </a>
+            <p class="footer-brand-copy">Local residential property guidance in Chichawatni.</p>
+            <p class="footer-brand-muted">Residential Homes • Family Homes</p>
+          </div>
+
+          <!-- COLUMN 2 — EXPLORE -->
+          <div class="footer-col">
+            <h4 class="footer-heading">EXPLORE</h4>
+            <ul class="footer-links-list">
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../index.html#properties">Properties</a></li>
+              <li><a href="../chichawatni-city-guide.html">Chichawatni City Guide</a></li>
+              <li><a href="../chichawatni-land-records-plra-guide.html">Property Record Guide</a></li>
+              <li><a href="../index.html#contact">Contact</a></li>
+              <li><a href="../policy-pages.html">Policy Pages</a></li>
+            </ul>
+          </div>
+
+          <!-- COLUMN 3 — CONTACT -->
+          <div class="footer-col">
+            <h4 class="footer-heading">CONTACT</h4>
+            <div class="footer-contact-details">
+              <a href="tel:+923063996764" class="footer-contact-link"><i class="fa-solid fa-phone"
+                  style="color: #25D366; margin-right: 8px;"></i>0306 3996764</a>
+              <a href="mailto:info@siddhupropertyadvisor.com" class="footer-contact-link"><i
+                  class="fa-solid fa-envelope"
+                  style="color: #EA4335; margin-right: 8px;"></i>info@siddhupropertyadvisor.com</a>
+              <div class="footer-address" style="display: flex; align-items: flex-start; gap: 8px;"><i
+                  class="fa-solid fa-location-dot" style="color: #EA4335; margin-top: 3px;"></i><span>Hayat Abad St 08
+                  Tower Road, 57200</span></div>
+            </div>
+            <div class="footer-social-simple">
+              <a href="https://www.facebook.com/Naeem.siddhu08/" target="_blank" rel="noopener"><i
+                  class="fa-brands fa-facebook-f"></i> Facebook</a>
+              <a href="https://share.google/yhgN2BYjI3bhnfCiF" target="_blank" rel="noopener"><i
+                  class="fa-brands fa-google"></i> Google Business Profile</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <div class="footer-bottom">
+          <p class="footer-copyright">&copy; 2026 SIDDHU. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/seller-app.js"></script>
 </body>
+
 </html>

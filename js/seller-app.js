@@ -3,7 +3,7 @@ const totalSteps = 5;
 
 // Data Payload
 const submissionData = {
-    id: 'SUB-' + Date.now(),
+    id: 'SIDDHU-SALE-' + Math.floor(100000 + Math.random() * 900000),
     sellerInfo: {},
     gps: null,
     photos: [],
@@ -16,13 +16,17 @@ const submissionData = {
 function updateProgress() {
     for(let i=1; i<=totalSteps; i++) {
         const ind = document.getElementById(`ind-${i}`);
-        if(i < currentStep) ind.className = 'step-indicator completed';
-        else if(i === currentStep) ind.className = 'step-indicator active';
-        else ind.className = 'step-indicator';
+        if (ind) {
+            if(i < currentStep) ind.className = 'step-indicator completed';
+            else if(i === currentStep) ind.className = 'step-indicator active';
+            else ind.className = 'step-indicator';
+        }
 
         const step = document.getElementById(`step-${i}`);
-        if(i === currentStep) step.className = 'step-container active';
-        else step.className = 'step-container';
+        if (step) {
+            if(i === currentStep) step.className = 'step-container active';
+            else step.className = 'step-container';
+        }
     }
 }
 
@@ -36,17 +40,18 @@ function nextStep() {
 
 function prevStep() {
     if(currentStep > 1) {
+        if(currentStep === 3) stopCamera();
         currentStep--;
         updateProgress();
     }
 }
 
-// STEP 1: PHONE OTP
+// STEP 1: PHONE OTP / IDENTITY
 function sendOTP() {
-    const phone = document.getElementById('phoneNum').value;
-    const name = document.getElementById('fullName').value;
+    const phone = document.getElementById('phoneNum').value.trim();
+    const name = document.getElementById('fullName').value.trim();
     if(!phone || !name) {
-        alert("Please enter Name and Phone Number.");
+        alert("Please enter both your Full Name and Mobile Number.");
         return;
     }
     document.getElementById('otp-section').style.display = 'block';
@@ -54,21 +59,24 @@ function sendOTP() {
 }
 
 function verifyOTP() {
-    const otp = document.getElementById('otpCode').value;
-    if(otp.length === 4) {
+    const otp = document.getElementById('otpCode').value.trim();
+    const phone = document.getElementById('phoneNum').value.trim();
+    const name = document.getElementById('fullName').value.trim();
+    
+    if(otp.length >= 4) {
         submissionData.sellerInfo = {
-            name: document.getElementById('fullName').value,
-            phone: document.getElementById('phoneNum').value,
+            name: name,
+            phone: phone,
             phoneVerifiedAt: new Date().toISOString()
         };
         submissionData.status = 'PHONE_VERIFIED';
         nextStep();
     } else {
-        alert("Enter 4 digits.");
+        alert("Please enter a 4-digit code (e.g. 1234).");
     }
 }
 
-// STEP 2: GPS
+// STEP 2: LIVE GPS
 function captureGPS() {
     if(!navigator.geolocation) {
         alert("Geolocation is not supported by your browser.");
@@ -77,91 +85,153 @@ function captureGPS() {
 
     const statusBox = document.getElementById('gpsStatus');
     statusBox.style.display = 'block';
-    statusBox.innerHTML = 'Locating... please ensure GPS/Location is enabled.';
+    statusBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Detecting high-accuracy live GPS coordinates...';
+    statusBox.style.borderColor = "var(--primary-accent)";
 
     navigator.geolocation.getCurrentPosition(
         (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const acc = Math.round(position.coords.accuracy);
+
             submissionData.gps = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                accuracyMeters: position.coords.accuracy,
+                latitude: lat,
+                longitude: lng,
+                accuracyMeters: acc,
                 capturedAt: new Date().toISOString()
             };
             submissionData.status = 'GPS_CAPTURED';
             
-            statusBox.innerHTML = `<i class="fa-solid fa-check-circle"></i> Location captured successfully! (Accuracy: ${Math.round(position.coords.accuracy)}m)`;
-            statusBox.style.borderColor = "var(--primary-accent)";
+            statusBox.innerHTML = `
+                <div style="color: #2e7d32; font-weight: 700; margin-bottom: 6px;">
+                    <i class="fa-solid fa-circle-check"></i> Live Location Captured Successfully!
+                </div>
+                <div style="font-size: 13px; color: var(--text-main);">
+                    <strong>Coordinates:</strong> ${lat.toFixed(6)}, ${lng.toFixed(6)} <br>
+                    <strong>Accuracy:</strong> ~${acc} meters <br>
+                    <a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" style="color: var(--primary-accent); text-decoration: underline; display: inline-block; margin-top: 4px;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Google Maps
+                    </a>
+                </div>
+            `;
+            statusBox.style.borderColor = "#2e7d32";
             
-            document.getElementById('btnNextGps').disabled = false;
+            const btn = document.getElementById('btnNextGps');
+            if (btn) btn.disabled = false;
         },
         (error) => {
-            statusBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:var(--color-muted-red);"></i> Error capturing location. Please check browser permissions and move outdoors if on mobile.`;
+            statusBox.innerHTML = `
+                <div style="color: var(--color-muted-red); font-weight: 700;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Unable to capture GPS automatically.
+                </div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+                    Please enable Location permissions in your browser or smartphone settings, then click Try Again.
+                </div>
+            `;
             statusBox.style.borderColor = "var(--color-muted-red)";
+            
+            // Allow manual continuation with fallback
+            const btn = document.getElementById('btnNextGps');
+            if (btn) {
+                btn.disabled = false;
+                btn.innerText = 'Continue with Approximate Area';
+            }
         },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
     );
 }
 
-// STEP 3: CAMERA
+// STEP 3: LIVE CAMERA & PHOTO UPLOADS
 let videoStream = null;
 
 async function startCamera() {
     const video = document.getElementById('videoElement');
+    if (!video) return;
     try {
-        videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        videoStream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: { ideal: "environment" } },
+            audio: false 
+        });
         video.srcObject = videoStream;
+        document.getElementById('cameraFallbackMsg').style.display = 'none';
     } catch (err) {
-        console.error("Camera error:", err);
-        alert("Camera access denied or unavailable.");
+        console.warn("Camera stream error or restricted:", err);
+        document.getElementById('cameraFallbackMsg').style.display = 'block';
     }
 }
 
 function stopCamera() {
     if(videoStream) {
         videoStream.getTracks().forEach(track => track.stop());
+        videoStream = null;
     }
 }
 
 function takePhoto() {
     const video = document.getElementById('videoElement');
+    if (!video || !video.videoWidth) {
+        alert("Camera stream not ready. Please use the 'Snap / Upload Photo' file button below.");
+        return;
+    }
     const canvas = document.createElement('canvas');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
     
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+    addPhotoToSlot(dataUrl);
+}
+
+function handleFileInput(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
     
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            addPhotoToSlot(e.target.result);
+        };
+        reader.readAsDataURL(files[i]);
+    }
+}
+
+function addPhotoToSlot(dataUrl) {
     if(submissionData.photos.length < 4) {
         submissionData.photos.push({
-            id: 'IMG-' + Date.now(),
+            id: 'IMG-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
             capturedAt: new Date().toISOString(),
             data: dataUrl
         });
         
-        const slot = document.getElementById(`photo-${submissionData.photos.length}`);
-        slot.style.backgroundImage = `url(${dataUrl})`;
-        slot.classList.add('has-image');
-        
-        if(submissionData.photos.length === 4) {
-            document.getElementById('btnNextCamera').disabled = false;
+        const slotIdx = submissionData.photos.length;
+        const slot = document.getElementById(`photo-${slotIdx}`);
+        if (slot) {
+            slot.style.backgroundImage = `url(${dataUrl})`;
+            slot.classList.add('has-image');
+            slot.innerHTML = `<span style="background: rgba(0,0,0,0.6); color:#fff; padding:2px 6px; border-radius:4px; font-size:11px; position:absolute; bottom:6px; left:6px;">Photo ${slotIdx} Added</span>`;
         }
+        
+        const nextBtn = document.getElementById('btnNextCamera');
+        if (nextBtn) nextBtn.disabled = false;
     } else {
-        alert("All 4 photos captured.");
+        alert("Maximum 4 photos already added. You can proceed to the next step.");
     }
 }
 
-// STEP 5: SUBMIT
+// STEP 5: SUBMIT LISTING
 function submitListing() {
     if(!document.getElementById('declaration').checked) {
-        alert("Please confirm the declaration.");
+        alert("Please confirm the ownership declaration.");
         return;
     }
 
     // Gather details
     submissionData.details = {
-        locality: document.getElementById('locality').value,
+        locality: document.getElementById('locality').value.trim() || 'Chichawatni Local',
         type: document.getElementById('propType').value,
         size: document.getElementById('propSize').value,
+        demand: document.getElementById('propDemand') ? document.getElementById('propDemand').value.trim() : 'Contact for Price',
+        description: document.getElementById('propDesc') ? document.getElementById('propDesc').value.trim() : ''
     };
     
     // Gather ownership
@@ -171,49 +241,63 @@ function submitListing() {
         documents: docs
     };
 
-    // Simulated Validation Logic
     submissionData.status = 'SUBMITTED';
-    // If we had real bounding boxes, we'd check if GPS matches locality. Here we simulate LOCATION_REVIEW_REQUIRED randomly or based on missing docs.
-    if(docs.length === 0) {
-        submissionData.status = 'DOCUMENT_REVIEW';
+
+    // Store in localStorage
+    try {
+        let existing = JSON.parse(localStorage.getItem('siddhu_submissions') || '[]');
+        existing.push(submissionData);
+        localStorage.setItem('siddhu_submissions', JSON.stringify(existing));
+    } catch (e) {
+        console.warn("Storage quota:", e);
     }
 
-    // Save Admin Data Table payload
-    const adminRecord = {
-        submissionId: submissionData.id,
-        sellerId: submissionData.sellerInfo.phone,
-        phoneVerified: !!submissionData.sellerInfo.phoneVerifiedAt,
-        gpsLatitude: submissionData.gps.latitude,
-        gpsLongitude: submissionData.gps.longitude,
-        gpsAccuracy: submissionData.gps.accuracyMeters,
-        gpsCapturedAt: submissionData.gps.capturedAt,
-        cameraPhotoIds: submissionData.photos.map(p => p.id),
-        selectedArea: submissionData.details.locality,
-        resolvedArea: null, // to be done by admin
-        legalStatusAtSubmission: 'UNKNOWN', // would lookup from directory
-        documentStatus: docs.length > 0 ? 'PENDING_REVIEW' : 'MISSING',
-        reviewer: null,
-        reviewNotes: '',
-        listingStatus: submissionData.status
-    };
+    // Prepare WhatsApp Message
+    const gpsText = submissionData.gps ? `${submissionData.gps.latitude.toFixed(5)}, ${submissionData.gps.longitude.toFixed(5)}` : 'Manual Location';
+    const waText = encodeURIComponent(
+        `*New Property Sale Submission - SIDDHU Property Advisor*\n\n` +
+        `*Submission ID:* ${submissionData.id}\n` +
+        `*Seller Name:* ${submissionData.sellerInfo.name}\n` +
+        `*Phone:* ${submissionData.sellerInfo.phone}\n` +
+        `*Property Type:* ${submissionData.details.type}\n` +
+        `*Size:* ${submissionData.details.size}\n` +
+        `*Locality:* ${submissionData.details.locality}\n` +
+        `*Expected Demand:* ${submissionData.details.demand}\n` +
+        `*Live GPS Coordinates:* ${gpsText}\n` +
+        `*Photos Captured:* ${submissionData.photos.length} photos\n` +
+        `*Documents Available:* ${docs.join(', ') || 'Under verification'}\n\n` +
+        `Please review my listing for verified publication.`
+    );
 
-    // In a real app, send to API. For now, localStorage.
-    let existing = JSON.parse(localStorage.getItem('siddhu_submissions') || '[]');
-    existing.push(adminRecord);
-    localStorage.setItem('siddhu_submissions', JSON.stringify(existing));
-
-    // Show success
+    // Show success UI
     document.getElementById('btnSubmit').style.display = 'none';
     document.getElementById('btnFinalBack').style.display = 'none';
     
     const resultBox = document.getElementById('submitResult');
     resultBox.style.display = 'block';
     resultBox.innerHTML = `
-        <h3 style="color:var(--primary-accent); margin-bottom:10px;"><i class="fa-solid fa-check-circle"></i> Submission Received Successfully</h3>
-        <p style="font-size:14px; color:var(--text-light);">Your submission ID is <strong>${submissionData.id}</strong>.</p>
-        <p style="font-size:14px; color:var(--text-light); margin-top:8px;">Admin Status: <span class="status-badge status-amber">${submissionData.status}</span></p>
-        <p style="font-size:14px; color:var(--text-muted); margin-top:16px;">Our team will review your location, photos, and property details securely before publishing with public trust labels.</p>
+        <div style="text-align: center; padding: 10px 0 20px;">
+            <div style="width: 56px; height: 56px; background: rgba(184, 138, 59, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 26px; margin-bottom: 12px;">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 style="color: var(--text-main); font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Property Listing Submitted Successfully</h3>
+            <p style="font-size: 14px; color: var(--text-secondary);">Your Submission Reference ID is <strong style="color: var(--gold-primary);">${submissionData.id}</strong></p>
+        </div>
+
+        <div style="background: var(--bg-secondary); padding: 18px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; font-size: 13.5px; line-height: 1.6;">
+            <div><strong>Location:</strong> ${submissionData.details.locality} (${gpsText})</div>
+            <div><strong>Size & Type:</strong> ${submissionData.details.size} • ${submissionData.details.type}</div>
+            <div><strong>Photos:</strong> ${submissionData.photos.length} Live Images Attached</div>
+            <div><strong>Verification Status:</strong> <span style="display:inline-block; padding:2px 8px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; font-weight: 700; font-size: 12px;">Under Fast-Track Review</span></div>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="https://wa.me/923063996764?text=${waText}" target="_blank" class="btn btn-primary" style="flex: 1; min-width: 220px; text-align: center; text-decoration: none; background: #25D366; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Send to Naeem Siddhu on WhatsApp
+            </a>
+            <a href="../index.html" class="btn btn-secondary" style="flex: 1; min-width: 160px; text-align: center; text-decoration: none;">
+                Back to Home
+            </a>
+        </div>
     `;
-    
-    console.log("Admin Record Saved:", adminRecord);
 }

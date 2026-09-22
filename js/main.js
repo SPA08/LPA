@@ -120,7 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
     '.ceo-grid',
     '.cta-banner',
     '.faq-item',
-    '#reviews .container > div:first-child'
+    '#reviews .container > div:first-child',
+    '.workflow-step'
   ];
 
   document.querySelectorAll(animatableSelectors.join(', ')).forEach((el, index) => {

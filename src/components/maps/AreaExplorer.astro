@@ -1,0 +1,624 @@
+---
+import { localities } from '@/data/locations';
+import { business } from '@/data/business';
+---
+
+<section id="areas" class="map-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <i class="fa-solid fa-map-location-dot highlight-gold"></i>
+        <span>GEOGRAPHIC INTELLIGENCE</span>
+      </span>
+      <h2>
+        Chichawatni <span class="editorial-italic highlight-gold">Property Intelligence Map</span>
+      </h2>
+      <p>
+        Explore verified residential colonies, road corridors, government revenue offices, and landmark facilities across Tehsil Chichawatni with verified geographic coordinates.
+      </p>
+    </div>
+
+    <!-- Map Layout Container: Left Sidebar / Detail Panel + Right Map -->
+    <div class="map-layout-grid glass-panel">
+      <!-- Left Panel: Locality Search & Detail View -->
+      <aside class="map-panel-sidebar">
+        <!-- Search & Filter Controls -->
+        <div class="sidebar-top" id="sidebarControls">
+          <div class="map-search-box">
+            <i class="fa-solid fa-magnifying-glass search-icon highlight-gold"></i>
+            <input
+              type="text"
+              id="mapLocalitySearch"
+              placeholder="Filter area, road, or office..."
+              class="map-search-input"
+              oninput="window.filterMapLocalities(this.value);"
+            />
+          </div>
+
+          <!-- Category Chips -->
+          <div class="category-chips-row">
+            <button class="chip-btn active" data-cat="all" onclick="window.setMapCategory('all', this);">All</button>
+            <button class="chip-btn" data-cat="Residential Locality" onclick="window.setMapCategory('Residential Locality', this);">Residential</button>
+            <button class="chip-btn" data-cat="Road & Highway" onclick="window.setMapCategory('Road & Highway', this);">Roads</button>
+            <button class="chip-btn" data-cat="Government & Revenue Office" onclick="window.setMapCategory('Government & Revenue Office', this);">Revenue & PLRA</button>
+            <button class="chip-btn" data-cat="Emergency & Healthcare" onclick="window.setMapCategory('Emergency & Healthcare', this);">Hospitals</button>
+          </div>
+        </div>
+
+        <!-- Locality Items Scroll List -->
+        <div class="locality-scroll-list" id="localityListContainer">
+          {localities.map(loc => (
+            <div
+              class="locality-list-item"
+              data-id={loc.id}
+              data-cat={loc.category}
+              data-name={loc.name}
+              onclick={`window.selectLocality('${loc.id}');`}
+            >
+              <div class="item-header">
+                <h4 class="item-name">{loc.name}</h4>
+                <span class:list={['item-badge', { 'badge-verified': loc.statusBadge === 'Verified' }]}>
+                  {loc.statusBadge}
+                </span>
+              </div>
+              <p class="item-category"><i class="fa-solid fa-layer-group highlight-gold"></i> {loc.category}</p>
+              <p class="item-desc">{loc.description.slice(0, 95)}...</p>
+            </div>
+          ))}
+        </div>
+
+        <!-- Detail View (Shown on Locality Click) -->
+        <div class="locality-detail-view" id="localityDetailView" style="display: none;">
+          <button class="back-to-list-btn" onclick="window.closeLocalityDetail();">
+            <i class="fa-solid fa-arrow-left"></i> Back to all areas
+          </button>
+
+          <div class="detail-header">
+            <span class="detail-badge" id="detailBadge">Verified</span>
+            <h3 class="detail-title" id="detailTitle">Hayat Abad</h3>
+            <span class="detail-category" id="detailCategory">Residential Locality</span>
+          </div>
+
+          <div class="detail-body">
+            <p class="detail-description" id="detailDesc"></p>
+
+            <div class="detail-legal-box">
+              <strong><i class="fa-solid fa-shield-halved highlight-gold"></i> Legal / Map Status:</strong>
+              <p id="detailLegal"></p>
+            </div>
+
+            <div class="detail-highlights-wrap">
+              <strong>Key Highlights:</strong>
+              <ul class="detail-highlights-list" id="detailHighlights"></ul>
+            </div>
+          </div>
+
+          <div class="detail-footer">
+            <a href="tel:+923063996764" class="btn-primary" style="width: 100%; justify-content: center; font-size: 0.88rem;">
+              <i class="fa-solid fa-phone"></i> Inquire About This Area
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Map View -->
+      <div class="map-viewport-wrapper">
+        <div id="osV4Map" class="leaflet-map-canvas"></div>
+        <div class="map-attribution-note">
+          <i class="fa-solid fa-circle-info highlight-gold"></i> Showing verified Tehsil Chichawatni coordinates. Private seller GPS is protected.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ localitiesData: localities, officeCoords: business.coordinates }}>
+  window.MAP_LOCALITIES = localitiesData;
+  let activeCategory = 'all';
+  let mapInstance = null;
+  let activeMarker = null;
+  const markersMap = {};
+
+  function initV4Map() {
+    const container = document.getElementById('osV4Map');
+    if (!container || typeof L === 'undefined' || mapInstance) return;
+
+    // Initialize Leaflet Map centered on Chichawatni
+    mapInstance = L.map('osV4Map', {
+      center: [30.5350, 72.6880],
+      zoom: 13,
+      zoomControl: true,
+      scrollWheelZoom: false
+    });
+
+    // Dark Tile Layer (CartoDB Dark Matter / High-contrast clean dark)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://carto.com/">CARTO</a> | Siddhu Property Intelligence',
+      maxZoom: 19
+    }).addTo(mapInstance);
+
+    // Custom Icon Generator
+    function createIcon(category, isOffice = false) {
+      let iconClass = 'fa-solid fa-location-dot';
+      let colorClass = 'pin-gold';
+
+      if (isOffice) {
+        iconClass = 'fa-solid fa-star';
+        colorClass = 'pin-office';
+      } else if (category === 'Residential Locality') {
+        iconClass = 'fa-solid fa-house';
+        colorClass = 'pin-gold';
+      } else if (category === 'Road & Highway') {
+        iconClass = 'fa-solid fa-road';
+        colorClass = 'pin-teal';
+      } else if (category === 'Government & Revenue Office') {
+        iconClass = 'fa-solid fa-building-columns';
+        colorClass = 'pin-slate';
+      } else if (category === 'Emergency & Healthcare') {
+        iconClass = 'fa-solid fa-hospital';
+        colorClass = 'pin-emerald';
+      }
+
+      return L.divIcon({
+        className: 'custom-map-pin-wrapper',
+        html: `<div class="map-pin ${colorClass}"><i class="${iconClass}"></i></div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+      });
+    }
+
+    // Add HQ Marker
+    const hqMarker = L.marker([officeCoords.lat, officeCoords.lng], {
+      icon: createIcon('HQ', true)
+    }).addTo(mapInstance);
+    hqMarker.bindPopup(`<strong>SIDDHU Property Advisor HQ</strong><br>Street 08, Tower Road Side, Hayat Abad`);
+
+    // Add Locality Markers
+    window.MAP_LOCALITIES.forEach(loc => {
+      const marker = L.marker([loc.lat, loc.lng], {
+        icon: createIcon(loc.category)
+      }).addTo(mapInstance);
+
+      marker.on('click', () => {
+        window.selectLocality(loc.id);
+      });
+
+      markersMap[loc.id] = marker;
+    });
+  }
+
+  // Locality Selection & Panel Switcher
+  window.selectLocality = function(id) {
+    const loc = window.MAP_LOCALITIES.find(l => l.id === id);
+    if (!loc) return;
+
+    // Pan map
+    if (mapInstance) {
+      mapInstance.flyTo([loc.lat, loc.lng], 15, { duration: 1.2 });
+    }
+
+    // Update marker styling (pulse gold)
+    if (activeMarker && activeMarker._icon) {
+      activeMarker._icon.querySelector('.map-pin')?.classList.remove('pulse-active');
+    }
+    const marker = markersMap[id];
+    if (marker && marker._icon) {
+      marker._icon.querySelector('.map-pin')?.classList.add('pulse-active');
+      activeMarker = marker;
+    }
+
+    // Show details
+    const listWrap = document.getElementById('localityListContainer');
+    const controls = document.getElementById('sidebarControls');
+    const detailView = document.getElementById('localityDetailView');
+
+    if (listWrap && controls && detailView) {
+      listWrap.style.display = 'none';
+      controls.style.display = 'none';
+      detailView.style.display = 'flex';
+
+      document.getElementById('detailTitle').textContent = loc.name;
+      document.getElementById('detailCategory').textContent = loc.category;
+      document.getElementById('detailBadge').textContent = loc.statusBadge;
+      document.getElementById('detailDesc').textContent = loc.description;
+      document.getElementById('detailLegal').textContent = loc.legalStatus;
+
+      const highlightsEl = document.getElementById('detailHighlights');
+      if (highlightsEl) {
+        highlightsEl.innerHTML = loc.highlights.map(h => `<li><i class="fa-solid fa-check highlight-gold"></i> ${h}</li>`).join('');
+      }
+    }
+  };
+
+  window.closeLocalityDetail = function() {
+    const listWrap = document.getElementById('localityListContainer');
+    const controls = document.getElementById('sidebarControls');
+    const detailView = document.getElementById('localityDetailView');
+
+    if (listWrap && controls && detailView) {
+      detailView.style.display = 'none';
+      listWrap.style.display = 'flex';
+      controls.style.display = 'block';
+    }
+
+    if (activeMarker && activeMarker._icon) {
+      activeMarker._icon.querySelector('.map-pin')?.classList.remove('pulse-active');
+      activeMarker = null;
+    }
+
+    if (mapInstance) {
+      mapInstance.flyTo([30.5350, 72.6880], 13, { duration: 1.0 });
+    }
+  };
+
+  window.setMapCategory = function(cat, btn) {
+    activeCategory = cat;
+    document.querySelectorAll('.category-chips-row .chip-btn').forEach(b => b.classList.remove('active'));
+    btn?.classList.add('active');
+    applyFilters();
+  };
+
+  window.filterMapLocalities = function(searchVal) {
+    applyFilters();
+  };
+
+  function applyFilters() {
+    const searchVal = document.getElementById('mapLocalitySearch')?.value.toLowerCase().trim() || '';
+    const items = document.querySelectorAll('#localityListContainer .locality-list-item');
+
+    items.forEach(item => {
+      const cat = item.getAttribute('data-cat') || '';
+      const name = item.getAttribute('data-name')?.toLowerCase() || '';
+
+      const matchCat = activeCategory === 'all' || cat === activeCategory;
+      const matchSearch = !searchVal || name.includes(searchVal);
+
+      if (matchCat && matchSearch) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    // Also update map markers visibility
+    window.MAP_LOCALITIES.forEach(loc => {
+      const marker = markersMap[loc.id];
+      if (!marker) return;
+
+      const matchCat = activeCategory === 'all' || loc.category === activeCategory;
+      const matchSearch = !searchVal || loc.name.toLowerCase().includes(searchVal);
+
+      if (matchCat && matchSearch) {
+        if (!mapInstance?.hasLayer(marker)) marker.addTo(mapInstance);
+      } else {
+        if (mapInstance?.hasLayer(marker)) mapInstance.removeLayer(marker);
+      }
+    });
+  }
+
+  // Defer map init until DOM ready or visible
+  document.addEventListener('DOMContentLoaded', () => {
+    initV4Map();
+  });
+</script>
+
+<style>
+  .map-section {
+    padding: 90px 0;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .map-layout-grid {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    height: 640px;
+    border: 1px solid var(--border-card);
+    overflow: hidden;
+  }
+
+  /* Sidebar */
+  .map-panel-sidebar {
+    background: var(--bg-card);
+    border-right: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .sidebar-top {
+    padding: 20px 20px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+  }
+
+  .map-search-box {
+    position: relative;
+    margin-bottom: 14px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+  }
+
+  .map-search-input {
+    width: 100%;
+    background: #0D1723;
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 10px 14px 10px 38px;
+    border-radius: var(--radius-control);
+    font-size: 0.88rem;
+    font-family: inherit;
+  }
+
+  .map-search-input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+  }
+
+  .category-chips-row {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .chip-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.76rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+  }
+
+  .chip-btn:hover, .chip-btn.active {
+    background: var(--accent-gold);
+    color: #0D1723;
+    border-color: var(--accent-gold);
+    font-weight: 600;
+  }
+
+  /* Scroll list */
+  .locality-scroll-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .locality-list-item {
+    background: rgba(13, 23, 35, 0.5);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .locality-list-item:hover {
+    background: rgba(184, 138, 59, 0.08);
+    border-color: var(--accent-gold);
+    transform: translateX(3px);
+  }
+
+  .item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .item-name {
+    font-size: 1.05rem;
+    color: var(--text-primary);
+  }
+
+  .item-badge {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+  }
+
+  .item-badge.badge-verified {
+    background: rgba(90, 148, 141, 0.2);
+    color: var(--accent-teal-light);
+  }
+
+  .item-category {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .item-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  /* Detail View */
+  .locality-detail-view {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    gap: 16px;
+  }
+
+  .back-to-list-btn {
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    padding: 7px 14px;
+    border-radius: var(--radius-control);
+    font-size: 0.82rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    transition: var(--transition);
+  }
+
+  .back-to-list-btn:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold-light);
+  }
+
+  .detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .detail-badge {
+    font-size: 0.72rem;
+    color: var(--accent-teal-light);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .detail-title {
+    font-size: 1.45rem;
+    color: var(--text-primary);
+  }
+
+  .detail-category {
+    font-size: 0.82rem;
+    color: var(--accent-gold);
+  }
+
+  .detail-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-grow: 1;
+  }
+
+  .detail-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .detail-legal-box {
+    background: rgba(184, 138, 59, 0.08);
+    border-left: 3px solid var(--accent-gold);
+    padding: 10px 14px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .detail-highlights-wrap {
+    font-size: 0.85rem;
+  }
+
+  .detail-highlights-list {
+    list-style: none;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .detail-highlights-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  /* Map Viewport */
+  .map-viewport-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .leaflet-map-canvas {
+    width: 100%;
+    height: 100%;
+    background: #0D1723;
+  }
+
+  .map-attribution-note {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(13, 23, 35, 0.88);
+    border: 1px solid var(--border-glass);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Pins styling */
+  :global(.custom-map-pin-wrapper) {
+    background: transparent;
+    border: none;
+  }
+
+  :global(.map-pin) {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: 2px solid #FFFFFF;
+    transition: transform 0.3s ease;
+  }
+
+  :global(.map-pin.pin-gold) { background: #B88A3B; color: #0D1723; }
+  :global(.map-pin.pin-teal) { background: #5A948D; color: #FFFFFF; }
+  :global(.map-pin.pin-slate) { background: #4A5568; color: #FFFFFF; }
+  :global(.map-pin.pin-emerald) { background: #2E7D32; color: #FFFFFF; }
+  :global(.map-pin.pin-office) { background: #D5AF66; color: #0D1723; border-color: #B88A3B; }
+
+  :global(.map-pin.pulse-active) {
+    animation: goldPulse 1.8s infinite;
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 900px) {
+    .map-layout-grid {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+    .map-panel-sidebar {
+      height: 380px;
+    }
+    .map-viewport-wrapper {
+      height: 400px;
+    }
+  }
+</style>

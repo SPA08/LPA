@@ -1,0 +1,226 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'City & Guides', url: '/chichawatni-city-guide.html' },
+  { name: 'Buying Guide', url: '/property-buying-guide.html' }
+];
+---
+
+<BaseLayout
+  title="Property Buying & Legal Transfer Guide | SIDDHU Property Advisor Chichawatni"
+  description="A complete 5-step roadmap for local and overseas Pakistanis purchasing real estate in Chichawatni Tehsil safely, transparently, and legally."
+  canonical="https://siddhupropertyadvisor.com/property-buying-guide.html"
+>
+  <div class="container guide-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="guide-header-card">
+      <div class="guide-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Essential Due Diligence</span>
+      </div>
+      <h1 class="guide-title">Property Buying & Legal Transfer Guide</h1>
+      <p class="guide-subtitle">
+        A complete 5-step roadmap for local and overseas Pakistanis purchasing real estate in Chichawatni Tehsil safely and legally.
+      </p>
+    </header>
+
+    <!-- 5 Step Roadmap -->
+    <section class="content-section">
+      <h2 class="section-heading">5-Step Buying Checklist</h2>
+      <div class="steps-flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h3 class="step-title">Verify Ownership via PLRA (Arazi Record Center)</h3>
+            <p class="step-text">
+              Before making any advance payment (Biyana), always verify the official <strong>Fard Malkiat</strong> (Ownership Record) through Punjab Land Records Authority (PLRA) Arazi Record Center Chichawatni. Confirm that the seller's CNIC and name match the official land register (Khewat / Khatooni).
+            </p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h3 class="step-title">Check Municipal & Housing Society Approvals</h3>
+            <p class="step-text">
+              Verify whether the colony or housing scheme is approved by District Planning & Design Committee (DPDC Sahiwal) or Municipal Committee Chichawatni. Ensure the plot has NOC for utilities (WAPDA electricity, gas, water supply).
+            </p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h3 class="step-title">Draft Formal Agreement (Iqrar Nama / Biyana)</h3>
+            <p class="step-text">
+              Prepare a legally binding agreement on official judicial stamp paper stating full plot/house demarcation, boundaries, total price agreement, payment schedule, and clear possession date witnessed by respected local advisers.
+            </p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h3 class="step-title">FBR Tax Status & Stamp Duty Payment</h3>
+            <p class="step-text">
+              Check active taxpayer status on FBR Iris portal. Active tax filers enjoy lower withholding tax rates during property registration. Generate e-Stamp papers from Treasury / Bank of Punjab Chichawatni branch.
+            </p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h3 class="step-title">Execute Sale Deed Registry & Biometric Mutation</h3>
+            <p class="step-text">
+              Appear before Sub-Registrar Tehsil Chichawatni for official Sale Deed (Baye Nama) registration, followed by computerized biometric mutation (Intiqal) at PLRA Arazi Record Center to seal title in the Punjab land database.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="guide-cta-banner">
+      <h3 class="cta-title">Planning to Buy a House or Plot in Chichawatni?</h3>
+      <p class="cta-subtitle">Let Naeem Siddhu inspect the documents and guide your purchase with 100% peace of mind.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Consultation</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .guide-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .guide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .guide-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .guide-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 780px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .steps-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .flow-step {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+  .step-num {
+    background: var(--accent-gold);
+    color: var(--bg-main);
+    font-weight: 800;
+    font-size: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content {
+    flex: 1;
+  }
+  .step-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+  }
+  .step-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin: 0;
+  }
+  .guide-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

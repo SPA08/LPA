@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/home/Hero.astro';
+import FeaturedListings from '@/components/home/FeaturedListings.astro';
+import AreaExplorer from '@/components/maps/AreaExplorer.astro';
+import ServiceExplorer from '@/components/home/ServiceExplorer.astro';
+import PropertyJourney from '@/components/home/PropertyJourney.astro';
+import PropertyActivity from '@/components/home/PropertyActivity.astro';
+import Reviews from '@/components/home/Reviews.astro';
+import NaeemProfile from '@/components/home/NaeemProfile.astro';
+import FinalCTA from '@/components/home/FinalCTA.astro';
+
+const pageTitle = "Siddhu Property Advisor | Real Estate Dealer & Property Consultant in Chichawatni";
+const pageDesc = "Looking for verified real estate in Chichawatni? SIDDHU Property Advisor, led by Naeem Siddhu, provides expert property guidance, verified family homes in Hayat Abad, Model Town, Housing Colony, and PLRA land record assistance. Call +92 306 3996764.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} includeMap={true}>
+  <Hero />
+  <FeaturedListings />
+  <AreaExplorer />
+  <ServiceExplorer />
+  <PropertyJourney />
+  <PropertyActivity />
+  <Reviews />
+  <NaeemProfile />
+  <FinalCTA />
+</BaseLayout>

@@ -1,0 +1,348 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'City & Guides', url: '/chichawatni-city-guide.html' }
+];
+---
+
+<BaseLayout
+  title="Chichawatni City Real Estate Guide | SIDDHU Property Advisor"
+  description="Comprehensive real estate guide for Chichawatni: residential sectors, market trends, revenue record procedures, Punjab land measurement units, and investment guidance by Naeem Siddhu."
+  canonical="https://siddhupropertyadvisor.com/chichawatni-city-guide.html"
+>
+  <div class="container guide-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Hero Card -->
+    <header class="guide-header-card">
+      <div class="guide-badge">
+        <i class="fa-solid fa-city"></i>
+        <span>Comprehensive City Profile</span>
+      </div>
+      <h1 class="guide-title">Chichawatni City Real Estate Guide</h1>
+      <p class="guide-subtitle">
+        Key residential sectors, market trends, revenue record procedures, and property investment guidance in Tehsil Chichawatni, District Sahiwal.
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <i class="fa-solid fa-map-location-dot highlight-gold"></i>
+          <span class="stat-label">District Administration</span>
+          <span class="stat-value">Sahiwal Division</span>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-road highlight-teal"></i>
+          <span class="stat-label">Key Highway Access</span>
+          <span class="stat-value">GT Road N-5 & M-3</span>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-house-user highlight-gold"></i>
+          <span class="stat-label">Primary House Sizes</span>
+          <span class="stat-value">5, 7, 10 & 12 Marla</span>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-file-contract highlight-teal"></i>
+          <span class="stat-label">Land Record Authority</span>
+          <span class="stat-value">PLRA Arazi Record Center</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Overview Section -->
+    <section class="content-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-tree-city"></i>
+        <span>Local Geography & Infrastructure</span>
+      </div>
+      <h2 class="section-heading">Why Invest or Buy a Home in Chichawatni?</h2>
+      <p class="section-text">
+        Chichawatni is a vital economic and agricultural hub in Sahiwal District, Punjab. Located along National Highway N-5 (GT Road) and strategically connected to the M-3 Motorway (Lahore–Abdul Hakeem corridor), the city offers peaceful residential environments, excellent schools, and rapidly growing real estate value.
+      </p>
+      <p class="section-text">
+        Whether you are seeking a move-in ready double-story family home in <strong>Hayat Abad</strong>, a DPDC-approved property in <strong>Model Town</strong>, or prime plots in <strong>Housing Colony</strong>, transparent local guidance is essential for securing verified ownership documents.
+      </p>
+    </section>
+
+    <!-- Major Residential Sectors Table -->
+    <section class="content-section">
+      <h2 class="section-heading">Major Residential Sectors & Colonies</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Sector / Area Name</th>
+              <th>Revenue Area (Chak)</th>
+              <th>Key Features & Highlights</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Hayat Abad</strong></td>
+              <td>Chak No. 40/12-L</td>
+              <td>Prime central location, Tower Road market access, 5–12 Marla family homes.</td>
+              <td><a href="/areas/hayat-abad-chichawatni.html" class="table-link">View Profile</a></td>
+            </tr>
+            <tr>
+              <td><strong>Model Town</strong></td>
+              <td>DPDC / Revenue Approved</td>
+              <td>Wide 40ft carpeted streets, parks, modern double-story contemporary architecture.</td>
+              <td><a href="/areas/model-town-chichawatni.html" class="table-link">View Profile</a></td>
+            </tr>
+            <tr>
+              <td><strong>Housing Scheme No. 1 & 2</strong></td>
+              <td>Tehsil Municipal Approved</td>
+              <td>Government-planned layout, commercial hubs, high residential security.</td>
+              <td><a href="/areas/housing-scheme-chichawatni.html" class="table-link">View Profile</a></td>
+            </tr>
+            <tr>
+              <td><strong>Civil Lines & Canal Colony</strong></td>
+              <td>Chak No. 42/12-L Link</td>
+              <td>Quiet green belt, close to Tehsil Headquarters Hospital & courts.</td>
+              <td><a href="/areas/civil-lines-chichawatni.html" class="table-link">View Profile</a></td>
+            </tr>
+            <tr>
+              <td><strong>Green Town</strong></td>
+              <td>Chak No. 39/12-L</td>
+              <td>Fast-developing residential area, affordable family home listings.</td>
+              <td><span class="highlight-teal">Verified Area</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Land Measurement Standard in Punjab -->
+    <section class="content-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-calculator"></i>
+        <span>Property Measurement Reference</span>
+      </div>
+      <h2 class="section-heading">Land Measuring Units in Punjab</h2>
+      <p class="section-text">
+        When evaluating real estate in Chichawatni and Sahiwal District, land is measured using traditional Punjabi revenue units:
+      </p>
+
+      <div class="units-grid">
+        <div class="unit-card">
+          <div class="unit-title highlight-gold">1 Marla</div>
+          <div class="unit-desc">= 272.25 Square Feet</div>
+          <div class="unit-desc">= 30.25 Square Yards (Gaj)</div>
+        </div>
+        <div class="unit-card">
+          <div class="unit-title highlight-teal">1 Kanal</div>
+          <div class="unit-desc">= 20 Marla</div>
+          <div class="unit-desc">= 5,445 Square Feet</div>
+        </div>
+        <div class="unit-card">
+          <div class="unit-title highlight-gold">1 Acre (Qila)</div>
+          <div class="unit-desc">= 8 Kanal (160 Marla)</div>
+          <div class="unit-desc">= 43,560 Square Feet</div>
+        </div>
+        <div class="unit-card">
+          <div class="unit-title highlight-teal">1 Murabba</div>
+          <div class="unit-desc">= 25 Acres (200 Kanal)</div>
+          <div class="unit-desc">Standard agricultural block</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="guide-cta-banner">
+      <h3 class="cta-title">Need Expert Real Estate Guidance in Chichawatni?</h3>
+      <p class="cta-subtitle">Consult directly with CEO Naeem Siddhu at our Hayat Abad office or give us a call.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Consultation</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .guide-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .guide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .guide-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .guide-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 780px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    text-align: left;
+  }
+  .stat-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .stat-card i {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1rem;
+  }
+  .section-text {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0 0 1rem;
+  }
+  .section-text:last-child {
+    margin-bottom: 0;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .data-table th, .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .data-table th {
+    color: var(--accent-gold);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-table td {
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .table-link {
+    color: var(--accent-gold-light);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  .units-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .unit-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.25rem;
+  }
+  .unit-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  .unit-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .guide-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

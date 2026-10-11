@@ -1,0 +1,231 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'City & Guides', url: '/chichawatni-city-guide.html' },
+  { name: 'Government Offices', url: '/chichawatni-public-offices.html' }
+];
+---
+
+<BaseLayout
+  title="Public & Revenue Offices in Chichawatni | Government Directory"
+  description="Official directory of local government institutions, MC Chichawatni, PLRA Arazi Record Center, Assistant Commissioner & Sub-Registrar, MEPCO, and SNGPL."
+  canonical="https://siddhupropertyadvisor.com/chichawatni-public-offices.html"
+>
+  <div class="container guide-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="guide-header-card">
+      <div class="guide-badge">
+        <i class="fa-solid fa-building-columns"></i>
+        <span>Government & Revenue Directory</span>
+      </div>
+      <h1 class="guide-title">Public & Revenue Offices in Chichawatni</h1>
+      <p class="guide-subtitle">
+        Official directory of local government institutions, land record authorities, municipal offices, and utility providers operating in Tehsil Chichawatni.
+      </p>
+    </header>
+
+    <!-- Offices Grid -->
+    <section class="content-section">
+      <h2 class="section-heading">Key Public & Revenue Offices</h2>
+      <div class="offices-grid">
+        <div class="office-card">
+          <span class="card-badge highlight-teal">Official Local Government Entity</span>
+          <h3 class="office-name highlight-gold">Municipal Committee (MC Chichawatni)</h3>
+          <p class="office-desc">
+            The official local government body responsible for municipal administration, building plan sanctions, commercial mapping approval, sanitation, and street maintenance.
+          </p>
+          <ul class="office-list">
+            <li><strong>Functions:</strong> Building Maps, Commercial Permits, Sanitation</li>
+            <li><strong>Jurisdiction:</strong> Urban Chichawatni & Notified Colonies</li>
+            <li><strong>Location:</strong> MC Complex, Municipal Office Road</li>
+          </ul>
+        </div>
+
+        <div class="office-card">
+          <span class="card-badge highlight-teal">Computerised Land Record Authority</span>
+          <h3 class="office-name highlight-gold">Arazi Record Center (PLRA)</h3>
+          <p class="office-desc">
+            Punjab Land Records Authority computerised center for issuing official Fard (ownership certificate), biometric property transfers, and record verification.
+          </p>
+          <ul class="office-list">
+            <li><strong>Services:</strong> Fard Malkiyat, Mutation (Intiqal), Biometrics</li>
+            <li><strong>Jurisdiction:</strong> All Rural & Suburban Chaks (39/12-L, 40/12-L)</li>
+            <li><strong>Location:</strong> Tehsil Revenue Complex, Chichawatni</li>
+          </ul>
+        </div>
+
+        <div class="office-card">
+          <span class="card-badge highlight-gold">Tehsil Revenue Administration</span>
+          <h3 class="office-name highlight-gold">Assistant Commissioner & Sub-Registrar</h3>
+          <p class="office-desc">
+            Office of the Assistant Commissioner (AC) and Sub-Registrar handling registered sale deeds (Registry), stamp duty collection, and revenue appeals.
+          </p>
+          <ul class="office-list">
+            <li><strong>Services:</strong> Property Registry, Stamp Duty, Administrative Orders</li>
+            <li><strong>Location:</strong> AC Courts & Courts Complex</li>
+            <li><strong>Access:</strong> Civil Lines Road Corridor</li>
+          </ul>
+        </div>
+
+        <div class="office-card">
+          <span class="card-badge highlight-teal">Public Utility Offices</span>
+          <h3 class="office-name highlight-gold">WAPDA (MEPCO) & Sui Gas (SNGPL)</h3>
+          <p class="office-desc">
+            Sub-divisional offices for electricity meter connections, Sui gas demand notices, title transfer on utility bills, and NOC verifications.
+          </p>
+          <ul class="office-list">
+            <li><strong>Services:</strong> Electricity/Gas Connections, Meter Name Transfer</li>
+            <li><strong>Location:</strong> GT Road & Power House Road</li>
+            <li><strong>Coverage:</strong> Entire Chichawatni Tehsil</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="guide-cta-banner">
+      <h3 class="cta-title">Need Help with Government or Municipal Approvals?</h3>
+      <p class="cta-subtitle">From Arazi Record Center Fard retrieval to Sub-Registrar deed registration, Naeem Siddhu guides your paperwork with complete clarity.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Consultation</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .guide-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .guide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .guide-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .guide-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 780px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .offices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .office-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .card-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .office-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .office-desc {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 0 0.5rem;
+  }
+  .office-list {
+    list-style: none;
+    padding: 0;
+    margin: auto 0 0 0;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+  }
+  .office-list li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .office-list li:last-child {
+    border-bottom: none;
+  }
+  .guide-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

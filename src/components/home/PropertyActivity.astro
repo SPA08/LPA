@@ -1,0 +1,266 @@
+---
+---
+
+<section id="activity" class="activity-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <i class="fa-solid fa-chart-line highlight-gold"></i>
+        <span>LOCAL MARKET PULSE</span>
+      </span>
+      <h2>
+        Property Activity <span class="editorial-italic highlight-gold">Around Chichawatni</span>
+      </h2>
+      <p>
+        Verified records of recent additions, buyer requirements, and completed site visits handled by our office.
+      </p>
+    </div>
+
+    <!-- Activity Tabs -->
+    <div class="activity-nav-tabs">
+      <button class="act-tab-btn active" data-tab="recent" onclick="window.switchActivityTab('recent', this);">
+        <i class="fa-solid fa-clock-rotate-left"></i> Recently Added
+      </button>
+      <button class="act-tab-btn" data-tab="requirements" onclick="window.switchActivityTab('requirements', this);">
+        <i class="fa-solid fa-bullseye"></i> Buyer Requirements
+      </button>
+      <button class="act-tab-btn" data-tab="site-visits" onclick="window.switchActivityTab('site-visits', this);">
+        <i class="fa-solid fa-car"></i> Site Visits
+      </button>
+      <button class="act-tab-btn" data-tab="for-sale" onclick="window.switchActivityTab('for-sale', this);">
+        <i class="fa-solid fa-tag"></i> For Sale
+      </button>
+      <button class="act-tab-btn" data-tab="for-rent" onclick="window.switchActivityTab('for-rent', this);">
+        <i class="fa-solid fa-key"></i> For Rent
+      </button>
+    </div>
+
+    <!-- Activity Content Panels -->
+    <div class="activity-cards-wrap" id="activityCardsWrap">
+      <!-- Recently Added Panel -->
+      <div class="act-panel active" id="panel-recent">
+        <div class="act-card glass-panel">
+          <div class="act-meta">
+            <span class="badge-tag">5 Marla • Civil Lines</span>
+            <span class="act-time"><i class="fa-solid fa-calendar-check highlight-gold"></i> Verified Listing</span>
+          </div>
+          <h4>Solid Red Brick House in Civil Lines</h4>
+          <p>Verified owner title, ground floor + mumty, 30ft paved street, ready for immediate possession.</p>
+          <div class="act-footer">
+            <span class="act-workflow-step"><i class="fa-solid fa-circle-check highlight-teal"></i> Documents Checked</span>
+            <a href="tel:+923063996764" class="btn-outline" style="padding: 6px 14px; font-size: 0.82rem;">Inquire</a>
+          </div>
+        </div>
+
+        <div class="act-card glass-panel">
+          <div class="act-meta">
+            <span class="badge-tag">10 Marla • Model Town</span>
+            <span class="act-time"><i class="fa-solid fa-calendar-check highlight-gold"></i> Verified Listing</span>
+          </div>
+          <h4>Corner Double Story House in Model Town</h4>
+          <p>DPDC approved sector, Spanish tile fittings, wide SUV garage, 5 bedrooms with attached baths.</p>
+          <div class="act-footer">
+            <span class="act-workflow-step"><i class="fa-solid fa-circle-check highlight-teal"></i> Physical Verification Done</span>
+            <a href="tel:+923063996764" class="btn-outline" style="padding: 6px 14px; font-size: 0.82rem;">Inquire</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buyer Requirements Panel -->
+      <div class="act-panel" id="panel-requirements" style="display: none;">
+        <div class="act-card glass-panel">
+          <div class="act-meta">
+            <span class="badge-tag">Looking for 10 Marla</span>
+            <span class="act-time"><i class="fa-solid fa-user highlight-teal"></i> Active Buyer</span>
+          </div>
+          <h4>Urgent Buyer for Model Town / Housing Colony</h4>
+          <p>Client looking for a 10 Marla or 12 Marla house. Prefer corner or wide front. Budget open for genuine property.</p>
+          <div class="act-footer">
+            <span class="act-workflow-step"><i class="fa-solid fa-spinner highlight-gold"></i> Shortlisting in progress</span>
+            <a href="/sell-my-property/index.html" class="btn-primary" style="padding: 6px 14px; font-size: 0.82rem;">Have this property?</a>
+          </div>
+        </div>
+
+        <div class="act-card glass-panel">
+          <div class="act-meta">
+            <span class="badge-tag">Looking for 5 Marla</span>
+            <span class="act-time"><i class="fa-solid fa-user highlight-teal"></i> Overseas Family</span>
+          </div>
+          <h4>5 Marla Brand New Double Story in Hayat Abad</h4>
+          <p>Family residing in UK requesting verified home near Tower Road with Sui Gas and completed tile work.</p>
+          <div class="act-footer">
+            <span class="act-workflow-step"><i class="fa-solid fa-spinner highlight-gold"></i> Video Tour Scheduled</span>
+            <a href="/sell-my-property/index.html" class="btn-primary" style="padding: 6px 14px; font-size: 0.82rem;">List Your Property</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Site Visits Panel -->
+      <div class="act-panel" id="panel-site-visits" style="display: none;">
+        <div class="act-card glass-panel">
+          <div class="act-meta">
+            <span class="badge-tag">Completed Visit • Housing Scheme</span>
+            <span class="act-time"><i class="fa-solid fa-car highlight-gold"></i> Accompanied Inspection</span>
+          </div>
+          <h4>8 Marla House Inspection with Buyer</h4>
+          <p>Accompanied family on full physical walk-through. Inspected boundary dimensions, dampness check, and utility meters.</p>
+          <div class="act-footer">
+            <span class="act-workflow-step"><i class="fa-solid fa-check highlight-teal"></i> Fard Cross-Checked</span>
+            <a href="tel:+923063996764" class="btn-outline" style="padding: 6px 14px; font-size: 0.82rem;">Book a Visit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Sale Panel -->
+      <div class="act-panel" id="panel-for-sale" style="display: none;">
+        <div class="act-card glass-panel">
+          <div class="act-meta">
+            <span class="badge-tag">Residential Inventory</span>
+            <span class="act-time"><i class="fa-solid fa-circle-check highlight-teal"></i> Active for Sale</span>
+          </div>
+          <h4>8 Verified Residential Listings Available</h4>
+          <p>Houses ranging from 4 Marla to 12 Marla across Hayat Abad, Housing Colony, Model Town, Civil Lines, and Green Town.</p>
+          <div class="act-footer">
+            <a href="#properties" class="btn-primary" style="padding: 6px 16px; font-size: 0.82rem;">Browse All Listed Homes</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Rent Panel -->
+      <div class="act-panel" id="panel-for-rent" style="display: none;">
+        <div class="act-card glass-panel">
+          <div class="act-meta">
+            <span class="badge-tag">Rental Inquiries</span>
+            <span class="act-time"><i class="fa-solid fa-key highlight-gold"></i> Family Houses</span>
+          </div>
+          <h4>Rental Options on Direct Inquiry</h4>
+          <p>Rental homes in Model Town and Housing Colony are matched directly based on tenant family profile and owner agreement.</p>
+          <div class="act-footer">
+            <a href="tel:+923063996764" class="btn-outline" style="padding: 6px 16px; font-size: 0.82rem;">Call for Rental Availability</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  window.switchActivityTab = function(tabId, btn) {
+    document.querySelectorAll('.activity-nav-tabs .act-tab-btn').forEach(b => b.classList.remove('active'));
+    btn?.classList.add('active');
+
+    document.querySelectorAll('.activity-cards-wrap .act-panel').forEach(p => {
+      p.style.display = 'none';
+      p.classList.remove('active');
+    });
+
+    const targetPanel = document.getElementById(`panel-${tabId}`);
+    if (targetPanel) {
+      targetPanel.style.display = 'grid';
+      targetPanel.classList.add('active');
+    }
+  };
+</script>
+
+<style>
+  .activity-section {
+    padding: 80px 0;
+    background: var(--bg-main);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .activity-nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .act-tab-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    padding: 9px 18px;
+    border-radius: var(--radius-full);
+    font-size: 0.86rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+  }
+
+  .act-tab-btn:hover, .act-tab-btn.active {
+    background: var(--accent-gold);
+    color: #0D1723;
+    border-color: var(--accent-gold);
+    font-weight: 600;
+  }
+
+  .activity-cards-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .act-panel {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .act-card {
+    padding: 24px 28px;
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .act-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .act-time {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .act-card h4 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+  }
+
+  .act-card p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  .act-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .act-workflow-step {
+    font-size: 0.82rem;
+    color: var(--accent-teal-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+</style>

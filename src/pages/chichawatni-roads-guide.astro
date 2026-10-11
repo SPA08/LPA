@@ -1,0 +1,231 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'City & Guides', url: '/chichawatni-city-guide.html' },
+  { name: 'Roads & Highways', url: '/chichawatni-roads-guide.html' }
+];
+---
+
+<BaseLayout
+  title="Main Roads & Highways in Chichawatni | Transport Infrastructure Guide"
+  description="Comprehensive guide to primary transport corridors, GT Road N-5, Tower Road, College Road, street widths, and residential connectivity across Chichawatni."
+  canonical="https://siddhupropertyadvisor.com/chichawatni-roads-guide.html"
+>
+  <div class="container guide-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="guide-header-card">
+      <div class="guide-badge">
+        <i class="fa-solid fa-route"></i>
+        <span>Infrastructure Directory</span>
+      </div>
+      <h1 class="guide-title">Main Roads & Arteries in Chichawatni</h1>
+      <p class="guide-subtitle">
+        Comprehensive guide to primary transport corridors, street width standards, traffic accessibility, and residential/commercial connectivity across Chichawatni.
+      </p>
+    </header>
+
+    <!-- Roads Grid -->
+    <section class="content-section">
+      <h2 class="section-heading">Major Traffic Arteries</h2>
+      <div class="roads-grid">
+        <div class="road-card">
+          <span class="card-badge highlight-teal">N-5 National Highway</span>
+          <h3 class="road-name highlight-gold">GT Road Corridor</h3>
+          <p class="road-desc">
+            Primary national highway connecting Chichawatni eastwards to Sahiwal/Lahore and westwards to Multan. Prime location for commercial showrooms, plazas, and petrol pumps.
+          </p>
+          <ul class="road-list">
+            <li><strong>Width:</strong> 110 ft dual carriageway</li>
+            <li><strong>Key Junctions:</strong> Bypass Chowk, Railway Crossing, Kamalia Turn</li>
+            <li><strong>Connected Colonies:</strong> Housing Scheme, Chak 39/12-L</li>
+          </ul>
+        </div>
+
+        <div class="road-card">
+          <span class="card-badge highlight-gold">Commercial Artery</span>
+          <h3 class="road-name highlight-gold">Tower Road</h3>
+          <p class="road-desc">
+            The central commercial spine of Hayat Abad (Chak 40/12-L), housing Siddhu Property Advisor Office (Street 08), commercial banks, retail stores, and medical clinics.
+          </p>
+          <ul class="road-list">
+            <li><strong>Main Width:</strong> 40 ft - 50 ft</li>
+            <li><strong>Branch Streets:</strong> 20 ft - 30 ft residential galis</li>
+            <li><strong>Connected Colonies:</strong> Hayat Abad, Ghaffor Town, Gulberg</li>
+          </ul>
+        </div>
+
+        <div class="road-card">
+          <span class="card-badge highlight-teal">Educational & Residential Hub</span>
+          <h3 class="road-name highlight-gold">College Road</h3>
+          <p class="road-desc">
+            Key arterial link passing by Govt Degree College for Boys and leading educational institutes. High demand for student housing, family residences, and coaching centers.
+          </p>
+          <ul class="road-list">
+            <li><strong>Main Width:</strong> 40 ft</li>
+            <li><strong>Character:</strong> High footfall, educational & residential</li>
+            <li><strong>Connected Colonies:</strong> Model Town, Civil Lines</li>
+          </ul>
+        </div>
+
+        <div class="road-card">
+          <span class="card-badge highlight-gold">Historical Grain Market Corridor</span>
+          <h3 class="road-name highlight-gold">Railway & Grain Market Road</h3>
+          <p class="road-desc">
+            Connects Chichawatni Railway Station to the historic Galla Mandi (Grain Market) and Rail Bazaar. Major hub for agricultural trading and wholesale markets.
+          </p>
+          <ul class="road-list">
+            <li><strong>Main Width:</strong> 35 ft - 45 ft</li>
+            <li><strong>Character:</strong> High commercial density, wholesale trading</li>
+            <li><strong>Connected Bazaars:</strong> Rail Bazaar, Saddar Market</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="guide-cta-banner">
+      <h3 class="cta-title">Looking for Property on Wide Carpeted Roads?</h3>
+      <p class="cta-subtitle">Street width is a major driver of property value in Chichawatni. Consult Naeem Siddhu to locate prime plots on 30ft to 60ft roads.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Consultation</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .guide-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .guide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .guide-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .guide-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 780px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .roads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .road-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .card-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .road-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .road-desc {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 0 0.5rem;
+  }
+  .road-list {
+    list-style: none;
+    padding: 0;
+    margin: auto 0 0 0;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+  }
+  .road-list li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .road-list li:last-child {
+    border-bottom: none;
+  }
+  .guide-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

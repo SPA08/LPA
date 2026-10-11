@@ -1,0 +1,243 @@
+---
+import { business } from '@/data/business';
+---
+
+<section id="contact" class="final-cta-section">
+  <div class="container">
+    <!-- FAQ Accordion Subsection -->
+    <div class="faq-subsection">
+      <div class="section-header">
+        <span class="section-badge">
+          <i class="fa-solid fa-circle-question highlight-gold"></i>
+          <span>FREQUENT QUESTIONS</span>
+        </span>
+        <h2>
+          Essential Real Estate <span class="editorial-italic highlight-gold">FAQs</span>
+        </h2>
+        <p>
+          Clear, honest answers regarding residential purchases, PLRA record verification, and selling procedures in Tehsil Chichawatni.
+        </p>
+      </div>
+
+      <div class="faq-accordion-list">
+        <!-- FAQ 1 -->
+        <details class="faq-item glass-panel" open>
+          <summary class="faq-summary">
+            <span>1. What should I check before buying a house in Chichawatni?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-content">
+            <p>
+              Always verify the computerized ownership record (Fard Malkiat) at the Arazi Record Center (ARC) Chichawatni, confirm that the housing scheme or colony is legitimately recognized, inspect the damp-proof course (DPC) and construction quality, and check active Sui Gas and WAPDA electricity meter installations.
+            </p>
+          </div>
+        </details>
+
+        <!-- FAQ 2 -->
+        <details class="faq-item glass-panel">
+          <summary class="faq-summary">
+            <span>2. How do you verify property records (Fard Malkiat & Inteqal)?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-content">
+            <p>
+              Ownership records are verified through the Punjab Land Records Authority (PLRA) computer system in Chichawatni. We verify the Khewat, Khatoni, and Khasra numbers against the official computerized record, and obtain an official Aks-Shajra map to confirm physical on-ground boundaries.
+            </p>
+          </div>
+        </details>
+
+        <!-- FAQ 3 -->
+        <details class="faq-item glass-panel">
+          <summary class="faq-summary">
+            <span>3. Which residential areas are best for family living?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-content">
+            <p>
+              Key residential locations in Chichawatni include <strong>Hayat Abad</strong> (Tower Road side), <strong>Model Town Phase I</strong> (DPDC approved), <strong>Housing Colony</strong> (planned government scheme with parks), and <strong>Civil Lines</strong> (peaceful administrative quarter with solid vintage houses).
+            </p>
+          </div>
+        </details>
+
+        <!-- FAQ 4 -->
+        <details class="faq-item glass-panel">
+          <summary class="faq-summary">
+            <span>4. Can SIDDHU Property Advisor help me sell my house or plot?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-content">
+            <p>
+              Yes. Through our <strong>Verified Seller Portal</strong>, you can submit your property details, record verified GPS coordinates, and add authentic on-site photos. Naeem Siddhu personally conducts a human review, evaluates current fair market value, and matches you with pre-qualified buyers.
+            </p>
+          </div>
+        </details>
+
+        <!-- FAQ 5 -->
+        <details class="faq-item glass-panel">
+          <summary class="faq-summary">
+            <span>5. How can I arrange an in-person site visit with Naeem Siddhu?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-content">
+            <p>
+              Simply call or WhatsApp Naeem Siddhu directly at <strong>+92 306 3996764</strong> or visit our office at Street 08, Tower Road Side, Hayat Abad, Chichawatni. We coordinate convenient visit timings for evening or weekend inspections.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Contact & Consultation Card -->
+    <div class="direct-consultation-banner glass-panel">
+      <div class="banner-inner">
+        <div class="banner-text-col">
+          <span class="section-badge"><i class="fa-solid fa-handshake highlight-gold"></i> DIRECT CONSULTATION</span>
+          <h3>Ready to Discuss Your Property Plans?</h3>
+          <p>
+            Whether you are buying your first home, selling ancestral property, or investing from abroad, talk directly with Naeem Siddhu today.
+          </p>
+          <div class="office-quick-address">
+            <i class="fa-solid fa-location-dot highlight-gold"></i>
+            <span>{business.address.full}</span>
+          </div>
+        </div>
+
+        <div class="banner-actions-col">
+          <a href={`tel:${business.phone}`} class="btn-primary" style="padding: 14px 28px; font-size: 1rem;">
+            <i class="fa-solid fa-phone"></i>
+            <span>Call {business.phoneFormatted}</span>
+          </a>
+          <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp" style="padding: 14px 28px; font-size: 1rem;">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>WhatsApp Naeem Direct</span>
+          </a>
+          <a href="/sell-my-property/index.html" class="btn-outline" style="padding: 14px 24px; font-size: 0.95rem;">
+            <i class="fa-solid fa-plus highlight-gold"></i>
+            <span>Submit Property for Sale</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta-section {
+    padding: 90px 0;
+    background: var(--bg-secondary);
+  }
+
+  .faq-subsection {
+    margin-bottom: 70px;
+  }
+
+  .faq-accordion-list {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .faq-item[open] {
+    border-color: var(--border-card);
+    background: var(--bg-card);
+  }
+
+  .faq-summary {
+    padding: 20px 24px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    font-size: 0.85rem;
+    color: var(--accent-gold);
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-content {
+    padding: 0 24px 22px;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 16px;
+  }
+
+  .faq-content p {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  /* Consultation Banner */
+  .direct-consultation-banner {
+    padding: 48px;
+    border: 1px solid var(--border-card);
+    background: linear-gradient(135deg, rgba(27, 43, 57, 0.95) 0%, rgba(20, 34, 48, 0.95) 100%);
+  }
+
+  .banner-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .banner-text-col h3 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .banner-text-col p {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+  }
+
+  .office-quick-address {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+
+  .banner-actions-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .banner-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .direct-consultation-banner {
+      padding: 32px 24px;
+    }
+  }
+</style>

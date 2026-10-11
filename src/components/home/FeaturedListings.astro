@@ -1,0 +1,267 @@
+---
+import { properties } from '@/data/properties';
+import PropertyCard from '@/components/property/PropertyCard.astro';
+import PropertyComparison from '@/components/property/PropertyComparison.astro';
+import { business } from '@/data/business';
+---
+
+<section id="properties" class="properties-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <i class="fa-solid fa-house-chimney highlight-gold"></i>
+        <span>GENUINE INVENTORY</span>
+      </span>
+      <h2>
+        Selected <span class="editorial-italic highlight-gold">Residential Homes</span> in Chichawatni
+      </h2>
+      <p>
+        Verified 5 Marla, 7 Marla, 10 Marla, and 12 Marla family houses with authentic on-site photographs and clear ownership records.
+      </p>
+    </div>
+
+    <!-- Live Filter Status bar -->
+    <div id="filterActiveNotice" class="filter-status-notice" style="display: none;">
+      <span>Showing filtered results: <strong id="filterCriteriaLabel"></strong></span>
+      <button class="clear-filters-btn" onclick="window.resetPropertySearch();">
+        <i class="fa-solid fa-xmark"></i> Clear Filters
+      </button>
+    </div>
+
+    <!-- Properties Grid -->
+    <div class="properties-grid" id="propertiesGrid">
+      {properties.map(property => (
+        <PropertyCard property={property} />
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyPropertiesNotice" class="empty-state-card glass-panel" style="display: none;">
+      <div class="empty-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+      <h3>No matching properties are currently listed</h3>
+      <p>
+        We do not invent artificial listings. Contact <strong>{business.advisor}</strong> directly at <strong>{business.phoneFormatted}</strong> for off-market options or to request a dedicated on-ground search.
+      </p>
+      <div class="empty-actions">
+        <button class="btn-outline" onclick="window.resetPropertySearch();">
+          <i class="fa-solid fa-rotate-left"></i> View All Properties
+        </button>
+        <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp Naeem Siddhu
+        </a>
+      </div>
+    </div>
+
+    <!-- Did not find right property banner -->
+    <div class="custom-req-banner glass-panel">
+      <div class="banner-text">
+        <h3>Didn't find the exact home or plot size you're looking for?</h3>
+        <p>Tell Naeem your required area, budget, and family specifications for direct private matchings.</p>
+      </div>
+      <div class="banner-actions">
+        <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> Send My Requirement
+        </a>
+        <a href="/sell-my-property/index.html" class="btn-primary">
+          <i class="fa-solid fa-plus"></i> List Your Property
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Bar & Modal -->
+  <PropertyComparison />
+</section>
+
+<script is:inline>
+  window.executePropertySearch = function() {
+    const loc = document.getElementById('filterLocation')?.value || 'all';
+    const type = document.getElementById('filterType')?.value || 'all';
+    const size = document.getElementById('filterSize')?.value || 'all';
+
+    const cards = document.querySelectorAll('#propertiesGrid .property-card');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const cardArea = card.getAttribute('data-area') || '';
+      const cardType = card.getAttribute('data-type') || '';
+      const cardSize = card.getAttribute('data-size') || '';
+
+      let match = true;
+      if (loc !== 'all' && !cardArea.toLowerCase().includes(loc.toLowerCase())) {
+        match = false;
+      }
+      if (type !== 'all' && cardType !== type) {
+        match = false;
+      }
+      if (size !== 'all' && cardSize !== size) {
+        match = false;
+      }
+
+      if (match) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    const emptyBox = document.getElementById('emptyPropertiesNotice');
+    const notice = document.getElementById('filterActiveNotice');
+    const label = document.getElementById('filterCriteriaLabel');
+
+    if (emptyBox) emptyBox.style.display = visibleCount === 0 ? 'block' : 'none';
+
+    if (notice && label) {
+      if (loc !== 'all' || type !== 'all' || size !== 'all') {
+        notice.style.display = 'flex';
+        label.textContent = `${loc !== 'all' ? loc : ''} ${size !== 'all' ? size + ' Marla' : ''} ${type !== 'all' ? type : ''}`.trim() || 'Custom filter';
+      } else {
+        notice.style.display = 'none';
+      }
+    }
+
+    // Smooth scroll down to properties
+    const propSection = document.getElementById('properties');
+    if (propSection) {
+      propSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  window.resetPropertySearch = function() {
+    const loc = document.getElementById('filterLocation');
+    const type = document.getElementById('filterType');
+    const size = document.getElementById('filterSize');
+    if (loc) loc.value = 'all';
+    if (type) type.value = 'all';
+    if (size) size.value = 'all';
+
+    document.querySelectorAll('#propertiesGrid .property-card').forEach(card => {
+      card.style.display = 'flex';
+    });
+
+    const emptyBox = document.getElementById('emptyPropertiesNotice');
+    const notice = document.getElementById('filterActiveNotice');
+    if (emptyBox) emptyBox.style.display = 'none';
+    if (notice) notice.style.display = 'none';
+  };
+</script>
+
+<style>
+  .properties-section {
+    padding: 90px 0;
+    background: var(--bg-main);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .properties-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .filter-status-notice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(184, 138, 59, 0.12);
+    border: 1px solid var(--border-card);
+    padding: 12px 20px;
+    border-radius: var(--radius-control);
+    margin-bottom: 24px;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+  }
+
+  .clear-filters-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-gold-light);
+    cursor: pointer;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+
+  .clear-filters-btn:hover {
+    text-decoration: underline;
+  }
+
+  .empty-state-card {
+    text-align: center;
+    padding: 50px 30px;
+    max-width: 640px;
+    margin: 30px auto;
+  }
+
+  .empty-icon {
+    font-size: 2.5rem;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+  }
+
+  .empty-state-card h3 {
+    margin-bottom: 12px;
+  }
+
+  .empty-state-card p {
+    margin-bottom: 24px;
+  }
+
+  .empty-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .custom-req-banner {
+    margin-top: 60px;
+    padding: 36px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    border: 1px solid var(--border-card);
+  }
+
+  .banner-text {
+    max-width: 650px;
+  }
+
+  .banner-text h3 {
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+
+  .banner-text p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  .banner-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 1024px) {
+    .properties-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .properties-grid {
+      grid-template-columns: 1fr;
+    }
+    .custom-req-banner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

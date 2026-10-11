@@ -1,0 +1,219 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Services', url: '/#services' },
+  { name: 'Chichawatni Local Specialist', url: '/services/chichawatni-local-specialist.html' }
+];
+---
+
+<BaseLayout
+  title="Chichawatni Local Specialist | Naeem Siddhu Property Advisory"
+  description="Ground-level local market expertise, site audits, and transparent advisory in Chichawatni by Naeem Siddhu. Office: Street 08 Tower Road Hayat Abad."
+  canonical="https://siddhupropertyadvisor.com/services/chichawatni-local-specialist.html"
+>
+  <div class="container service-detail-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="service-header-card">
+      <div class="service-badge">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Local Expert Profile</span>
+      </div>
+      <h1 class="service-title">Chichawatni Local Specialist</h1>
+      <p class="service-subtitle">
+        Head of SIDDHU Property Advisor, <strong>Naeem Siddhu</strong> brings deep regional familiarity, ground-level market evaluation, and transparent real estate guidance across Chichawatni.
+      </p>
+
+      <div class="quick-stats-grid">
+        <div class="stat-box">
+          <span class="stat-label">Lead Consultant</span>
+          <span class="stat-value highlight-gold">{business.advisor}</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Office Location</span>
+          <span class="stat-value">{business.address.street}</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Core Specialization</span>
+          <span class="stat-value highlight-teal">Residential Houses & Plots</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="intel-section">
+      <h2 class="section-heading">Key Advisory Strengths</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Domain</th>
+              <th>Specialist Advantage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ground Site Inspections</strong></td>
+              <td>In-person physical checking of brick quality, foundation structure, and utility hookups.</td>
+            </tr>
+            <tr>
+              <td><strong>Local Price Evaluation</strong></td>
+              <td>Realistic valuation based on recent actual neighborhood sales data.</td>
+            </tr>
+            <tr>
+              <td><strong>Society Clearance Checks</strong></td>
+              <td class="highlight-gold">Advising buyers against illegal schemes and guiding them towards approved sectors.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="service-cta-banner">
+      <h3 class="cta-title">Connect Directly with Naeem Siddhu</h3>
+      <p class="cta-subtitle">Office: Hayat Abad St 08 Tower Road, Chichawatni. Get honest guidance on every residential deal.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Message</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .service-detail-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .service-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .service-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .service-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+  }
+  .service-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 0 2rem;
+  }
+  .quick-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .stat-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.25rem;
+  }
+  .stat-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+  }
+  .stat-value {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .intel-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .data-table th, .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .data-table th {
+    color: var(--accent-gold);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-table td {
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .service-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

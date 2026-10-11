@@ -1,0 +1,317 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Areas', url: '/#areas' },
+  { name: 'Model Town', url: '/areas/model-town-chichawatni.html' }
+];
+---
+
+<BaseLayout
+  title="Model Town Chichawatni | DPDC Approved Sector, Houses & Plots"
+  description="Verified property guidance, house sizes, DPDC approval details, and official revenue facts for Model Town Chichawatni by Naeem Siddhu."
+  canonical="https://siddhupropertyadvisor.com/areas/model-town-chichawatni.html"
+>
+  <div class="container area-detail-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Hero Card -->
+    <header class="area-header-card">
+      <div class="area-badge">
+        <i class="fa-solid fa-shield-check"></i>
+        <span>DPDC Approved / NOC Verified</span>
+      </div>
+      <h1 class="area-title">Model Town, Chichawatni</h1>
+      <p class="area-subtitle">Parent Revenue Area: <strong>Chak No. 40/12-L</strong> • District Sahiwal • NOC: DPDC Approved</p>
+
+      <div class="quick-stats-grid">
+        <div class="stat-box">
+          <span class="stat-label">Legal Approval Status</span>
+          <span class="stat-value highlight-gold">DPDC Approved NOC</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Phase I Land Area</span>
+          <span class="stat-value">200+ Kanals</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Road Infrastructure</span>
+          <span class="stat-value">50–60 Ft Main Roads</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Common House Sizes</span>
+          <span class="stat-value highlight-teal">5, 10, 12 Marla & 1 Kanal</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Local Intelligence Profile -->
+    <section class="intel-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Local Area Facts</span>
+      </div>
+      <h2 class="section-heading">Model Town Local Intelligence Profile</h2>
+
+      <div class="facts-grid">
+        <div class="fact-card">
+          <div class="fact-label">Parent Revenue Area</div>
+          <div class="fact-value highlight-gold">Chak No. 40/12-L</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-label">Main Access Road</div>
+          <div class="fact-value">50-60 ft Main Boulevard</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-label">Nearby Education</div>
+          <div class="fact-value">
+            <a href="/chichawatni-schools-guide.html" class="fact-link">Govt College & DPS</a>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-label">Common House Sizes</div>
+          <div class="fact-value highlight-gold">5, 10, 12 Marla & 1 Kanal</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-label">Approval Authority</div>
+          <div class="fact-value">DPDC Approved NOC</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-label">FBR Valuation Ref</div>
+          <div class="fact-value">
+            <a href="/fbr-property-valuation-chichawatni.html" class="fact-link">FBR Rates Guide</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="confidence-footer">
+        <i class="fa-solid fa-shield-check"></i>
+        <span>Source Confidence: Verified Local Field Data • Last Updated: Sep 2026</span>
+      </div>
+    </section>
+
+    <!-- Verified Property Intelligence Table -->
+    <section class="table-section">
+      <h2 class="section-heading">Revenue & Legal Verification Data Table</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Official Verified Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Area Name</td>
+              <td><strong>Model Town</strong></td>
+            </tr>
+            <tr>
+              <td>Location</td>
+              <td>Near Education Corridor / Main Boulevard</td>
+            </tr>
+            <tr>
+              <td>Property Types</td>
+              <td>Modern Double-Story Houses & Residential Plots</td>
+            </tr>
+            <tr>
+              <td>Legal Status</td>
+              <td class="highlight-gold"><strong>DPDC Sahiwal Approved Layout</strong></td>
+            </tr>
+            <tr>
+              <td>Advisory Lead</td>
+              <td>Siddhu Property Advisor ({business.advisor})</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Contact CTA Banner -->
+    <section class="area-cta-banner">
+      <h3 class="cta-title">Explore Model Town Houses & Plots?</h3>
+      <p class="cta-subtitle">Consult directly with Naeem Siddhu for verified deals in Model Town Chichawatni.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Consultation</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .area-detail-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .area-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .area-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .area-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+  }
+  .area-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    margin: 0 0 2rem;
+  }
+  .quick-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .stat-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.25rem;
+  }
+  .stat-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+  }
+  .stat-value {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .intel-section, .table-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .fact-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1rem 1.25rem;
+  }
+  .fact-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+  .fact-value {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .fact-link {
+    color: var(--accent-gold-light);
+    text-decoration: underline;
+  }
+  .confidence-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .data-table th, .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .data-table th {
+    color: var(--accent-gold);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-table td {
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .area-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

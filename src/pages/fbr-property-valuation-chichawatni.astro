@@ -1,0 +1,351 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'City & Guides', url: '/chichawatni-city-guide.html' },
+  { name: 'FBR Property Valuation', url: '/fbr-property-valuation-chichawatni.html' }
+];
+---
+
+<BaseLayout
+  title="FBR Property Valuation Chichawatni | Official Rates & Tax Guide"
+  description="Official Federal Board of Revenue (FBR) valuation reference rates for stamp duty, withholding tax, and property registration across revenue chaks in Tehsil Chichawatni."
+  canonical="https://siddhupropertyadvisor.com/fbr-property-valuation-chichawatni.html"
+>
+  <div class="container guide-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="guide-header-card">
+      <div class="guide-badge">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <span>Official Reference Guide</span>
+      </div>
+      <h1 class="guide-title">FBR Property Valuation Chichawatni</h1>
+      <p class="guide-subtitle">
+        Locality-specific official Federal Board of Revenue (FBR) valuation reference rates for stamp duty, withholding tax, and property registration across revenue chaks and colonies in Tehsil Chichawatni.
+      </p>
+
+      <!-- Mandatory Disclaimer Alert Box -->
+      <div class="disclaimer-alert">
+        <i class="fa-solid fa-triangle-exclamation highlight-gold"></i>
+        <div>
+          <h3 class="disclaimer-title">Official Tax Reference Disclaimer</h3>
+          <p class="disclaimer-text">
+            <strong>Important Notice:</strong> These figures are official FBR valuation references used strictly for tax calculation purposes (withholding tax, stamp duty, gain tax) and <strong>may differ significantly from actual market transaction prices</strong>. Real estate market values in Chichawatni depend on street width, corner status, and negotiations.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- FBR Rates by Chak Grid -->
+    <section class="content-section">
+      <h2 class="section-heading">FBR Valuation Rates by Revenue Chak</h2>
+      <div class="cards-grid">
+        <!-- Card 1: Chak 40/12-L -->
+        <div class="rate-card">
+          <div class="rate-header">
+            <i class="fa-solid fa-map-pin highlight-gold"></i>
+            <h3 class="rate-title">Chak 40/12-L Valuation Area</h3>
+          </div>
+          <p class="rate-subtitle">Includes Hayat Abad, Housing Colony, Ghaffor Town, and Gulberg Town.</p>
+          <ul class="rate-list">
+            <li>
+              <span>Residential (Per Marla):</span>
+              <strong class="highlight-gold">PKR 140,000 - 220,000</strong>
+            </li>
+            <li>
+              <span>Commercial (Per Marla):</span>
+              <strong class="highlight-teal">PKR 450,000 - 750,000</strong>
+            </li>
+            <li>
+              <span>PLRA Authority:</span>
+              <span>Arazi Record Center Chichawatni</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 2: Chak 39/12-L -->
+        <div class="rate-card">
+          <div class="rate-header">
+            <i class="fa-solid fa-map-pin highlight-teal"></i>
+            <h3 class="rate-title">Chak 39/12-L Valuation Area</h3>
+          </div>
+          <p class="rate-subtitle">Includes Garden Town, Defence Block, Canal Fort Colony, and Al Rehman Town.</p>
+          <ul class="rate-list">
+            <li>
+              <span>Residential (Per Marla):</span>
+              <strong class="highlight-gold">PKR 125,000 - 190,000</strong>
+            </li>
+            <li>
+              <span>Commercial (Per Marla):</span>
+              <strong class="highlight-teal">PKR 400,000 - 650,000</strong>
+            </li>
+            <li>
+              <span>PLRA Authority:</span>
+              <span>Tehsil Revenue Complex</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 3: GT Road Commercial Corridor -->
+        <div class="rate-card">
+          <div class="rate-header">
+            <i class="fa-solid fa-road highlight-gold"></i>
+            <h3 class="rate-title">GT Road Commercial Corridor</h3>
+          </div>
+          <p class="rate-subtitle">Main Highway frontage from Railway Crossing to Chichawatni Bypass.</p>
+          <ul class="rate-list">
+            <li>
+              <span>Commercial Frontage:</span>
+              <strong class="highlight-teal">PKR 850,000 - 1,500,000 / Marla</strong>
+            </li>
+            <li>
+              <span>Semi-Commercial:</span>
+              <strong class="highlight-gold">PKR 550,000 - 850,000 / Marla</strong>
+            </li>
+            <li>
+              <span>FBR Status:</span>
+              <span>Category I Prime Commercial</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filer vs Non-Filer Tax Rates -->
+    <section class="content-section">
+      <h2 class="section-heading">Tax Rates Comparison (Filer vs Non-Filer)</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tax Head</th>
+              <th>Active Tax Filer Rate</th>
+              <th>Non-Filer / Late Filer Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Advance Tax on Purchase (236K)</strong></td>
+              <td class="highlight-teal">3% of FBR Value</td>
+              <td class="highlight-gold">10.5% - 15% of FBR Value</td>
+            </tr>
+            <tr>
+              <td><strong>Advance Tax on Sale (236C)</strong></td>
+              <td class="highlight-teal">3% of FBR Value</td>
+              <td class="highlight-gold">6% - 10% of FBR Value</td>
+            </tr>
+            <tr>
+              <td><strong>Punjab Stamp Duty (e-Stamp)</strong></td>
+              <td>1% of DC Valuation</td>
+              <td>1% of DC Valuation</td>
+            </tr>
+            <tr>
+              <td><strong>Municipal Transfer Tax (TMA)</strong></td>
+              <td>1% of Sale Consideration</td>
+              <td>1% of Sale Consideration</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="guide-cta-banner">
+      <h3 class="cta-title">Need Help Calculating Property Transfer Taxes?</h3>
+      <p class="cta-subtitle">Consult directly with Naeem Siddhu to compute exact registration costs before purchasing.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Consultation</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .guide-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .guide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .guide-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .guide-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 780px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+  .disclaimer-alert {
+    background: rgba(184, 138, 59, 0.1);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-control);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    text-align: left;
+    max-width: 850px;
+    margin: 0 auto;
+  }
+  .disclaimer-alert i {
+    font-size: 1.75rem;
+    margin-top: 0.25rem;
+  }
+  .disclaimer-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin: 0 0 0.4rem;
+  }
+  .disclaimer-text {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .rate-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.5rem;
+  }
+  .rate-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .rate-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .rate-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+  }
+  .rate-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.92rem;
+  }
+  .rate-list li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+  }
+  .rate-list li:last-child {
+    border-bottom: none;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .data-table th, .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .data-table th {
+    color: var(--accent-gold);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-table td {
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .guide-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

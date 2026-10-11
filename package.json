@@ -1,0 +1,27 @@
+{
+  "name": "siddhu-property-main",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SPA08/siddhu-property.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SPA08/siddhu-property/issues"
+  },
+  "homepage": "https://github.com/SPA08/siddhu-property#readme",
+  "dependencies": {
+    "astro": "^7.3.8",
+    "typescript": "^7.0.2"
+  }
+}

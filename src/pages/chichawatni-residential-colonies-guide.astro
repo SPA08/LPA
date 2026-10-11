@@ -1,0 +1,275 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'City & Guides', url: '/chichawatni-city-guide.html' },
+  { name: 'Residential Colonies', url: '/chichawatni-residential-colonies-guide.html' }
+];
+---
+
+<BaseLayout
+  title="Chichawatni Residential Colonies Guide | SIDDHU Property Advisor"
+  description="Approved residential schemes, family housing colonies, street widths, Sui Gas/Electricity availability, and verified property records in Tehsil Chichawatni."
+  canonical="https://siddhupropertyadvisor.com/chichawatni-residential-colonies-guide.html"
+>
+  <div class="container guide-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="guide-header-card">
+      <div class="guide-badge">
+        <i class="fa-solid fa-house-chimney"></i>
+        <span>Comprehensive Residential Directory</span>
+      </div>
+      <h1 class="guide-title">Chichawatni Residential Housing Colonies Guide</h1>
+      <p class="guide-subtitle">
+        Detailed guide to approved residential sectors, family housing schemes, street road widths, Sui Gas/Electricity availability, and verified property records in Tehsil Chichawatni.
+      </p>
+
+      <div class="types-grid">
+        <div class="type-card">
+          <i class="fa-solid fa-house-chimney highlight-gold"></i>
+          <h3 class="type-title">5–7 Marla Family Homes</h3>
+          <p class="type-desc">Ideal for medium-sized families, featuring 3–4 bedrooms, car porch, and modern kitchen layout.</p>
+        </div>
+        <div class="type-card">
+          <i class="fa-solid fa-building highlight-teal"></i>
+          <h3 class="type-title">10–12 Marla Double Story</h3>
+          <p class="type-desc">Spacious luxury family homes with lawn, double garage, dual entrance, and servant quarters.</p>
+        </div>
+        <div class="type-card">
+          <i class="fa-solid fa-map-location highlight-gold"></i>
+          <h3 class="type-title">1 Kanal Executive Residences</h3>
+          <p class="type-desc">Located in prime Civil Lines, Model Town Phase I, and main boulevard corridors.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="content-section">
+      <h2 class="section-heading">Chichawatni Residential Colonies Directory</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Colony Name</th>
+              <th>Revenue Area (Chak)</th>
+              <th>Main Access Road</th>
+              <th>Utility Status</th>
+              <th>Legal Approval</th>
+              <th>Details Page</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Hayat Abad</strong></td>
+              <td>Chak No. 40/12-L</td>
+              <td>Tower Road / College Road</td>
+              <td><span class="highlight-teal">Gas, WAPDA, Sewerage</span></td>
+              <td class="highlight-gold">FBR & PLRA Verified</td>
+              <td><a href="/areas/hayat-abad-chichawatni.html" class="table-link">View Profile</a></td>
+            </tr>
+            <tr>
+              <td><strong>Model Town Phase I</strong></td>
+              <td>Revenue Approved Area</td>
+              <td>40ft Main Boulevard</td>
+              <td><span class="highlight-teal">Gas, WAPDA, Water</span></td>
+              <td class="highlight-gold">DPDC & MC Approved</td>
+              <td><a href="/areas/model-town-chichawatni.html" class="table-link">View Profile</a></td>
+            </tr>
+            <tr>
+              <td><strong>Housing Scheme No. 1 & 2</strong></td>
+              <td>Municipal Scheme</td>
+              <td>Railway Station Corridor</td>
+              <td><span class="highlight-teal">Full Municipal Utilities</span></td>
+              <td class="highlight-gold">MC Approved</td>
+              <td><a href="/areas/housing-scheme-chichawatni.html" class="table-link">View Profile</a></td>
+            </tr>
+            <tr>
+              <td><strong>Civil Lines & Canal Colony</strong></td>
+              <td>Chak No. 42/12-L Link</td>
+              <td>Canal Road / College Road</td>
+              <td><span class="highlight-teal">Green Belt Infrastructure</span></td>
+              <td class="highlight-gold">Official Revenue Estate</td>
+              <td><a href="/areas/civil-lines-chichawatni.html" class="table-link">View Profile</a></td>
+            </tr>
+            <tr>
+              <td><strong>Green Town</strong></td>
+              <td>Chak No. 39/12-L</td>
+              <td>Kassowal Road Link</td>
+              <td><span class="highlight-teal">WAPDA, Sanitation</span></td>
+              <td>Revenue Estate</td>
+              <td><span class="highlight-teal">Active Area</span></td>
+            </tr>
+            <tr>
+              <td><strong>Satellite Town</strong></td>
+              <td>Chak No. 39/12-L</td>
+              <td>Sahiwal Link Corridor</td>
+              <td><span class="highlight-teal">WAPDA, Water</span></td>
+              <td>Revenue Area</td>
+              <td><span class="highlight-teal">Active Area</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="guide-cta-banner">
+      <h3 class="cta-title">Need Guidance on Colonies or Societies?</h3>
+      <p class="cta-subtitle">Talk with Naeem Siddhu before booking plots or purchasing houses in any colony in Chichawatni.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Consultation</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .guide-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .guide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .guide-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .guide-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 780px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+  }
+  .types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    text-align: left;
+  }
+  .type-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .type-card i {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+  .type-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .type-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .data-table th, .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .data-table th {
+    color: var(--accent-gold);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-table td {
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .table-link {
+    color: var(--accent-gold-light);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  .guide-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

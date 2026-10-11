@@ -1,0 +1,442 @@
+---
+import { business } from '@/data/business';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+---
+
+<header id="siteHeader" class="site-header">
+  <div class="container header-container">
+    <!-- Brand Logo Lockup -->
+    <a href="/" class="header-logo" aria-label="SIDDHU Property Advisor Home">
+      <div class="logo-crest">
+        <img src="/assets/images/siddhu-logo-new.jpg" alt="SIDDHU Logo" width="38" height="38" />
+      </div>
+      <div class="logo-text">
+        <span class="logo-brand">SIDDHU <span class="highlight-gold">PROPERTY</span></span>
+        <span class="logo-sub">REAL ESTATE ADVISOR</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="desktop-nav" aria-label="Main Navigation">
+      <ul class="nav-list">
+        <li>
+          <a href="/" class:list={['nav-link', { active: currentPath === '/' }]}>Home</a>
+        </li>
+        <li>
+          <a href="/#properties" class="nav-link">Properties</a>
+        </li>
+        <li>
+          <a href="/#areas" class="nav-link">Market Map</a>
+        </li>
+
+        <!-- City & Guides Dropdown -->
+        <li class="nav-dropdown-wrapper">
+          <a href="/chichawatni-city-guide.html" class="nav-link dropdown-trigger">
+            <span>City & Guides</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/chichawatni-city-guide.html"><i class="fa-solid fa-city highlight-gold"></i> City Overview</a></li>
+            <li><a href="/chichawatni-residential-colonies-guide.html"><i class="fa-solid fa-house-chimney highlight-teal"></i> Residential Colonies</a></li>
+            <li><a href="/chichawatni-land-records-plra-guide.html"><i class="fa-solid fa-file-signature highlight-gold"></i> PLRA & Land Records</a></li>
+            <li><a href="/fbr-property-valuation-chichawatni.html"><i class="fa-solid fa-calculator highlight-teal"></i> FBR Property Valuation</a></li>
+            <li><a href="/property-buying-guide.html"><i class="fa-solid fa-shield-halved highlight-gold"></i> Buying Guide</a></li>
+            <li><a href="/chichawatni-overseas-investor-guide.html"><i class="fa-solid fa-plane-departure highlight-teal"></i> Overseas Investor Guide</a></li>
+            <li><a href="/chichawatni-commercial-property-guide.html"><i class="fa-solid fa-building highlight-gold"></i> Commercial Property</a></li>
+            <li><a href="/chichawatni-history-heritage.html"><i class="fa-solid fa-landmark highlight-teal"></i> History & 1913 Forest</a></li>
+            <li><a href="/chichawatni-hospitals-guide.html"><i class="fa-solid fa-hospital highlight-gold"></i> Hospitals & Clinics</a></li>
+            <li><a href="/chichawatni-schools-guide.html"><i class="fa-solid fa-graduation-cap highlight-teal"></i> Schools & Colleges</a></li>
+            <li><a href="/chichawatni-markets-guide.html"><i class="fa-solid fa-store highlight-gold"></i> Markets & Bazaars</a></li>
+            <li><a href="/chichawatni-roads-guide.html"><i class="fa-solid fa-road highlight-teal"></i> Roads & Highways</a></li>
+            <li><a href="/chichawatni-public-offices.html"><i class="fa-solid fa-building-columns highlight-gold"></i> Government Offices</a></li>
+            <li><a href="/chichawatni-city-facts.html"><i class="fa-solid fa-book-open highlight-teal"></i> City Encyclopedia</a></li>
+          </ul>
+        </li>
+
+        <!-- Property Blog Dropdown -->
+        <li class="nav-dropdown-wrapper">
+          <a href="/blog/index.html" class="nav-link dropdown-trigger">
+            <span>Property Blog</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/blog/index.html"><i class="fa-solid fa-newspaper highlight-gold"></i> All Articles</a></li>
+            <li><a href="/blog/index.html?category=buying"><i class="fa-solid fa-house-circle-check highlight-teal"></i> Buying Guides</a></li>
+            <li><a href="/blog/index.html?category=selling"><i class="fa-solid fa-tags highlight-gold"></i> Selling Guides</a></li>
+            <li><a href="/blog/index.html?category=records"><i class="fa-solid fa-file-shield highlight-teal"></i> Property Records</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/#contact" class="nav-link">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <a href="tel:+923063996764" class="header-call-btn" aria-label="Call Naeem Siddhu">
+        <i class="fa-solid fa-phone"></i>
+        <span class="call-text">{business.phoneFormatted}</span>
+      </a>
+
+      <a href="/sell-my-property/index.html" class="btn-primary list-property-btn">
+        <i class="fa-solid fa-plus"></i>
+        <span>List Property</span>
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuToggle" class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <i class="fa-solid fa-bars" id="menuBarsIcon"></i>
+        <i class="fa-solid fa-xmark" id="menuCloseIcon" style="display: none;"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobileDrawer" class="mobile-drawer" aria-hidden="true">
+    <div class="drawer-inner container">
+      <ul class="mobile-nav-list">
+        <li><a href="/" class="mobile-nav-link">Home</a></li>
+        <li><a href="/#properties" class="mobile-nav-link">Properties</a></li>
+        <li><a href="/#areas" class="mobile-nav-link">Market Map</a></li>
+        <li><a href="/chichawatni-city-guide.html" class="mobile-nav-link">City & Guides</a></li>
+        <li><a href="/chichawatni-land-records-plra-guide.html" class="mobile-nav-link">PLRA & Land Records</a></li>
+        <li><a href="/fbr-property-valuation-chichawatni.html" class="mobile-nav-link">FBR Property Valuation</a></li>
+        <li><a href="/property-buying-guide.html" class="mobile-nav-link">Buying Guide</a></li>
+        <li><a href="/chichawatni-overseas-investor-guide.html" class="mobile-nav-link">Overseas Investor Guide</a></li>
+        <li><a href="/blog/index.html" class="mobile-nav-link">Property Blog</a></li>
+        <li><a href="/#contact" class="mobile-nav-link">Contact Us</a></li>
+      </ul>
+      <div class="mobile-drawer-footer">
+        <a href="/sell-my-property/index.html" class="btn-primary" style="width: 100%; margin-bottom: 12px;">
+          <i class="fa-solid fa-plus"></i> List Your Property
+        </a>
+        <a href="tel:+923063996764" class="btn-whatsapp" style="width: 100%;">
+          <i class="fa-solid fa-phone"></i> Call Naeem Siddhu: {business.phoneFormatted}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(13, 23, 35, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-subtle);
+    transition: transform 0.35s ease, background 0.35s ease, padding 0.35s ease;
+    padding: 16px 0;
+  }
+
+  .site-header.header-shrunk {
+    padding: 10px 0;
+    background: rgba(13, 23, 35, 0.98);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border-bottom-color: rgba(184, 138, 59, 0.2);
+  }
+
+  .site-header.header-hidden {
+    transform: translateY(-100%);
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  /* Logo */
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .logo-crest {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-card);
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-crest img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-brand {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+  }
+
+  .logo-sub {
+    font-size: 0.62rem;
+    letter-spacing: 1.8px;
+    color: var(--accent-gold);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* Desktop Nav */
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-link {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    position: relative;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: var(--text-primary);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-gold);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+  }
+
+  /* Dropdown Menus */
+  .nav-dropdown-wrapper {
+    position: relative;
+  }
+
+  .dropdown-arrow {
+    font-size: 0.65rem;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-dropdown-wrapper:hover .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    opacity: 0;
+    visibility: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-elevated);
+    padding: 10px 0;
+    min-width: 250px;
+    list-style: none;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    z-index: 100;
+  }
+
+  .nav-dropdown-wrapper:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .dropdown-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .dropdown-menu li a:hover {
+    background: rgba(184, 138, 59, 0.1);
+    color: var(--text-primary);
+  }
+
+  /* Header Actions */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-call-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: var(--radius-control);
+    border: 1px solid transparent;
+  }
+
+  .header-call-btn i {
+    color: var(--accent-gold);
+  }
+
+  .header-call-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-subtle);
+  }
+
+  .list-property-btn {
+    padding: 9px 20px;
+    font-size: 0.88rem;
+  }
+
+  .mobile-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-control);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
+
+  /* Mobile Drawer */
+  .mobile-drawer {
+    display: none;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-glass);
+    padding: 24px 0;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  .mobile-drawer.open {
+    display: block;
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .mobile-nav-link {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: block;
+    padding: 6px 0;
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--accent-gold-light);
+  }
+
+  @media (max-width: 1024px) {
+    .desktop-nav, .header-call-btn {
+      display: none;
+    }
+
+    .mobile-toggle {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  // Shrinking & smart hide/reveal header script (Performance-friendly requestAnimationFrame)
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+  const header = document.getElementById('siteHeader');
+  const toggleBtn = document.getElementById('mobileMenuToggle');
+  const drawer = document.getElementById('mobileDrawer');
+  const menuBars = document.getElementById('menuBarsIcon');
+  const menuClose = document.getElementById('menuCloseIcon');
+
+  function updateHeader() {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > 60) {
+      header?.classList.add('header-shrunk');
+    } else {
+      header?.classList.remove('header-shrunk');
+    }
+
+    if (currentScrollY > 200 && currentScrollY > lastScrollY && !drawer?.classList.contains('open')) {
+      // Scrolling down -> hide header
+      header?.classList.add('header-hidden');
+    } else {
+      // Scrolling up or at top -> reveal header smoothly
+      header?.classList.remove('header-hidden');
+    }
+
+    lastScrollY = currentScrollY;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateHeader);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Mobile menu toggle
+  toggleBtn?.addEventListener('click', () => {
+    const isOpen = drawer?.classList.toggle('open');
+    toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (menuBars && menuClose) {
+      menuBars.style.display = isOpen ? 'none' : 'block';
+      menuClose.style.display = isOpen ? 'block' : 'none';
+    }
+  });
+</script>

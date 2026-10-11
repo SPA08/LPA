@@ -1,0 +1,154 @@
+---
+import { services } from '@/data/services';
+---
+
+<section id="services" class="services-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <i class="fa-solid fa-compass highlight-gold"></i>
+        <span>PROFESSIONAL FACILITATION</span>
+      </span>
+      <h2>
+        Advisory & <span class="editorial-italic highlight-gold">Client Services</span>
+      </h2>
+      <p>
+        From your very first market query to the final computerized registry and key handover, Naeem Siddhu personally guides every step.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      {services.map(svc => (
+        <div class="service-card v4-card">
+          <div class="svc-icon-box">
+            <i class={svc.icon}></i>
+          </div>
+          <span class="svc-badge">{svc.badge}</span>
+          <h3 class="svc-title">{svc.title}</h3>
+          <p class="svc-summary">{svc.summary}</p>
+          <ul class="svc-deliverables">
+            {svc.deliverables.slice(0, 3).map(d => (
+              <li><i class="fa-solid fa-check highlight-gold"></i> {d}</li>
+            ))}
+          </ul>
+          <div class="svc-footer">
+            <a href={`/services/${svc.slug}.html`} class="svc-link">
+              <span>Read Full Guide</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-section {
+    padding: 90px 0;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .service-card {
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+
+  .svc-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-control);
+    background: rgba(184, 138, 59, 0.12);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+  }
+
+  .svc-badge {
+    font-size: 0.72rem;
+    color: var(--accent-teal-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .svc-title {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+  }
+
+  .svc-summary {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .svc-deliverables {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+    flex-grow: 1;
+  }
+
+  .svc-deliverables li {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+
+  .svc-deliverables li i {
+    margin-top: 3px;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+  }
+
+  .svc-footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .svc-link {
+    font-size: 0.85rem;
+    color: var(--accent-gold-light);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+
+  .svc-link:hover {
+    color: #FFFFFF;
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 1200px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

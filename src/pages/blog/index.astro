@@ -1,0 +1,250 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { blogPosts } from '@/data/blogs';
+
+const pageTitle = "Property Blog & Local Chichawatni Market Guides | SIDDHU Property Advisor";
+const pageDesc = "Read expert articles on 5 Marla and 8 Marla construction costs in Pakistan (2026), PLRA Fard verification, property selling advice, and neighborhood analysis in Chichawatni.";
+
+const categories = ["All", "Buying Guide", "Selling Guide", "Property Records", "Local Areas", "Market Updates"];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <div class="blog-index-page">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">
+          <i class="fa-solid fa-pen-nib highlight-gold"></i>
+          <span>PROPERTY INTELLIGENCE & INSIGHTS</span>
+        </span>
+        <h1>Chichawatni <span class="editorial-italic highlight-gold">Property Blog</span></h1>
+        <p>
+          Authoritative construction cost guides, PLRA legal procedures, market comparisons, and local colony analysis written by Naeem Siddhu.
+        </p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="blog-categories-row">
+        {categories.map((cat, idx) => (
+          <button
+            class:list={['blog-cat-btn', { active: idx === 0 }]}
+            data-cat={cat}
+            onclick="window.filterBlogByCategory(this.getAttribute('data-cat'), this);"
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <!-- Blog Articles Grid -->
+      <div class="blog-cards-grid" id="blogGrid">
+        {blogPosts.map(post => (
+          <article class="blog-card v4-card" data-category={post.category}>
+            <a href={`/blog/${post.slug}.html`} class="blog-thumb-link">
+              <img src={post.thumbnail} alt={post.title} loading="lazy" class="blog-thumb-img" />
+              <span class="blog-badge">{post.category}</span>
+            </a>
+            <div class="blog-body">
+              <div class="blog-meta">
+                <span><i class="fa-solid fa-calendar highlight-gold"></i> {post.date}</span>
+                <span><i class="fa-solid fa-user highlight-teal"></i> {post.author}</span>
+                <span><i class="fa-solid fa-clock"></i> {post.readTime}</span>
+              </div>
+              <h3 class="blog-title">
+                <a href={`/blog/${post.slug}.html`}>{post.title}</a>
+              </h3>
+              <p class="blog-excerpt">{post.excerpt}</p>
+              <div class="blog-footer">
+                <a href={`/blog/${post.slug}.html`} class="read-more-link">
+                  <span>Read Full Article</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  window.filterBlogByCategory = function(category, btn) {
+    document.querySelectorAll('.blog-cat-btn').forEach(b => b.classList.remove('active'));
+    btn?.classList.add('active');
+
+    const cards = document.querySelectorAll('#blogGrid .blog-card');
+    cards.forEach(card => {
+      const cardCat = card.getAttribute('data-category');
+      if (category === 'All' || cardCat === category) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  };
+
+  // Check URL params on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category');
+    if (cat) {
+      let targetCat = 'All';
+      if (cat.toLowerCase() === 'buying') targetCat = 'Buying Guide';
+      if (cat.toLowerCase() === 'selling') targetCat = 'Selling Guide';
+      if (cat.toLowerCase() === 'records') targetCat = 'Property Records';
+
+      const btn = document.querySelector(`.blog-cat-btn[data-cat="${targetCat}"]`);
+      if (btn) window.filterBlogByCategory(targetCat, btn);
+    }
+  });
+</script>
+
+<style>
+  .blog-index-page {
+    padding: 40px 0 90px;
+    background: var(--bg-main);
+  }
+
+  .blog-categories-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .blog-cat-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .blog-cat-btn:hover, .blog-cat-btn.active {
+    background: var(--accent-gold);
+    color: #0D1723;
+    border-color: var(--accent-gold);
+    font-weight: 600;
+  }
+
+  .blog-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .blog-thumb-link {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    background: #000;
+    overflow: hidden;
+    display: block;
+  }
+
+  .blog-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .blog-card:hover .blog-thumb-img {
+    transform: scale(1.05);
+  }
+
+  .blog-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(13, 23, 35, 0.9);
+    border: 1px solid var(--border-glass);
+    color: var(--accent-gold-light);
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(8px);
+  }
+
+  .blog-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+  }
+
+  .blog-meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .blog-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .blog-title {
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
+
+  .blog-title a:hover {
+    color: var(--accent-gold-light);
+  }
+
+  .blog-excerpt {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    flex-grow: 1;
+  }
+
+  .blog-footer {
+    padding-top: 14px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .read-more-link {
+    font-size: 0.86rem;
+    color: var(--accent-gold-light);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+  }
+
+  .read-more-link:hover {
+    color: #FFFFFF;
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 1024px) {
+    .blog-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .blog-cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

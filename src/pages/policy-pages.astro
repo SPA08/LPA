@@ -1,0 +1,179 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Policy Pages', url: '/policy-pages.html' }
+];
+---
+
+<BaseLayout
+  title="Official Policies & Consumer Protection | SIDDHU Property Advisor"
+  description="Privacy Policy, Terms & Conditions, Disclaimer, Cookie Policy, AML/KYC notice, and Property Verification policies for SIDDHU Property Advisor Chichawatni."
+  canonical="https://siddhupropertyadvisor.com/policy-pages.html"
+>
+  <div class="container policy-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="policy-header-card">
+      <div class="policy-badge">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <span>Consumer Protection & Transparency</span>
+      </div>
+      <h1 class="policy-title">Official Policies & Guidelines</h1>
+      <p class="policy-subtitle">
+        Transparent terms, client privacy protection, and regulatory guidelines for real estate advisory in Chichawatni.
+      </p>
+    </header>
+
+    <div class="policy-card">
+      <section class="policy-section" id="privacy-policy">
+        <h2 class="section-title">1. Privacy Policy</h2>
+        <p class="section-text">
+          We value your privacy. Any personal information you provide to Siddhu Property Advisor, including contact details and property requirements, is kept strictly confidential and used solely for the purpose of assisting you with real estate transactions in Chichawatni. We never sell or share private client information with third-party telemarketers.
+        </p>
+      </section>
+
+      <section class="policy-section" id="terms-conditions">
+        <h2 class="section-title">2. Terms & Conditions</h2>
+        <p class="section-text">
+          By engaging with Siddhu Property Advisor, you agree to our terms of service. We provide advisory and brokerage services, connecting buyers with sellers. We act as intermediaries and advisors; however, final legal obligations rest with the contracting parties involved in the transaction. All agreements must be executed on official Punjab judicial stamp paper.
+        </p>
+      </section>
+
+      <section class="policy-section" id="disclaimer">
+        <h2 class="section-title">3. Disclaimer</h2>
+        <p class="section-text">
+          All property information is provided based on data from owners and physical site verifications. While we strive for rigorous accuracy, SIDDHU Property Advisor makes no absolute warranties regarding changing municipal boundaries or unannounced fiscal policy shifts. Independent buyer verification prior to monetary exchange is always conducted.
+        </p>
+      </section>
+
+      <section class="policy-section" id="property-verification">
+        <h2 class="section-title">4. Property Verification Policy</h2>
+        <p class="section-text">
+          We strongly advise and assist all buyers to independently verify property ownership (Fard Malkiat) through the Punjab Land Records Authority (PLRA) Arazi Record Center Chichawatni or the respective housing society office prior to finalizing any financial transaction.
+        </p>
+      </section>
+
+      <section class="policy-section" id="listing-information">
+        <h2 class="section-title">5. Listing Information Policy</h2>
+        <p class="section-text">
+          Property prices and availability in Chichawatni are subject to owner negotiations and market dynamics. Listings on our website or social media channels represent verified current inventory at publication and do not constitute an irrevocable binding offer.
+        </p>
+      </section>
+
+      <section class="policy-section" id="information-verification">
+        <h2 class="section-title">6. Information Verification Policy</h2>
+        <p class="section-text">
+          We conduct physical site inspections of properties we list to check structure, utilities, and road width. Buyers receive accompanied access to verify exact boundary lines (Nishan-Dahi) and utility accounts (MEPCO / SNGPL) before deed signature.
+        </p>
+      </section>
+
+      <section class="policy-section" id="aml-kyc">
+        <h2 class="section-title">7. AML / KYC Compliance Notice</h2>
+        <p class="section-text">
+          In compliance with national regulatory guidelines, we require valid National Identity Cards (CNIC) from both buyers and sellers to prevent fraud and ensure transparent records. We do not claim government certifications unless explicitly documented.
+        </p>
+      </section>
+
+      <section class="policy-section" id="cookie-policy">
+        <h2 class="section-title">8. Cookie Policy</h2>
+        <p class="section-text">
+          Our website uses only essential browser storage and lightweight session cookies to maintain filter preferences and ensure rapid page loading. No invasive advertising tracking cookies are deployed.
+        </p>
+      </section>
+
+      <section class="policy-section" id="complaints-contact">
+        <h2 class="section-title">9. Complaints & Official Contact</h2>
+        <p class="section-text">
+          For any questions, concerns, or documentation inquiries, please contact Naeem Siddhu directly:
+        </p>
+        <ul class="contact-list">
+          <li><strong>Phone:</strong> {business.phone}</li>
+          <li><strong>Email:</strong> {business.email}</li>
+          <li><strong>Office Address:</strong> {business.address.street}, {business.address.city}, {business.address.postalCode}</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+    max-width: 900px;
+  }
+  .policy-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .policy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .policy-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .policy-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .policy-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.5rem;
+  }
+  .policy-section {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .policy-section:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+  .section-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .section-text {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+  .contact-list {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 0.75rem 0 0;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+</style>

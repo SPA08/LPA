@@ -1,0 +1,236 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'City & Guides', url: '/chichawatni-city-guide.html' },
+  { name: 'History & Heritage', url: '/chichawatni-history-heritage.html' }
+];
+---
+
+<BaseLayout
+  title="History & Heritage of Chichawatni | 1913 Forest & Canal Colony"
+  description="Historical origin, the 1913 artificial forest reserve, British canal colony urban planning, and historic evolution of Tehsil Chichawatni in Sahiwal District."
+  canonical="https://siddhupropertyadvisor.com/chichawatni-history-heritage.html"
+>
+  <div class="container guide-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="guide-header-card">
+      <div class="guide-badge">
+        <i class="fa-solid fa-landmark"></i>
+        <span>Dedicated Historical Document</span>
+      </div>
+      <h1 class="guide-title">History & Heritage of Chichawatni</h1>
+      <p class="guide-subtitle">
+        The origin, 1913 artificial forest plantation, British canal colony urban planning, and historic evolution of Tehsil Chichawatni in Sahiwal District.
+      </p>
+    </header>
+
+    <!-- Part 1: Origins -->
+    <section class="content-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Part 1: Origins & Name</span>
+      </div>
+      <h2 class="section-heading">The Origins & Name of Chichawatni (وجود اور وجہ تسمیہ)</h2>
+      <p class="section-text">
+        Chichawatni derives its historical name from the ancient Punjabi <strong>Chhachhar tribe</strong> and their traditional settlement village known as <em>Watni</em> (وٹنی). Before the British canal colony era, the region was an expanse of native scrubland along the Ravi river basin.
+      </p>
+      <p class="section-text">
+        With the arrival of North Western Railway line in the late 19th century, Chichawatni emerged as a crucial railway station on the Karachi–Lahore–Peshawar ML-1 rail corridor, laying the foundation for modern urban expansion.
+      </p>
+    </section>
+
+    <!-- Part 2: 1913 Forest -->
+    <section class="content-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-tree"></i>
+        <span>Part 2: The 1913 Forest</span>
+      </div>
+      <h2 class="section-heading">The Historic Chichawatni Forest (چیچہ وطنی کا تاریخی جنگل)</h2>
+      <p class="section-text">
+        Established in <strong>1913</strong> by British forest conservationists, the <strong>Chichawatni Forest Reserve</strong> is the second-largest irrigated artificial forest in Pakistan (after Changa Manga), spanning over <strong>9,000 acres (3,600+ hectares)</strong> along Grand Trunk Road (N-5).
+      </p>
+
+      <div class="forest-grid">
+        <div class="forest-card">
+          <i class="fa-solid fa-train highlight-gold"></i>
+          <h3 class="forest-title">Steam Locomotive Fuel Purpose</h3>
+          <p class="forest-desc">The forest was originally planted to produce firewood and timber for fueling North Western Railway steam locomotives and local agriculture.</p>
+        </div>
+        <div class="forest-card">
+          <i class="fa-solid fa-leaf highlight-teal"></i>
+          <h3 class="forest-title">Ecological Green Lung</h3>
+          <p class="forest-desc">Home to native Shisham (Dalbergia sissoo), Kikar (Acacia nilotica), Eucalyptus, wild deer, game birds, and natural biodiversity.</p>
+        </div>
+        <div class="forest-card">
+          <i class="fa-solid fa-water highlight-gold"></i>
+          <h3 class="forest-title">Irrigated by LBDC Canal System</h3>
+          <p class="forest-desc">Fed directly by dedicated irrigation channels from the Lower Bari Doab Canal (LBDC) network.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part 3: Urban Layout -->
+    <section class="content-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-compass-drafting"></i>
+        <span>Part 3: Canal Colony Planning</span>
+      </div>
+      <h2 class="section-heading">British Canal Colony Urban Layout & 12 Bazaars</h2>
+      <p class="section-text">
+        Between 1912 and 1916, British urban planners laid out Chichawatni as a master-planned <strong>Canal Colony Town</strong>. The town center was built in a radial grid surrounding Circular Road with 12 numbered bazaars (Bazar No. 1 to 12) radiating outwards.
+      </p>
+      <p class="section-text">
+        This heritage geometric grid remains the core market footprint today, making Chichawatni one of the most logically structured tehsil headquarters in Punjab.
+      </p>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="guide-cta-banner">
+      <h3 class="cta-title">Proud of Our Heritage & Built on Trust</h3>
+      <p class="cta-subtitle">SIDDHU Property Advisor carries deep generational roots in Chichawatni. Reach out for verified property advice.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href="/chichawatni-city-facts.html" class="btn-secondary">
+          <i class="fa-solid fa-book-open"></i>
+          <span>Explore City Encyclopedia</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .guide-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .guide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .guide-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .guide-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 780px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1rem;
+  }
+  .section-text {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin: 0 0 1rem;
+  }
+  .section-text:last-child {
+    margin-bottom: 0;
+  }
+  .forest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .forest-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .forest-card i {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+  .forest-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .forest-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .guide-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

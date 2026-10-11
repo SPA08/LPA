@@ -1,0 +1,244 @@
+---
+import { reviews } from '@/data/reviews';
+import { business } from '@/data/business';
+---
+
+<section id="reviews" class="reviews-section">
+  <div class="container">
+    <!-- Google Business Profile Verified Snapshot -->
+    <div class="gbp-verified-badge-card glass-panel">
+      <div class="gbp-label">
+        <i class="fa-brands fa-google highlight-gold"></i>
+        <span>GOOGLE BUSINESS PROFILE</span>
+      </div>
+      <h3 class="gbp-name">{business.name}</h3>
+      <div class="gbp-rating-row">
+        <div class="gbp-stars">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <strong class="gbp-score">5.0</strong>
+        <span class="gbp-count">Based on 5 Google reviews</span>
+      </div>
+      <p class="gbp-address">
+        {business.address.street}, {business.address.locality}, {business.address.city} 57200, Pakistan
+      </p>
+      <div class="gbp-action">
+        <a href={business.googleBusinessProfileUrl} target="_blank" rel="noopener" class="btn-primary" style="padding: 9px 22px; font-size: 0.88rem;">
+          <i class="fa-brands fa-google"></i> View on Google Maps
+        </a>
+      </div>
+    </div>
+
+    <!-- Section Header -->
+    <div class="section-header" style="margin-top: 60px;">
+      <span class="section-badge">
+        <i class="fa-solid fa-quote-left highlight-gold"></i>
+        <span>CLIENT FEEDBACK</span>
+      </span>
+      <h2>
+        What Clients Say About <span class="editorial-italic highlight-gold">Naeem Siddhu</span>
+      </h2>
+      <p>
+        Genuine feedback from home buyers and property owners in Chichawatni.
+      </p>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="reviews-grid">
+      {reviews.map(rev => (
+        <div class="review-card v4-card">
+          <div class="rev-header">
+            <div class="rev-stars">
+              {Array.from({ length: rev.rating }).map(() => (
+                <i class="fa-solid fa-star highlight-gold"></i>
+              ))}
+            </div>
+            <span class="rev-source-pill">
+              <i class={rev.source === 'Google Business Profile' ? 'fa-brands fa-google' : 'fa-solid fa-user-check'}></i>
+              {rev.source}
+            </span>
+          </div>
+
+          <p class="rev-quote">"{rev.text}"</p>
+
+          <div class="rev-author-row">
+            <div class="rev-avatar" style={`background: ${rev.avatarBg};`}>
+              {rev.avatarInitial}
+            </div>
+            <div class="rev-meta">
+              <strong class="rev-name">{rev.author}</strong>
+              <span class="rev-location">{rev.location}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews-section {
+    padding: 90px 0;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .gbp-verified-badge-card {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 36px 30px;
+    text-align: center;
+    border: 1px solid var(--border-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .gbp-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .gbp-name {
+    font-size: 1.6rem;
+    color: var(--text-primary);
+  }
+
+  .gbp-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .gbp-stars {
+    color: var(--accent-gold);
+    font-size: 1.15rem;
+    display: flex;
+    gap: 2px;
+  }
+
+  .gbp-score {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+  }
+
+  .gbp-count {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+
+  .gbp-address {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .gbp-action {
+    margin-top: 6px;
+  }
+
+  /* Reviews Grid */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .review-card {
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rev-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .rev-stars {
+    font-size: 0.95rem;
+    display: flex;
+    gap: 2px;
+  }
+
+  .rev-source-pill {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .rev-quote {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    font-style: italic;
+    flex-grow: 1;
+  }
+
+  .rev-author-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .rev-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rev-meta {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+  }
+
+  .rev-name {
+    color: var(--text-primary);
+  }
+
+  .rev-location {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .reviews-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .reviews-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

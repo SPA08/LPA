@@ -1,0 +1,245 @@
+---
+import { business } from '@/data/business';
+---
+
+<section id="consultant" class="consultant-section">
+  <div class="container">
+    <div class="consultant-card glass-panel">
+      <!-- Left Photo Frame with Real Photo -->
+      <div class="consultant-media">
+        <div class="photo-frame">
+          <img
+            src="/assets/images/ceo-naseem-siddhu.jpg"
+            alt="Naeem Siddhu - Real Estate Consultant in Chichawatni"
+            loading="lazy"
+            class="consultant-img"
+          />
+          <div class="photo-crest-badge">
+            <i class="fa-solid fa-shield-halved highlight-gold"></i>
+          </div>
+        </div>
+        <div class="consultant-badge-bar">
+          <strong>{business.advisor}</strong>
+          <span>{business.role}</span>
+        </div>
+      </div>
+
+      <!-- Right Editorial Bio & Direct Contact -->
+      <div class="consultant-bio-content">
+        <span class="section-badge">
+          <i class="fa-solid fa-user-check highlight-gold"></i>
+          <span>PERSONAL PROPERTY COUNSEL</span>
+        </span>
+
+        <h2>
+          Meet <span class="highlight-gold">{business.advisor}</span>
+        </h2>
+
+        <p class="lead-quote">
+          "Buying or selling a house is one of the most important financial decisions a family will ever make. It is not just about square feet—it is about clear land titles, sound masonry, street access, and peace of mind."
+        </p>
+
+        <p class="body-text">
+          As a dedicated local advisor based in Hayat Abad, Chichawatni, Naeem Siddhu personally investigates every listed property. Whether inspecting damp-proof courses in newly built houses, verifying computerized Fard Malkiat at the Arazi Record Center, or coordinating direct meetings between buyers and sellers, Naeem guarantees absolute transparency with zero artificial commission layering.
+        </p>
+
+        <div class="consultant-features-grid">
+          <div class="feat-box">
+            <i class="fa-solid fa-map-pin highlight-gold"></i>
+            <div>
+              <strong>On-Ground Specialist</strong>
+              <span>Street-level Chichawatni experience</span>
+            </div>
+          </div>
+          <div class="feat-box">
+            <i class="fa-solid fa-file-contract highlight-teal"></i>
+            <div>
+              <strong>PLRA Due Diligence</strong>
+              <span>Computerized title & register verification</span>
+            </div>
+          </div>
+          <div class="feat-box">
+            <i class="fa-solid fa-video highlight-gold"></i>
+            <div>
+              <strong>Overseas Video Viewings</strong>
+              <span>Live walk-throughs for expat buyers</span>
+            </div>
+          </div>
+          <div class="feat-box">
+            <i class="fa-solid fa-handshake-angle highlight-teal"></i>
+            <div>
+              <strong>Direct Seller Meetings</strong>
+              <span>Zero hidden dealer markups</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="consultant-actions">
+          <a href={`tel:${business.phone}`} class="btn-primary">
+            <i class="fa-solid fa-phone"></i>
+            <span>Call Naeem: {business.phoneFormatted}</span>
+          </a>
+          <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>WhatsApp Direct</span>
+          </a>
+          <a href={business.facebookUrl} target="_blank" rel="noopener" class="btn-outline" aria-label="Official Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .consultant-section {
+    padding: 90px 0;
+    background: var(--bg-main);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .consultant-card {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 50px;
+    padding: 48px;
+    border: 1px solid var(--border-card);
+    align-items: center;
+  }
+
+  .consultant-media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .photo-frame {
+    position: relative;
+    width: 280px;
+    height: 340px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 2px solid var(--accent-gold);
+    box-shadow: var(--shadow-elevated), var(--gold-glow);
+  }
+
+  .consultant-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .photo-crest-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(13, 23, 35, 0.9);
+    border: 1px solid var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .consultant-badge-bar {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .consultant-badge-bar strong {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+  }
+
+  .consultant-badge-bar span {
+    font-size: 0.85rem;
+    color: var(--accent-gold-light);
+  }
+
+  /* Bio Content */
+  .consultant-bio-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .lead-quote {
+    font-size: 1.08rem;
+    line-height: 1.6;
+    color: var(--accent-gold-light);
+    font-style: italic;
+    border-left: 3px solid var(--accent-gold);
+    padding-left: 16px;
+    margin: 6px 0;
+  }
+
+  .body-text {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  .consultant-features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 12px 0;
+  }
+
+  .feat-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(13, 23, 35, 0.6);
+    border: 1px solid var(--border-subtle);
+    padding: 12px 16px;
+    border-radius: var(--radius-control);
+  }
+
+  .feat-box i {
+    font-size: 1.2rem;
+    margin-top: 2px;
+  }
+
+  .feat-box div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feat-box strong {
+    font-size: 0.88rem;
+    color: var(--text-primary);
+  }
+
+  .feat-box span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .consultant-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 992px) {
+    .consultant-card {
+      grid-template-columns: 1fr;
+      padding: 32px 24px;
+      gap: 32px;
+    }
+
+    .consultant-features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,293 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { localities } from '@/data/locations';
+import { business } from '@/data/business';
+
+const pageTitle = "Chichawatni Property & Locality Directory | SIDDHU Property Advisor";
+const pageDesc = "Comprehensive directory of residential colonies, housing schemes, road networks, government revenue offices, and public facilities across Tehsil Chichawatni.";
+
+const categories = [
+  "All",
+  "Residential Locality",
+  "Road & Highway",
+  "Government & Revenue Office",
+  "Emergency & Healthcare",
+  "Education & Landmark"
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <div class="directory-page">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">
+          <i class="fa-solid fa-book-atlas highlight-gold"></i>
+          <span>COMPREHENSIVE KNOWLEDGE BASE</span>
+        </span>
+        <h1>Chichawatni <span class="editorial-italic highlight-gold">Property Directory</span></h1>
+        <p>
+          Verified directory of residential colonies, roads, government offices, emergency healthcare, and land registration centers in Tehsil Chichawatni.
+        </p>
+      </div>
+
+      <!-- Search & Category Filters -->
+      <div class="directory-controls-bar glass-panel">
+        <div class="search-input-wrap">
+          <i class="fa-solid fa-magnifying-glass search-icon highlight-gold"></i>
+          <input
+            type="text"
+            id="directorySearch"
+            placeholder="Search colony, road, hospital, or revenue office..."
+            class="dir-search-input"
+            oninput="window.filterDirectory(this.value);"
+          />
+        </div>
+
+        <div class="dir-category-filters">
+          {categories.map((cat, idx) => (
+            <button
+              class:list={['dir-cat-pill', { active: idx === 0 }]}
+              data-cat={cat}
+              onclick="window.selectDirCategory(this.getAttribute('data-cat'), this);"
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Directory Cards Grid -->
+      <div class="directory-cards-grid" id="directoryCardsGrid">
+        {localities.map(loc => (
+          <div class="dir-item-card v4-card" data-category={loc.category} data-name={loc.name}>
+            <div class="dir-card-top">
+              <span class:list={['dir-status-tag', { 'verified': loc.statusBadge === 'Verified' }]}>
+                {loc.statusBadge}
+              </span>
+              <span class="dir-chak-tag">{loc.parentChak || 'Tehsil Chichawatni'}</span>
+            </div>
+
+            <h3 class="dir-item-title">{loc.name}</h3>
+            <span class="dir-item-cat"><i class="fa-solid fa-layer-group highlight-gold"></i> {loc.category}</span>
+
+            <p class="dir-item-desc">{loc.description}</p>
+
+            <div class="dir-legal-snippet">
+              <strong>Status:</strong> {loc.legalStatus}
+            </div>
+
+            <div class="dir-card-footer">
+              <span class="dir-coord-hint">
+                <i class="fa-solid fa-location-crosshairs highlight-teal"></i> {loc.lat.toFixed(4)}, {loc.lng.toFixed(4)}
+              </span>
+              <a href="tel:+923063996764" class="btn-outline" style="padding: 6px 14px; font-size: 0.8rem;">
+                <i class="fa-solid fa-phone"></i> Inquire
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  let activeDirCat = 'All';
+
+  window.selectDirCategory = function(cat, btn) {
+    activeDirCat = cat;
+    document.querySelectorAll('.dir-cat-pill').forEach(b => b.classList.remove('active'));
+    btn?.classList.add('active');
+    applyDirFilters();
+  };
+
+  window.filterDirectory = function() {
+    applyDirFilters();
+  };
+
+  function applyDirFilters() {
+    const searchVal = document.getElementById('directorySearch')?.value.toLowerCase().trim() || '';
+    const cards = document.querySelectorAll('#directoryCardsGrid .dir-item-card');
+
+    cards.forEach(card => {
+      const cat = card.getAttribute('data-category') || '';
+      const name = card.getAttribute('data-name')?.toLowerCase() || '';
+
+      const matchCat = (activeDirCat === 'All') || (cat === activeDirCat);
+      const matchSearch = !searchVal || name.includes(searchVal);
+
+      if (matchCat && matchSearch) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+<style>
+  .directory-page {
+    padding: 40px 0 90px;
+    background: var(--bg-main);
+  }
+
+  .directory-controls-bar {
+    padding: 24px;
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid var(--border-card);
+  }
+
+  .search-input-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .dir-search-input {
+    width: 100%;
+    background: #0D1723;
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 14px 16px 14px 44px;
+    border-radius: var(--radius-control);
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+
+  .dir-search-input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(184, 138, 59, 0.15);
+  }
+
+  .dir-category-filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .dir-cat-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.82rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+  }
+
+  .dir-cat-pill:hover, .dir-cat-pill.active {
+    background: var(--accent-gold);
+    color: #0D1723;
+    border-color: var(--accent-gold);
+    font-weight: 600;
+  }
+
+  .directory-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .dir-item-card {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dir-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dir-status-tag {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+  }
+
+  .dir-status-tag.verified {
+    background: rgba(90, 148, 141, 0.2);
+    color: var(--accent-teal-light);
+    font-weight: 600;
+  }
+
+  .dir-chak-tag {
+    font-size: 0.75rem;
+    color: var(--accent-gold);
+  }
+
+  .dir-item-title {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+  }
+
+  .dir-item-cat {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dir-item-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .dir-legal-snippet {
+    background: rgba(13, 23, 35, 0.5);
+    border-left: 2px solid var(--accent-gold);
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .dir-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .dir-coord-hint {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  @media (max-width: 1024px) {
+    .directory-cards-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .directory-cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

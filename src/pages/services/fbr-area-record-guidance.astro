@@ -1,0 +1,215 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Services', url: '/#services' },
+  { name: 'FBR Area Record Guidance', url: '/services/fbr-area-record-guidance.html' }
+];
+---
+
+<BaseLayout
+  title="FBR Area Record Guidance | Tax Evaluation & Revenue Rates Chichawatni"
+  description="Comprehensive tax evaluation, FBR valuation table lookup, and parent Chak revenue classification for residential sectors across Tehsil Chichawatni (Chak 40/12-L & Chak 39/12-L)."
+  canonical="https://siddhupropertyadvisor.com/services/fbr-area-record-guidance.html"
+>
+  <div class="container service-detail-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="service-header-card">
+      <div class="service-badge">
+        <i class="fa-solid fa-calculator"></i>
+        <span>Revenue & Tax Advisory</span>
+      </div>
+      <h1 class="service-title">FBR Area Record Guidance</h1>
+      <p class="service-subtitle">
+        Comprehensive tax evaluation, FBR valuation table lookup, and parent Chak revenue classification for residential sectors across Tehsil Chichawatni (Chak 40/12-L & Chak 39/12-L).
+      </p>
+
+      <div class="quick-stats-grid">
+        <div class="stat-box">
+          <span class="stat-label">Tehsil Unit</span>
+          <span class="stat-value highlight-gold">Tehsil Chichawatni</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Parent Revenue Chaks</span>
+          <span class="stat-value">Chak 40/12-L & 39/12-L</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Filer / Non-Filer Rates</span>
+          <span class="stat-value highlight-teal">Calculated Before Transfer</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="intel-section">
+      <h2 class="section-heading">FBR Revenue Area Breakdown</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Parent Chak</th>
+              <th>Verified Residential Schemes Included</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chak 40/12-L</strong></td>
+              <td>Hayat Abad, Model Town, Housing Colony, Civil Line, Ahmad Nagar, Darvesh Pura.</td>
+            </tr>
+            <tr>
+              <td><strong>Chak 39/12-L</strong></td>
+              <td>Green Town, Satellite Town, Gulshan Ali Town, Rehman Garden, Lalazar Colony.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="service-cta-banner">
+      <h3 class="cta-title">Need FBR Tax & Record Evaluation?</h3>
+      <p class="cta-subtitle">Consult directly with Naeem Siddhu for official valuation comparisons and tax calculation assistance.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href="/fbr-property-valuation-chichawatni.html" class="btn-secondary">
+          <i class="fa-solid fa-calculator"></i>
+          <span>Check FBR Rates Table</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .service-detail-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .service-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .service-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .service-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+  }
+  .service-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 0 2rem;
+  }
+  .quick-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .stat-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.25rem;
+  }
+  .stat-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+  }
+  .stat-value {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .intel-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .data-table th, .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .data-table th {
+    color: var(--accent-gold);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-table td {
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .service-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

@@ -1,0 +1,219 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Services', url: '/#services' },
+  { name: 'PLRA Ownership Verification', url: '/services/plra-ownership-verification.html' }
+];
+---
+
+<BaseLayout
+  title="PLRA Ownership Verification | Land Records & Fard Assistance Chichawatni"
+  description="Arazi Record Center (ARC) Chichawatni guidance for computerized Fard-e-Malkiat, Khewat & Khasra number verification, biometric mutation (Intiqal), and title security."
+  canonical="https://siddhupropertyadvisor.com/services/plra-ownership-verification.html"
+>
+  <div class="container service-detail-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="service-header-card">
+      <div class="service-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>PLRA Title Assistance</span>
+      </div>
+      <h1 class="service-title">PLRA Ownership Verification</h1>
+      <p class="service-subtitle">
+        Guidance through the Punjab Land Records Authority (PLRA) Arazi Record Center Chichawatni for computerized Fard-e-Malkiat retrieval, Khewat/Khasra number matching, and title verification.
+      </p>
+
+      <div class="quick-stats-grid">
+        <div class="stat-box">
+          <span class="stat-label">Official Record Center</span>
+          <span class="stat-value highlight-gold">ARC Chichawatni (PLRA)</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Document Checked</span>
+          <span class="stat-value">Fard-e-Baraye-Malkiat</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Map Matching</span>
+          <span class="stat-value highlight-teal">Aks-Shajra Boundary Match</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="intel-section">
+      <h2 class="section-heading">PLRA Ownership Record Steps</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Step</th>
+              <th>Guidance Protocol</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. CNIC & Title Search</strong></td>
+              <td>Retrieve computerized record using owner CNIC and Khewat number at Arazi Record Center.</td>
+            </tr>
+            <tr>
+              <td><strong>2. Mutation (Intiqal) Status</strong></td>
+              <td>Confirm that previous transfer mutations are fully updated in official revenue ledgers.</td>
+            </tr>
+            <tr>
+              <td><strong>3. Encumbrance Check</strong></td>
+              <td class="highlight-gold">Ensure property is free from bank stays, court injunctions, or illegal claims.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="service-cta-banner">
+      <h3 class="cta-title">Verify Property Records Before Deal Finalization</h3>
+      <p class="cta-subtitle">Consult directly with Naeem Siddhu to protect your family's investment with verified documentation.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href="/chichawatni-land-records-plra-guide.html" class="btn-secondary">
+          <i class="fa-solid fa-book-open"></i>
+          <span>Read Full PLRA Guide</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .service-detail-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .service-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .service-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .service-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+  }
+  .service-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 0 2rem;
+  }
+  .quick-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .stat-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.25rem;
+  }
+  .stat-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+  }
+  .stat-value {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .intel-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .data-table th, .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .data-table th {
+    color: var(--accent-gold);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-table td {
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .service-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

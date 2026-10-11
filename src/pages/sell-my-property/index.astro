@@ -1,0 +1,759 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { localities } from '@/data/locations';
+import { business } from '@/data/business';
+
+const pageTitle = "List Your Property | Verified Seller Portal | SIDDHU Property Advisor";
+const pageDesc = "Submit your residential house, plot, or commercial property for sale in Chichawatni. Real photography, live GPS capture, and personal human review by Naeem Siddhu.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <div class="seller-page-wrapper">
+    <div class="container seller-container">
+      <div class="section-header" style="margin-bottom: 32px;">
+        <span class="section-badge">
+          <i class="fa-solid fa-shield-halved highlight-gold"></i>
+          <span>VERIFIED SELLER SUBMISSION</span>
+        </span>
+        <h1>List Your Property <span class="editorial-italic highlight-gold">with SIDDHU OS</span></h1>
+        <p>
+          Submit your residential home, commercial plot, or agricultural land for verified presentation to active buyers. Every listing is reviewed by <strong>{business.advisor}</strong> before publication.
+        </p>
+      </div>
+
+      <!-- Multi-step Progress Bar -->
+      <div class="seller-progress-track">
+        <div class="step-node active" id="node-1">
+          <div class="node-circle">1</div>
+          <span class="node-label">Sign In</span>
+        </div>
+        <div class="track-line"></div>
+        <div class="step-node" id="node-2">
+          <div class="node-circle">2</div>
+          <span class="node-label">Property Details</span>
+        </div>
+        <div class="track-line"></div>
+        <div class="step-node" id="node-3">
+          <div class="node-circle">3</div>
+          <span class="node-label">Location Capture</span>
+        </div>
+        <div class="track-line"></div>
+        <div class="step-node" id="node-4">
+          <div class="node-circle">4</div>
+          <span class="node-label">Photos & Documents</span>
+        </div>
+        <div class="track-line"></div>
+        <div class="step-node" id="node-5">
+          <div class="node-circle">5</div>
+          <span class="node-label">Declaration</span>
+        </div>
+      </div>
+
+      <!-- Form Box -->
+      <div class="seller-form-card glass-panel">
+        <!-- STEP 1: AUTHENTICATION (Google or Guest) -->
+        <div class="wizard-step-panel active" id="stepPanel-1">
+          <div class="step-intro">
+            <h3><i class="fa-solid fa-user-lock highlight-gold"></i> Step 1: Seller Authentication</h3>
+            <p>Please authenticate your identity or continue as a guest seller.</p>
+          </div>
+
+          <div class="auth-options-grid">
+            <!-- Google Sign In -->
+            <div class="auth-card" onclick="window.selectAuthMethod('google');">
+              <div class="auth-icon google"><i class="fa-brands fa-google"></i></div>
+              <h4>Continue with Google</h4>
+              <p>Fast and recommended. Verifies your verified email identity automatically.</p>
+              <button type="button" class="btn-outline auth-btn" id="btnGoogleAuth">
+                <i class="fa-brands fa-google"></i> Sign In with Google
+              </button>
+            </div>
+
+            <!-- Guest Mode -->
+            <div class="auth-card" onclick="window.selectAuthMethod('guest');">
+              <div class="auth-icon guest"><i class="fa-solid fa-user-shield"></i></div>
+              <h4>Continue as Guest</h4>
+              <p>Quick submission without Google sign-in. Marked as unverified until identity confirmed by phone.</p>
+              <button type="button" class="btn-outline auth-btn" id="btnGuestAuth">
+                <i class="fa-solid fa-user"></i> Continue as Guest
+              </button>
+            </div>
+          </div>
+
+          <!-- Contact Inputs for Guest / Google -->
+          <div id="contactFieldsBox" class="auth-contact-box" style="display: none; margin-top: 24px;">
+            <div class="input-grid">
+              <div class="form-group">
+                <label for="sellerName">Full Name *</label>
+                <input type="text" id="sellerName" class="form-control" placeholder="e.g. Muhammad Aslam" required />
+              </div>
+              <div class="form-group">
+                <label for="sellerPhone">WhatsApp / Mobile Number *</label>
+                <input type="tel" id="sellerPhone" class="form-control" placeholder="e.g. 0300 1234567" required />
+              </div>
+            </div>
+            <div class="wizard-next-row" style="margin-top: 20px;">
+              <button type="button" class="btn-primary" onclick="window.proceedToStep(2);">
+                <span>Next: Property Details</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: PROPERTY DETAILS -->
+        <div class="wizard-step-panel" id="stepPanel-2" style="display: none;">
+          <div class="step-intro">
+            <h3><i class="fa-solid fa-house-chimney highlight-gold"></i> Step 2: Property Specifications</h3>
+            <p>Accurate property details ensure fair matching with genuine buyers.</p>
+          </div>
+
+          <div class="input-grid">
+            <div class="form-group">
+              <label for="propCategory">Property Category *</label>
+              <select id="propCategory" class="form-control">
+                <option value="Residential House">Residential House</option>
+                <option value="Residential Plot">Residential Plot</option>
+                <option value="Commercial Shop / Plaza">Commercial Shop / Plaza</option>
+                <option value="Agricultural Land">Agricultural Land</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="propArea">Locality / Colony *</label>
+              <select id="propArea" class="form-control">
+                {localities.filter(l => l.category === "Residential Locality").map(l => (
+                  <option value={l.name}>{l.name}</option>
+                ))}
+                <option value="Other Area">Other Area in Tehsil Chichawatni</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="propSize">Size in Marla *</label>
+              <input type="number" id="propSize" class="form-control" placeholder="e.g. 5, 7, 10" min="1" max="100" />
+            </div>
+
+            <div class="form-group">
+              <label for="propPrice">Demanded Price (PKR) *</label>
+              <input type="text" id="propPrice" class="form-control" placeholder="e.g. Rs. 85 Lakh / 1.2 Crore" />
+            </div>
+
+            <div class="form-group">
+              <label for="propBedrooms">Bedrooms (If house)</label>
+              <input type="number" id="propBedrooms" class="form-control" placeholder="e.g. 3, 4, 5" min="0" max="20" />
+            </div>
+
+            <div class="form-group">
+              <label for="propStreetWidth">Street Frontage / Width</label>
+              <input type="text" id="propStreetWidth" class="form-control" placeholder="e.g. 30 ft street / Corner" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 16px;">
+            <label for="propDescription">Detailed Property Description</label>
+            <textarea id="propDescription" class="form-control" rows="4" placeholder="Mention construction age, floor tiles, Sui Gas connection, water quality, or key features..."></textarea>
+          </div>
+
+          <div class="wizard-nav-buttons">
+            <button type="button" class="btn-outline" onclick="window.proceedToStep(1);">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="btn-primary" onclick="window.proceedToStep(3);">
+              <span>Next: Live Location Capture</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: LIVE GPS CAPTURE -->
+        <div class="wizard-step-panel" id="stepPanel-3" style="display: none;">
+          <div class="step-intro">
+            <h3><i class="fa-solid fa-location-crosshairs highlight-gold"></i> Step 3: Location Capture</h3>
+            <p>
+              To eliminate fake listings, we record on-ground GPS coordinates. <strong>Notice:</strong> Exact private seller GPS is never displayed publicly to visitors.
+            </p>
+          </div>
+
+          <div class="gps-capture-card">
+            <div class="gps-icon"><i class="fa-solid fa-satellite-dish highlight-gold"></i></div>
+            <h4>Capture On-Site Geolocation</h4>
+            <p>Please stand at or near your property when clicking below to record high-accuracy coordinates.</p>
+
+            <button type="button" class="btn-primary" id="btnCaptureGps" onclick="window.captureSellerGps();">
+              <i class="fa-solid fa-crosshairs"></i> Record Property GPS
+            </button>
+
+            <div id="gpsStatusBox" class="gps-status-box" style="display: none;">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="wizard-nav-buttons">
+            <button type="button" class="btn-outline" onclick="window.proceedToStep(2);">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="btn-primary" onclick="window.proceedToStep(4);">
+              <span>Next: Photos & Documents</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: REAL PHOTOS & DOCUMENTS -->
+        <div class="wizard-step-panel" id="stepPanel-4" style="display: none;">
+          <div class="step-intro">
+            <h3><i class="fa-solid fa-camera highlight-gold"></i> Step 4: Authentic On-Site Photographs</h3>
+            <p>Real photographs establish immediate buyer trust. Never use stock or internet renders.</p>
+          </div>
+
+          <div class="photo-upload-zone">
+            <input type="file" id="sellerPhotos" multiple accept="image/*" class="file-input-hidden" onchange="window.handlePhotoSelect(event);" />
+            <label for="sellerPhotos" class="upload-dropzone">
+              <i class="fa-solid fa-cloud-arrow-up highlight-gold"></i>
+              <strong>Click to upload photos</strong>
+              <span>Front elevation, street view, lounge, kitchen, and roof (Max 6 images)</span>
+            </label>
+          </div>
+
+          <div class="photo-preview-grid" id="photoPreviewGrid">
+            <!-- Populated via JS preview -->
+          </div>
+
+          <div class="wizard-nav-buttons">
+            <button type="button" class="btn-outline" onclick="window.proceedToStep(3);">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="btn-primary" onclick="window.proceedToStep(5);">
+              <span>Next: Legal Declaration</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 5: DECLARATION & SUBMISSION -->
+        <div class="wizard-step-panel" id="stepPanel-5" style="display: none;">
+          <div class="step-intro">
+            <h3><i class="fa-solid fa-file-contract highlight-gold"></i> Step 5: Seller Declaration</h3>
+            <p>Confirm the accuracy of your submission before final dispatch to our review desk.</p>
+          </div>
+
+          <div class="declaration-box">
+            <label class="declaration-checkbox-label">
+              <input type="checkbox" id="sellerAgreeTerms" required />
+              <span>
+                I hereby declare that I am the legitimate legal owner or authorized representative of this property in Tehsil Chichawatni. The details, dimensions, and photographs provided are authentic and free from misrepresentation.
+              </span>
+            </label>
+          </div>
+
+          <div class="submission-note">
+            <i class="fa-solid fa-circle-info highlight-teal"></i>
+            <span>
+              <strong>Review Protocol:</strong> Your listing will enter the status <em>Submitted for Review</em>. Naeem Siddhu will conduct a title check and contact you within 24 hours prior to buyer matching.
+            </span>
+          </div>
+
+          <div class="wizard-nav-buttons">
+            <button type="button" class="btn-outline" onclick="window.proceedToStep(4);">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="btn-primary" id="btnSubmitListing" onclick="window.submitListing();">
+              <i class="fa-solid fa-paper-plane"></i> Submit for Human Review
+            </button>
+          </div>
+        </div>
+
+        <!-- SUCCESS CONFIRMATION PANEL -->
+        <div class="wizard-step-panel" id="stepPanelSuccess" style="display: none; text-align: center; padding: 40px 20px;">
+          <div class="success-icon-box">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <h2 style="margin-bottom: 12px;">Property Submitted for Review</h2>
+          <p style="max-width: 580px; margin: 0 auto 24px; color: var(--text-secondary);">
+            Thank you! Your property listing has been safely received under ID: <strong id="submissionIdLabel" class="highlight-gold">SPA-782194</strong>. Our advisor <strong>{business.advisor}</strong> will review the records and contact you directly.
+          </p>
+          <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+            <a href="/" class="btn-outline"><i class="fa-solid fa-house"></i> Return to Homepage</a>
+            <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp">
+              <i class="fa-brands fa-whatsapp"></i> Confirm with Naeem on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  let currentStep = 1;
+  let authType = null;
+  let capturedGps = null;
+  let uploadedPhotos = [];
+
+  window.selectAuthMethod = function(method) {
+    authType = method;
+    const box = document.getElementById('contactFieldsBox');
+    if (box) box.style.display = 'block';
+
+    document.querySelectorAll('.auth-card').forEach(c => c.classList.remove('selected'));
+    if (method === 'google') {
+      document.querySelector('.auth-card:first-child')?.classList.add('selected');
+    } else {
+      document.querySelector('.auth-card:last-child')?.classList.add('selected');
+    }
+  };
+
+  window.proceedToStep = function(step) {
+    if (step === 2) {
+      const name = document.getElementById('sellerName')?.value.trim();
+      const phone = document.getElementById('sellerPhone')?.value.trim();
+      if (!name || !phone) {
+        alert("Please enter your name and phone number before proceeding.");
+        return;
+      }
+    }
+
+    currentStep = step;
+
+    // Update panels
+    for (let i = 1; i <= 5; i++) {
+      const p = document.getElementById(`stepPanel-${i}`);
+      const node = document.getElementById(`node-${i}`);
+      if (p) p.style.display = (i === step) ? 'block' : 'none';
+      if (node) {
+        if (i < step) node.className = 'step-node completed';
+        else if (i === step) node.className = 'step-node active';
+        else node.className = 'step-node';
+      }
+    }
+
+    window.scrollTo({ top: 180, behavior: 'smooth' });
+  };
+
+  window.captureSellerGps = function() {
+    const statusBox = document.getElementById('gpsStatusBox');
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    if (statusBox) {
+      statusBox.style.display = 'block';
+      statusBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin highlight-gold"></i> Detecting high-accuracy satellite coordinates...';
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        capturedGps = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          acc: Math.round(pos.coords.accuracy)
+        };
+        if (statusBox) {
+          statusBox.innerHTML = `
+            <div style="color: #5A948D; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Location Captured Successfully!</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Lat: ${capturedGps.lat.toFixed(5)}, Lng: ${capturedGps.lng.toFixed(5)} (Accuracy: ~${capturedGps.acc}m)</div>
+            <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Private GPS stored safely. Exact coordinates will not be shown to visitors.</div>
+          `;
+        }
+      },
+      (err) => {
+        if (statusBox) {
+          statusBox.innerHTML = `<span style="color: #E57373;"><i class="fa-solid fa-triangle-exclamation"></i> Location access was denied or timed out. You may still proceed with manual colony selection.</span>`;
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
+
+  window.handlePhotoSelect = function(event) {
+    const files = event.target.files;
+    const grid = document.getElementById('photoPreviewGrid');
+    if (!grid || !files) return;
+
+    grid.innerHTML = '';
+    Array.from(files).slice(0, 6).forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const thumb = document.createElement('div');
+        thumb.className = 'photo-thumb-card';
+        thumb.innerHTML = `
+          <img src="${e.target.result}" alt="Property Preview ${index + 1}" />
+          <span class="thumb-label">Photo ${index + 1}</span>
+        `;
+        grid.appendChild(thumb);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  window.submitListing = function() {
+    const agree = document.getElementById('sellerAgreeTerms')?.checked;
+    if (!agree) {
+      alert("Please accept the seller declaration before submitting.");
+      return;
+    }
+
+    const subId = 'SPA-' + Math.floor(100000 + Math.random() * 900000);
+    const subLabel = document.getElementById('submissionIdLabel');
+    if (subLabel) subLabel.textContent = subId;
+
+    // Hide all steps, show success
+    for (let i = 1; i <= 5; i++) {
+      const p = document.getElementById(`stepPanel-${i}`);
+      if (p) p.style.display = 'none';
+    }
+    const successPanel = document.getElementById('stepPanelSuccess');
+    if (successPanel) successPanel.style.display = 'block';
+
+    window.scrollTo({ top: 120, behavior: 'smooth' });
+  };
+</script>
+
+<style>
+  .seller-page-wrapper {
+    padding: 40px 0 80px;
+    background: var(--bg-main);
+  }
+
+  .seller-container {
+    max-width: 900px;
+  }
+
+  /* Progress Bar */
+  .seller-progress-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .step-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+  }
+
+  .node-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 2px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: var(--transition);
+  }
+
+  .step-node.active .node-circle {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold-light);
+    box-shadow: var(--gold-glow);
+  }
+
+  .step-node.completed .node-circle {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: #0D1723;
+  }
+
+  .node-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .step-node.active .node-label {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .track-line {
+    flex-grow: 1;
+    height: 2px;
+    background: var(--border-subtle);
+    margin: 0 10px;
+    transform: translateY(-12px);
+  }
+
+  /* Form Card */
+  .seller-form-card {
+    padding: 40px;
+    border: 1px solid var(--border-card);
+  }
+
+  .step-intro {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .step-intro h3 {
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .step-intro p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+
+  /* Auth Options */
+  .auth-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .auth-card {
+    background: rgba(13, 23, 35, 0.6);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .auth-card:hover, .auth-card.selected {
+    border-color: var(--accent-gold);
+    background: rgba(184, 138, 59, 0.08);
+  }
+
+  .auth-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+  }
+
+  .auth-icon.google { background: rgba(234, 67, 53, 0.15); color: #EA4335; }
+  .auth-icon.guest { background: rgba(90, 148, 141, 0.15); color: #5A948D; }
+
+  .auth-card h4 {
+    font-size: 1.15rem;
+    color: var(--text-primary);
+  }
+
+  .auth-card p {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .auth-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.88rem;
+  }
+
+  /* Input fields */
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .form-control {
+    background: #0D1723;
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 12px 14px;
+    border-radius: var(--radius-control);
+    font-size: 0.92rem;
+    font-family: inherit;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(184, 138, 59, 0.15);
+  }
+
+  /* GPS Card */
+  .gps-capture-card {
+    text-align: center;
+    padding: 36px 20px;
+    background: rgba(13, 23, 35, 0.5);
+    border: 1px dashed var(--border-glass);
+    border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .gps-icon {
+    font-size: 2.5rem;
+  }
+
+  .gps-status-box {
+    margin-top: 14px;
+    padding: 16px;
+    border-radius: var(--radius-control);
+    background: rgba(90, 148, 141, 0.1);
+    border: 1px solid rgba(90, 148, 141, 0.3);
+    max-width: 480px;
+    width: 100%;
+  }
+
+  /* Photos Dropzone */
+  .photo-upload-zone {
+    margin-bottom: 24px;
+  }
+
+  .file-input-hidden {
+    display: none;
+  }
+
+  .upload-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 40px 20px;
+    background: rgba(13, 23, 35, 0.5);
+    border: 2px dashed var(--border-glass);
+    border-radius: var(--radius-card);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .upload-dropzone:hover {
+    border-color: var(--accent-gold);
+    background: rgba(184, 138, 59, 0.05);
+  }
+
+  .upload-dropzone i {
+    font-size: 2.2rem;
+  }
+
+  .photo-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  :global(.photo-thumb-card) {
+    border-radius: var(--radius-control);
+    overflow: hidden;
+    height: 140px;
+    position: relative;
+    border: 1px solid var(--border-glass);
+  }
+
+  :global(.photo-thumb-card img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  :global(.thumb-label) {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* Declaration */
+  .declaration-box {
+    padding: 20px;
+    background: rgba(13, 23, 35, 0.6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    margin-bottom: 20px;
+  }
+
+  .declaration-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .declaration-checkbox-label input {
+    margin-top: 5px;
+    accent-color: var(--accent-gold);
+  }
+
+  .submission-note {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border-radius: var(--radius-control);
+    background: rgba(90, 148, 141, 0.1);
+    border: 1px solid rgba(90, 148, 141, 0.3);
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .submission-note i {
+    margin-top: 2px;
+  }
+
+  /* Nav Buttons */
+  .wizard-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .success-icon-box {
+    font-size: 4rem;
+    color: var(--accent-teal);
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .auth-options-grid, .input-grid {
+      grid-template-columns: 1fr;
+    }
+    .seller-progress-track {
+      display: none;
+    }
+    .seller-form-card {
+      padding: 24px 18px;
+    }
+  }
+</style>

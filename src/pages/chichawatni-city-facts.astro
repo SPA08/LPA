@@ -1,0 +1,397 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import { business } from '@/data/business';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'City & Guides', url: '/chichawatni-city-guide.html' },
+  { name: 'City Facts & Directory', url: '/chichawatni-city-facts.html' }
+];
+---
+
+<BaseLayout
+  title="Chichawatni History, Bazaars & City Directory | SIDDHU Property Advisor"
+  description="An authoritative guide to Chichawatni’s history, 1913 canal colony heritage, famous 12 Bazaars, grain trade, emergency helplines, travel distance matrix, and banks."
+  canonical="https://siddhupropertyadvisor.com/chichawatni-city-facts.html"
+>
+  <div class="container guide-page">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="guide-header-card">
+      <div class="guide-badge">
+        <i class="fa-solid fa-book-open"></i>
+        <span>City Encyclopedia & Directory</span>
+      </div>
+      <h1 class="guide-title">Chichawatni History, Bazaars & City Directory</h1>
+      <p class="guide-subtitle">
+        An authoritative guide to Chichawatni’s rich history, 1913 canal colony heritage, famous 12 Bazaars, grain trade, emergency helplines, travel distance matrix, and commercial banks.
+      </p>
+
+      <!-- Knowledge Base Hub Navigation -->
+      <div class="hub-links-grid">
+        <a href="/fbr-property-valuation-chichawatni.html" class="hub-link-card">
+          <i class="fa-solid fa-calculator highlight-gold"></i>
+          <h4>FBR Valuation</h4>
+          <p>Official tax reference tables</p>
+        </a>
+        <a href="/chichawatni-roads-guide.html" class="hub-link-card">
+          <i class="fa-solid fa-road highlight-teal"></i>
+          <h4>Roads & Arteries</h4>
+          <p>GT Road, Tower Road & widths</p>
+        </a>
+        <a href="/chichawatni-hospitals-guide.html" class="hub-link-card">
+          <i class="fa-solid fa-hospital highlight-gold"></i>
+          <h4>Hospitals & Clinics</h4>
+          <p>THQ Hospital & emergency care</p>
+        </a>
+        <a href="/chichawatni-schools-guide.html" class="hub-link-card">
+          <i class="fa-solid fa-graduation-cap highlight-teal"></i>
+          <h4>Schools & Colleges</h4>
+          <p>Degree colleges & DPS network</p>
+        </a>
+        <a href="/chichawatni-markets-guide.html" class="hub-link-card">
+          <i class="fa-solid fa-store highlight-gold"></i>
+          <h4>Markets & Bazaars</h4>
+          <p>Ghalla Mandi & Rail Bazaar</p>
+        </a>
+        <a href="/chichawatni-public-offices.html" class="hub-link-card">
+          <i class="fa-solid fa-building-columns highlight-teal"></i>
+          <h4>Public Offices</h4>
+          <p>MC, AC & Arazi Record Center</p>
+        </a>
+      </div>
+    </header>
+
+    <!-- Historical Heritage -->
+    <section class="content-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-landmark"></i>
+        <span>Historical Heritage</span>
+      </div>
+      <h2 class="section-heading">History & Origin of Chichawatni</h2>
+      <p class="section-text">
+        Chichawatni was established in the early 20th century (1912–1913) as a planned canal colony town during the construction of the <strong>Lower Bari Doab Canal (LBDC)</strong> system under the British administration. The town was named after the ancient local settlement associated with the Chhachhar tribe ("Watni").
+      </p>
+      <p class="section-text">
+        The town was laid out in a grid pattern around the main railway line (ML-1) and circular road network, dividing commercial activity into numbered bazaars (Bazar No. 1 to 12), surrounded by fertile agricultural Chaks.
+      </p>
+    </section>
+
+    <!-- Travel Distance Matrix -->
+    <section class="content-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-route"></i>
+        <span>Travel & Access Matrix</span>
+      </div>
+      <h2 class="section-heading">Distance to Surrounding Cities & Towns</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Destination City</th>
+              <th>Distance</th>
+              <th>Travel Route</th>
+              <th>Est. Drive Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sahiwal City (District HQ)</strong></td>
+              <td>45 km</td>
+              <td>GT Road (N-5) Direct</td>
+              <td>~40 Mins</td>
+            </tr>
+            <tr>
+              <td><strong>Kamalia</strong></td>
+              <td>24 km</td>
+              <td>Chichawatni–Kamalia Road / Ravi Bridge</td>
+              <td>~25 Mins</td>
+            </tr>
+            <tr>
+              <td><strong>Kassowal</strong></td>
+              <td>18 km</td>
+              <td>GT Road (N-5) Eastwards</td>
+              <td>~18 Mins</td>
+            </tr>
+            <tr>
+              <td><strong>Harappa (Historic Ruins)</strong></td>
+              <td>25 km</td>
+              <td>GT Road (N-5) towards Sahiwal</td>
+              <td>~25 Mins</td>
+            </tr>
+            <tr>
+              <td><strong>Mian Channu</strong></td>
+              <td>45 km</td>
+              <td>GT Road (N-5) Westwards</td>
+              <td>~40 Mins</td>
+            </tr>
+            <tr>
+              <td><strong>Burewala</strong></td>
+              <td>42 km</td>
+              <td>Chichawatni–Burewala Road</td>
+              <td>~45 Mins</td>
+            </tr>
+            <tr>
+              <td><strong>Faisalabad</strong></td>
+              <td>110 km</td>
+              <td>via Kamalia – Rajana Road</td>
+              <td>~1.5 Hours</td>
+            </tr>
+            <tr>
+              <td><strong>Multan</strong></td>
+              <td>150 km</td>
+              <td>GT Road (N-5) via Khanewal</td>
+              <td>~2 Hours</td>
+            </tr>
+            <tr>
+              <td><strong>Lahore</strong></td>
+              <td>220 km</td>
+              <td>M-3 Motorway Interchange / N-5</td>
+              <td>~2.5 Hours</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Emergency Helplines -->
+    <section class="content-section">
+      <div class="section-tag">
+        <i class="fa-solid fa-phone-volume"></i>
+        <span>Public Safety</span>
+      </div>
+      <h2 class="section-heading">Emergency Helplines & Public Utilities</h2>
+      <div class="helplines-grid">
+        <div class="helpline-card">
+          <div class="helpline-icon highlight-gold"><i class="fa-solid fa-truck-medical"></i></div>
+          <div class="helpline-info">
+            <span class="helpline-name">Rescue 1122 (Ambulance & Fire)</span>
+            <span class="helpline-num">1122</span>
+          </div>
+        </div>
+        <div class="helpline-card">
+          <div class="helpline-icon highlight-teal"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="helpline-info">
+            <span class="helpline-name">Punjab Police Emergency</span>
+            <span class="helpline-num">15</span>
+          </div>
+        </div>
+        <div class="helpline-card">
+          <div class="helpline-icon highlight-gold"><i class="fa-solid fa-bolt"></i></div>
+          <div class="helpline-info">
+            <span class="helpline-name">MEPCO Electricity Helpline</span>
+            <span class="helpline-num">118</span>
+          </div>
+        </div>
+        <div class="helpline-card">
+          <div class="helpline-icon highlight-teal"><i class="fa-solid fa-fire-burner"></i></div>
+          <div class="helpline-info">
+            <span class="helpline-name">Sui Northern Gas Helpline</span>
+            <span class="helpline-num">1199</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="guide-cta-banner">
+      <h3 class="cta-title">Your Local Real Estate Partner in Chichawatni</h3>
+      <p class="cta-subtitle">SIDDHU Property Advisor is committed to honest, accurate market guidance across all Chichawatni sectors.</p>
+      <div class="cta-actions">
+        <a href={`tel:${business.phone}`} class="btn-primary">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-secondary">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp Consultation</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+  .guide-header-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.75rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .guide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.15);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .guide-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+  .guide-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 820px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+  }
+  .hub-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    text-align: left;
+  }
+  .hub-link-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.25rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .hub-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-gold);
+  }
+  .hub-link-card i {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+  }
+  .hub-link-card h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem;
+  }
+  .hub-link-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1rem;
+  }
+  .section-text {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin: 0 0 1rem;
+  }
+  .section-text:last-child {
+    margin-bottom: 0;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .data-table th, .data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .data-table th {
+    color: var(--accent-gold);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-table td {
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .helplines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .helpline-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .helpline-icon {
+    font-size: 1.75rem;
+  }
+  .helpline-name {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .helpline-num {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-top: 0.2rem;
+  }
+  .guide-cta-banner {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.3);
+    border-radius: var(--radius-card);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+  .cta-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

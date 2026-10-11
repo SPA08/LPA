@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { blogPosts } from '@/data/blogs';
+
+const pageTitle = "Property Blog Article | SIDDHU Property Advisor";
+const pageDesc = "Read verified insights on buying, selling, and verifying property in Chichawatni.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <div class="container" style="padding: 60px 24px; min-height: 60vh;">
+    <div id="articleRedirectNotice" style="text-align: center; padding: 40px;">
+      <i class="fa-solid fa-spinner fa-spin highlight-gold" style="font-size: 2rem; margin-bottom: 16px;"></i>
+      <h3>Loading article...</h3>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline define:vars={{ posts: blogPosts }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (id) {
+      window.location.replace(`/blog/${id}.html`);
+    } else {
+      window.location.replace('/blog/index.html');
+    }
+  });
+</script>

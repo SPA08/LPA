@@ -242,4 +242,27 @@ import { business } from '@/data/business';
       grid-template-columns: 1fr;
     }
   }
+
+  @media (max-width: 640px) {
+    .consultant-section {
+      padding: 60px 0;
+    }
+    .consultant-card {
+      padding: 24px 16px;
+      gap: 24px;
+    }
+    .photo-frame {
+      width: 220px;
+      height: 270px;
+    }
+    .consultant-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .consultant-actions a {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+  }
 </style>

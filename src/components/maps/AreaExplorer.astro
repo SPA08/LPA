@@ -3,7 +3,8 @@ import { localities } from '@/data/locations';
 import { cityPlaces } from '@/data/cityIntelligence';
 import { business } from '@/data/business';
 
-// Map all civic intelligence places into map-friendly POI objects
+// Deduplicate locations by id
+const seenMapIds = new Set<string>();
 const allMapLocations = [
   ...localities.map(loc => ({
     id: loc.id,
@@ -31,7 +32,11 @@ const allMapLocations = [
     legal: p.roadAddress,
     highlights: p.highlights
   }))
-];
+].filter(loc => {
+  if (seenMapIds.has(loc.id)) return false;
+  seenMapIds.add(loc.id);
+  return true;
+});
 ---
 
 <section id="areas" class="map-section">
@@ -130,6 +135,9 @@ const allMapLocations = [
           </div>
 
           <div class="detail-footer">
+            <a id="detailGmapsBtn" href="https://maps.google.com" target="_blank" rel="noopener" class="btn-gmaps" style="width: 100%; justify-content: center; font-size: 0.88rem; margin-bottom: 8px;">
+              <i class="fa-solid fa-diamond-turn-right"></i> Open Directions in Google Maps
+            </a>
             <a href="tel:+923063996764" class="btn-primary" style="width: 100%; justify-content: center; font-size: 0.88rem;">
               <i class="fa-solid fa-phone"></i> Inquire About Property in This Area
             </a>
@@ -159,102 +167,126 @@ const allMapLocations = [
     const container = document.getElementById('osV4Map');
     if (!container || typeof L === 'undefined' || mapInstance) return;
 
-    // Initialize Leaflet Map centered on central Chichawatni
-    mapInstance = L.map('osV4Map', {
-      center: [30.5345, 72.6900],
-      zoom: 14,
-      zoomControl: true,
-      scrollWheelZoom: false
-    });
-
-    // Clean, crisp CARTO Voyager Map Tiles
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://carto.com/">CARTO</a> & OpenStreetMap | Siddhu Property Advisor',
-      maxZoom: 19
-    }).addTo(mapInstance);
-
-    // Subtle Chichawatni Urban Boundary Ring
-    L.circle([30.5350, 72.6900], {
-      color: '#3F6B5B',
-      fillColor: '#3F6B5B',
-      fillOpacity: 0.04,
-      radius: 2400,
-      weight: 1.5,
-      dashArray: '6, 6'
-    }).addTo(mapInstance);
-
-    // Custom Icon Generator for Categories
-    function createCategoryIcon(group, isOffice = false) {
-      let iconClass = 'fa-solid fa-location-dot';
-      let colorClass = 'pin-residential';
-
-      if (isOffice) {
-        iconClass = 'fa-solid fa-star';
-        colorClass = 'pin-office';
-      } else if (group === 'Residential') {
-        iconClass = 'fa-solid fa-house-chimney';
-        colorClass = 'pin-residential';
-      } else if (group === 'Education') {
-        iconClass = 'fa-solid fa-graduation-cap';
-        colorClass = 'pin-education';
-      } else if (group === 'Health') {
-        iconClass = 'fa-solid fa-hospital';
-        colorClass = 'pin-health';
-      } else if (group === 'Government') {
-        iconClass = 'fa-solid fa-building-columns';
-        colorClass = 'pin-government';
-      } else if (group === 'Banking') {
-        iconClass = 'fa-solid fa-building-ngo';
-        colorClass = 'pin-banking';
-      } else if (group === 'Safety') {
-        iconClass = 'fa-solid fa-shield-halved';
-        colorClass = 'pin-safety';
-      } else {
-        iconClass = 'fa-solid fa-landmark';
-        colorClass = 'pin-gold';
-      }
-
-      return L.divIcon({
-        className: 'custom-map-pin-wrapper',
-        html: `<div class="map-pin ${colorClass}"><i class="${iconClass}"></i></div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
+    try {
+      // Initialize Leaflet Map centered on central Chichawatni
+      mapInstance = L.map('osV4Map', {
+        center: [30.5345, 72.6900],
+        zoom: 14,
+        zoomControl: true,
+        scrollWheelZoom: false
       });
-    }
 
-    // Add Siddhu Property HQ Marker
-    const hqMarker = L.marker([officeCoords.lat, officeCoords.lng], {
-      icon: createCategoryIcon('HQ', true)
-    }).addTo(mapInstance);
-    hqMarker.bindPopup(`
-      <div style="font-family: inherit; padding: 4px;">
-        <strong style="color: #29473D; font-size: 0.95rem;">SIDDHU Property Advisor HQ</strong>
-        <p style="margin: 4px 0 0; color: #4A5D55; font-size: 0.8rem;">Street 08, Tower Road Side, Hayat Abad</p>
-        <span style="display: inline-block; margin-top: 4px; font-size: 0.72rem; color: #C8A96B; font-weight: 700;">★ Consultation Base</span>
-      </div>
-    `);
-
-    // Add All Location Markers
-    window.ALL_MAP_LOCATIONS.forEach(loc => {
-      const marker = L.marker([loc.lat, loc.lng], {
-        icon: createCategoryIcon(loc.group)
+      // Clean, crisp CARTO Voyager Map Tiles
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a> & OpenStreetMap | Siddhu Property Advisor',
+        maxZoom: 19,
+        subdomains: 'abcd'
       }).addTo(mapInstance);
 
-      marker.bindPopup(`
-        <div style="font-family: inherit; padding: 4px; max-width: 200px;">
-          <strong style="color: #29473D; font-size: 0.92rem;">${loc.name}</strong>
-          <p style="margin: 3px 0 0; color: #4A5D55; font-size: 0.78rem;">${loc.address}</p>
-          <span style="display: inline-block; margin-top: 4px; font-size: 0.7rem; color: #3F6B5B; font-weight: 600;">${loc.badge}</span>
+      // Subtle Chichawatni Urban Boundary Ring
+      L.circle([30.5350, 72.6900], {
+        color: '#3F6B5B',
+        fillColor: '#3F6B5B',
+        fillOpacity: 0.04,
+        radius: 2400,
+        weight: 1.5,
+        dashArray: '6, 6'
+      }).addTo(mapInstance);
+
+      // Force recalculation of container bounds after render
+      setTimeout(() => {
+        if (mapInstance) mapInstance.invalidateSize();
+      }, 250);
+
+      window.addEventListener('resize', () => {
+        if (mapInstance) mapInstance.invalidateSize();
+      });
+
+      // Custom Icon Generator for Categories
+      function createCategoryIcon(group, isOffice = false) {
+        let iconClass = 'fa-solid fa-location-dot';
+        let colorClass = 'pin-residential';
+
+        if (isOffice) {
+          iconClass = 'fa-solid fa-star';
+          colorClass = 'pin-office';
+        } else if (group === 'Residential') {
+          iconClass = 'fa-solid fa-house-chimney';
+          colorClass = 'pin-residential';
+        } else if (group === 'Education') {
+          iconClass = 'fa-solid fa-graduation-cap';
+          colorClass = 'pin-education';
+        } else if (group === 'Health') {
+          iconClass = 'fa-solid fa-hospital';
+          colorClass = 'pin-health';
+        } else if (group === 'Government') {
+          iconClass = 'fa-solid fa-landmark-dome';
+          colorClass = 'pin-government';
+        } else if (group === 'Banking') {
+          iconClass = 'fa-solid fa-building-columns';
+          colorClass = 'pin-banking';
+        } else if (group === 'Safety') {
+          iconClass = 'fa-solid fa-shield-halved';
+          colorClass = 'pin-safety';
+        } else {
+          iconClass = 'fa-solid fa-landmark';
+          colorClass = 'pin-gold';
+        }
+
+        return L.divIcon({
+          className: 'custom-map-pin-wrapper',
+          html: `<div class="map-pin ${colorClass}"><i class="${iconClass}"></i></div>`,
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+          popupAnchor: [0, -32]
+        });
+      }
+
+      // Add Siddhu Property HQ Marker
+      const hqMarker = L.marker([officeCoords.lat, officeCoords.lng], {
+        icon: createCategoryIcon('HQ', true)
+      }).addTo(mapInstance);
+      hqMarker.bindPopup(`
+        <div style="font-family: inherit; padding: 4px; min-width: 200px;">
+          <strong style="color: #29473D; font-size: 0.95rem; display: block;">SIDDHU Property Advisor HQ</strong>
+          <p style="margin: 4px 0 0; color: #4A5D55; font-size: 0.8rem;">Street 08, Tower Road Side, Hayat Abad</p>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px; border-top: 1px solid #ECEEEB; padding-top: 6px;">
+            <span style="font-size: 0.72rem; color: #C8A96B; font-weight: 700;">★ Consultation Base</span>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${officeCoords.lat},${officeCoords.lng}" target="_blank" rel="noopener" style="color: #29473D; font-size: 0.74rem; font-weight: 700; text-decoration: underline;">
+              Directions ↗
+            </a>
+          </div>
         </div>
       `);
 
-      marker.on('click', () => {
-        window.selectLocality(loc.id);
-      });
+      // Add All Location Markers
+      window.ALL_MAP_LOCATIONS.forEach(loc => {
+        const marker = L.marker([loc.lat, loc.lng], {
+          icon: createCategoryIcon(loc.group)
+        }).addTo(mapInstance);
 
-      markersMap[loc.id] = marker;
-    });
+        marker.bindPopup(`
+          <div style="font-family: inherit; padding: 4px; max-width: 210px;">
+            <strong style="color: #29473D; font-size: 0.92rem; display: block; margin-bottom: 2px;">${loc.name}</strong>
+            <p style="margin: 0; color: #4A5D55; font-size: 0.78rem;">${loc.address}</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px; border-top: 1px solid #ECEEEB; padding-top: 6px;">
+              <span style="font-size: 0.7rem; color: #3F6B5B; font-weight: 600;">${loc.badge}</span>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}" target="_blank" rel="noopener" style="color: #C8A96B; font-size: 0.74rem; font-weight: 700; text-decoration: underline;">
+                Google Maps ↗
+              </a>
+            </div>
+          </div>
+        `);
+
+        marker.on('click', () => {
+          window.selectLocality(loc.id);
+        });
+
+        markersMap[loc.id] = marker;
+      });
+    } catch (err) {
+      console.error('Error initializing map:', err);
+    }
   }
 
   // Locality Selection & Panel Switcher
@@ -265,6 +297,7 @@ const allMapLocations = [
     // Pan & Fly map
     if (mapInstance) {
       mapInstance.flyTo([loc.lat, loc.lng], 16, { duration: 1.0 });
+      mapInstance.invalidateSize();
     }
 
     // Update marker styling (pulse gold)
@@ -296,6 +329,11 @@ const allMapLocations = [
       document.getElementById('detailDesc').textContent = loc.desc;
       document.getElementById('detailLegal').textContent = loc.legal || loc.address;
 
+      const gmapsBtn = document.getElementById('detailGmapsBtn');
+      if (gmapsBtn) {
+        gmapsBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`;
+      }
+
       const highlightsEl = document.getElementById('detailHighlights');
       if (highlightsEl) {
         highlightsEl.innerHTML = loc.highlights.map(h => `<li><i class="fa-solid fa-check highlight-gold"></i> ${h}</li>`).join('');
@@ -321,6 +359,7 @@ const allMapLocations = [
 
     if (mapInstance) {
       mapInstance.flyTo([30.5345, 72.6900], 14, { duration: 1.0 });
+      mapInstance.invalidateSize();
     }
   };
 
@@ -368,12 +407,15 @@ const allMapLocations = [
         if (mapInstance?.hasLayer(marker)) mapInstance.removeLayer(marker);
       }
     });
+
+    if (mapInstance) mapInstance.invalidateSize();
   }
 
   // Cross-component coordination: Focus any place from CityIntelligence
   window.flyToMapCoordinates = function(lat, lng, name, id) {
     if (mapInstance) {
       mapInstance.flyTo([lat, lng], 16, { duration: 1.2 });
+      mapInstance.invalidateSize();
       if (markersMap[id]) {
         setTimeout(() => {
           window.selectLocality(id);
@@ -382,9 +424,29 @@ const allMapLocations = [
     }
   };
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function checkAndInitMap() {
+    if (typeof L === 'undefined') {
+      let attempts = 0;
+      const timer = setInterval(() => {
+        attempts++;
+        if (typeof L !== 'undefined') {
+          clearInterval(timer);
+          initV4Map();
+        } else if (attempts > 50) {
+          clearInterval(timer);
+          console.warn('Leaflet map script failed to load within 5 seconds.');
+        }
+      }, 100);
+      return;
+    }
     initV4Map();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkAndInitMap);
+  } else {
+    checkAndInitMap();
+  }
 </script>
 
 <style>
@@ -649,6 +711,25 @@ const allMapLocations = [
     gap: 8px;
     font-size: 0.82rem;
     color: var(--text-secondary);
+  }
+
+  .btn-gmaps {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #F3F7F5;
+    border: 1px solid var(--color-matte-green);
+    color: var(--color-dark-green);
+    padding: 10px 16px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .btn-gmaps:hover {
+    background: var(--color-dark-green);
+    color: #FFFFFF;
   }
 
   /* Map Viewport */

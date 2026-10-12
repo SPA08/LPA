@@ -41,7 +41,7 @@ export const blogPosts: BlogPostItem[] = [
     date: "2026-09-19",
     author: "Naeem Siddhu",
     excerpt: "Detailed material cost breakdown and floor plan considerations for building an 8 Marla house in Punjab residential colonies.",
-    thumbnail: "/assets/images/old_house_8_marla.jpg",
+    thumbnail: "/assets/images/house-10marla-corner.jpg",
     readTime: "6 min read"
   },
   {
@@ -151,7 +151,7 @@ export const blogPosts: BlogPostItem[] = [
     date: "2026-09-10",
     author: "Naeem Siddhu",
     excerpt: "Compact, budget-friendly 3 Marla residence in central Block 12. Ideal for small families seeking affordable urban convenience.",
-    thumbnail: "/assets/images/old_house_4_marla.jpg",
+    thumbnail: "/assets/images/house-5marla-brandnew.jpg",
     readTime: "3 min read"
   },
   {
@@ -173,7 +173,7 @@ export const blogPosts: BlogPostItem[] = [
     date: "2026-09-08",
     author: "Naeem Siddhu",
     excerpt: "Extremely convenient residential location minutes from Main Bazaar and commercial shops, offering solid construction and high accessibility.",
-    thumbnail: "/assets/images/old_house_5_marla.jpg",
+    thumbnail: "/assets/images/house-contemporary.jpg",
     readTime: "3 min read"
   },
   {
@@ -184,7 +184,7 @@ export const blogPosts: BlogPostItem[] = [
     date: "2026-09-07",
     author: "Naeem Siddhu",
     excerpt: "Solid 4 Marla family house near the historic Railway Station area. Peaceful dead-end lane with immediate possession.",
-    thumbnail: "/assets/images/old_house_4_marla.jpg",
+    thumbnail: "/assets/images/house-7marla-arched.jpg",
     readTime: "3 min read"
   }
 ];

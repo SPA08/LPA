@@ -132,19 +132,20 @@ const { currentPath = '/' } = Astro.props;
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(13, 23, 35, 0.92);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border-subtle);
-    transition: transform 0.35s ease, background 0.35s ease, padding 0.35s ease;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+    transition: transform 0.35s ease, background 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease;
     padding: 16px 0;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
   }
 
   .site-header.header-shrunk {
     padding: 10px 0;
-    background: rgba(13, 23, 35, 0.98);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    border-bottom-color: rgba(184, 138, 59, 0.2);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+    border-bottom-color: rgba(203, 213, 225, 0.9);
   }
 
   .site-header.header-hidden {
@@ -164,6 +165,7 @@ const { currentPath = '/' } = Astro.props;
     align-items: center;
     gap: 12px;
     flex-shrink: 0;
+    text-decoration: none;
   }
 
   .logo-crest {
@@ -171,7 +173,7 @@ const { currentPath = '/' } = Astro.props;
     height: 40px;
     border-radius: 8px;
     overflow: hidden;
-    border: 1px solid var(--border-card);
+    border: 1px solid #E2E8F0;
     background: #000;
     display: flex;
     align-items: center;
@@ -191,16 +193,16 @@ const { currentPath = '/' } = Astro.props;
 
   .logo-brand {
     font-size: 1.15rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.5px;
-    color: var(--text-primary);
+    color: #0F172A;
   }
 
   .logo-sub {
     font-size: 0.62rem;
     letter-spacing: 1.8px;
-    color: var(--accent-gold);
-    font-weight: 600;
+    color: #B88A3B;
+    font-weight: 700;
     text-transform: uppercase;
   }
 
@@ -220,16 +222,19 @@ const { currentPath = '/' } = Astro.props;
   .nav-link {
     font-size: 0.92rem;
     font-weight: 500;
-    color: var(--text-secondary);
+    color: #475569;
     position: relative;
     padding: 6px 0;
     display: flex;
     align-items: center;
     gap: 6px;
+    text-decoration: none;
+    transition: color 0.2s ease;
   }
 
   .nav-link:hover, .nav-link.active {
-    color: var(--text-primary);
+    color: #0F172A;
+    font-weight: 600;
   }
 
   .nav-link::after {
@@ -239,7 +244,7 @@ const { currentPath = '/' } = Astro.props;
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--accent-gold);
+    background: #B88A3B;
     transition: width 0.3s ease;
   }
 
@@ -268,10 +273,10 @@ const { currentPath = '/' } = Astro.props;
     transform: translateX(-50%) translateY(8px);
     opacity: 0;
     visibility: hidden;
-    background: var(--bg-card);
-    border: 1px solid var(--border-glass);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-elevated);
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.12);
     padding: 10px 0;
     min-width: 250px;
     list-style: none;
@@ -291,13 +296,14 @@ const { currentPath = '/' } = Astro.props;
     gap: 10px;
     padding: 10px 18px;
     font-size: 0.88rem;
-    color: var(--text-secondary);
+    color: #334155;
+    text-decoration: none;
     transition: background 0.2s, color 0.2s;
   }
 
   .dropdown-menu li a:hover {
-    background: rgba(184, 138, 59, 0.1);
-    color: var(--text-primary);
+    background: #F8FAFC;
+    color: #0F172A;
   }
 
   /* Header Actions */
@@ -311,36 +317,51 @@ const { currentPath = '/' } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--text-secondary);
+    color: #0F172A;
     font-size: 0.88rem;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: var(--radius-control);
-    border: 1px solid transparent;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    text-decoration: none;
+    transition: var(--transition);
   }
 
   .header-call-btn i {
-    color: var(--accent-gold);
+    color: #B88A3B;
   }
 
   .header-call-btn:hover {
-    color: var(--text-primary);
-    border-color: var(--border-subtle);
+    color: #B88A3B;
+    background: #F1F5F9;
+    border-color: #CBD5E1;
   }
 
   .list-property-btn {
     padding: 9px 20px;
     font-size: 0.88rem;
+    background: #0F172A;
+    color: #FFFFFF;
+    border-radius: 9999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .list-property-btn:hover {
+    background: #1E293B;
+    transform: translateY(-1px);
   }
 
   .mobile-toggle {
     display: none;
-    background: transparent;
-    border: 1px solid var(--border-glass);
-    color: var(--text-primary);
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    color: #0F172A;
     width: 40px;
     height: 40px;
-    border-radius: var(--radius-control);
+    border-radius: 10px;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -354,14 +375,14 @@ const { currentPath = '/' } = Astro.props;
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(13, 23, 35, 0.98);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border-card);
+    border-bottom: 1px solid #E2E8F0;
     padding: 20px 0 30px;
     max-height: calc(100vh - 75px);
     overflow-y: auto;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
   }
 
   .mobile-drawer.open {
@@ -378,23 +399,25 @@ const { currentPath = '/' } = Astro.props;
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     margin-bottom: 24px;
   }
 
   .mobile-nav-link {
     font-size: 1.02rem;
     font-weight: 500;
-    color: var(--text-secondary);
+    color: #0F172A;
     display: block;
-    padding: 8px 12px;
-    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border-bottom: 1px solid #F1F5F9;
+    text-decoration: none;
     transition: background 0.2s, color 0.2s;
   }
 
   .mobile-nav-link:hover, .mobile-nav-link:active {
-    color: var(--accent-gold-light);
-    background: rgba(184, 138, 59, 0.1);
+    color: #B88A3B;
+    background: #F8FAFC;
   }
 
   @media (max-width: 1024px) {

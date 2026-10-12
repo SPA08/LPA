@@ -114,10 +114,10 @@ import { business } from '@/data/business';
 <style>
   .site-footer {
     background: #080E16;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding: 70px 0 30px;
     margin-top: 80px;
-    color: var(--text-secondary);
+    color: #94A3B8;
   }
 
   .footer-grid {
@@ -133,6 +133,7 @@ import { business } from '@/data/business';
     align-items: center;
     gap: 12px;
     margin-bottom: 16px;
+    text-decoration: none;
   }
 
   .logo-crest {
@@ -140,7 +141,7 @@ import { business } from '@/data/business';
     height: 38px;
     border-radius: 8px;
     overflow: hidden;
-    border: 1px solid var(--border-card);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     background: #000;
   }
 
@@ -157,21 +158,26 @@ import { business } from '@/data/business';
 
   .logo-brand {
     font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-weight: 800;
+    color: #FFFFFF;
   }
 
   .logo-sub {
     font-size: 0.62rem;
     letter-spacing: 1.8px;
-    color: var(--accent-gold);
-    font-weight: 600;
+    color: #C39A52;
+    font-weight: 700;
   }
 
   .footer-bio {
     font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 20px;
+    color: #94A3B8;
+  }
+
+  .footer-bio strong {
+    color: #FFFFFF;
   }
 
   .footer-socials {
@@ -183,13 +189,13 @@ import { business } from '@/data/business';
     width: 38px;
     height: 38px;
     border-radius: var(--radius-control);
-    background: var(--bg-card);
-    border: 1px solid var(--border-glass);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1rem;
-    color: var(--text-secondary);
+    color: #CBD5E1;
     transition: var(--transition);
   }
 
@@ -218,7 +224,8 @@ import { business } from '@/data/business';
   /* Headings & Links */
   .footer-heading {
     font-size: 1.15rem;
-    color: var(--text-primary);
+    color: #FFFFFF;
+    font-weight: 700;
     margin-bottom: 20px;
     position: relative;
     padding-bottom: 8px;
@@ -231,7 +238,7 @@ import { business } from '@/data/business';
     left: 0;
     width: 28px;
     height: 2px;
-    background: var(--accent-gold);
+    background: #C39A52;
   }
 
   .footer-links {
@@ -243,13 +250,14 @@ import { business } from '@/data/business';
 
   .footer-links li a {
     font-size: 0.88rem;
-    color: var(--text-secondary);
+    color: #94A3B8;
+    text-decoration: none;
     transition: color 0.2s, transform 0.2s;
     display: inline-block;
   }
 
   .footer-links li a:hover {
-    color: var(--accent-gold-light);
+    color: #FBBF24;
     transform: translateX(4px);
   }
 
@@ -265,15 +273,23 @@ import { business } from '@/data/business';
     gap: 12px;
     font-size: 0.88rem;
     line-height: 1.5;
+    color: #94A3B8;
   }
 
   .contact-item i {
     margin-top: 3px;
     flex-shrink: 0;
+    color: #C39A52;
+  }
+
+  .contact-item a {
+    color: #CBD5E1;
+    text-decoration: none;
+    transition: color 0.2s;
   }
 
   .contact-item a:hover {
-    color: var(--accent-gold-light);
+    color: #FBBF24;
   }
 
   .footer-cta-box {
@@ -282,13 +298,17 @@ import { business } from '@/data/business';
 
   /* Disclaimer */
   .footer-disclaimer {
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: 20px 0;
     margin-bottom: 24px;
     font-size: 0.8rem;
     line-height: 1.6;
-    color: var(--text-muted);
+    color: #64748B;
+  }
+
+  .footer-disclaimer strong {
+    color: #94A3B8;
   }
 
   /* Bottom */
@@ -299,6 +319,11 @@ import { business } from '@/data/business';
     flex-wrap: wrap;
     gap: 16px;
     font-size: 0.82rem;
+    color: #64748B;
+  }
+
+  .copyright {
+    color: #64748B;
   }
 
   .legal-links {
@@ -307,8 +332,14 @@ import { business } from '@/data/business';
     list-style: none;
   }
 
+  .legal-links li a {
+    color: #94A3B8;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
   .legal-links li a:hover {
-    color: var(--accent-gold-light);
+    color: #FBBF24;
   }
 
   @media (max-width: 1024px) {

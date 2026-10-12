@@ -128,7 +128,11 @@ import { localities } from '@/data/locations';
             </div>
             <div class="preview-card-text">
               <h4 class="preview-card-title">Contemporary Family Home</h4>
-              <p class="preview-card-sub">Green Town / Sahiwal Road, Chichawatni</p>
+              <p class="preview-card-sub hero-location-blur">
+                <i class="fa-solid fa-location-dot highlight-gold"></i>
+                <span class="blurred-address-hero">Green Town / Sahiwal Road</span>
+                <span class="confidential-badge-mini"><i class="fa-solid fa-lock"></i> Protected</span>
+              </p>
             </div>
           </a>
         </div>
@@ -524,6 +528,41 @@ import { localities } from '@/data/locations';
     font-size: 0.75rem;
     color: #64748B;
     line-height: 1.4;
+  }
+
+  .hero-location-blur {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.74rem;
+    color: #64748B;
+  }
+
+  .blurred-address-hero {
+    filter: blur(4px);
+    user-select: none;
+    -webkit-user-select: none;
+    opacity: 0.85;
+    transition: filter 0.3s ease;
+  }
+
+  .floating-preview-card:hover .blurred-address-hero {
+    filter: blur(2px);
+  }
+
+  .confidential-badge-mini {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 1px 5px;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.12);
+    color: #B88A3B;
+    border: 1px solid rgba(184, 138, 59, 0.25);
   }
 
   /* Trust Highlights Strip */

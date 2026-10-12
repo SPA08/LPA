@@ -117,7 +117,7 @@ import { properties } from '@/data/properties';
         <tbody>
           <tr>
             <td class="spec-label">Location</td>
-            ${matched.map(p => `<td><strong>${p.locationLabel}</strong></td>`).join('')}
+            ${matched.map(p => `<td><span class="blurred-compare-address" title="Exact address confidential for owner privacy">${p.locationLabel}</span> <span class="confidential-lock-tag"><i class="fa-solid fa-lock"></i> Protected</span></td>`).join('')}
           </tr>
           <tr>
             <td class="spec-label">Property Type</td>
@@ -386,6 +386,30 @@ import { properties } from '@/data/properties';
     color: var(--accent-teal-light);
     font-weight: 600;
     font-size: 0.78rem;
+  }
+
+  :global(.blurred-compare-address) {
+    filter: blur(4px);
+    user-select: none;
+    -webkit-user-select: none;
+    opacity: 0.85;
+    display: inline-block;
+  }
+
+  :global(.confidential-lock-tag) {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.12);
+    color: #B88A3B;
+    border: 1px solid rgba(184, 138, 59, 0.25);
+    margin-left: 4px;
+    vertical-align: middle;
   }
 
   @media (max-width: 640px) {

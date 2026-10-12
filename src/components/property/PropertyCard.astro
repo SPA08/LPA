@@ -37,7 +37,10 @@ const { property } = Astro.props;
   <div class="card-body">
     <div class="card-location">
       <i class="fa-solid fa-location-dot highlight-gold"></i>
-      <span>{property.locationLabel}</span>
+      <span class="blurred-address-text" title="Exact Address Confidential for Owner Privacy">{property.locationLabel}</span>
+      <span class="confidential-badge" title="Exact street address protected. Available on direct inquiry.">
+        <i class="fa-solid fa-lock"></i> Protected
+      </span>
     </div>
 
     <h3 class="card-title">{property.title}</h3>
@@ -204,10 +207,40 @@ const { property } = Astro.props;
     color: var(--text-muted);
     display: flex;
     align-items: center;
-    gap: 6px;
-    text-transform: uppercase;
+    gap: 8px;
     letter-spacing: 0.5px;
     font-weight: 500;
+  }
+
+  .blurred-address-text {
+    filter: blur(4.5px);
+    user-select: none;
+    -webkit-user-select: none;
+    opacity: 0.82;
+    cursor: default;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+
+  .property-card:hover .blurred-address-text {
+    filter: blur(2.5px);
+    opacity: 0.95;
+  }
+
+  .confidential-badge {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    background: rgba(184, 138, 59, 0.12);
+    color: #B88A3B;
+    border: 1px solid rgba(184, 138, 59, 0.28);
+    flex-shrink: 0;
   }
 
   .card-title {

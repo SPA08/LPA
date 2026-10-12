@@ -94,7 +94,7 @@ export const properties: PropertyItem[] = [
     title: "5 Marla Double Story House",
     slug: "5-marla-double-story-house-hayat-abad",
     area: "Hayat Abad",
-    locationLabel: "Tower Road, Hayat Abad, Chichawatni",
+    locationLabel: "Hayat Abad, Chichawatni",
     type: "residential",
     listingType: "sale",
     sizeMarla: 5,
@@ -103,13 +103,13 @@ export const properties: PropertyItem[] = [
     bedrooms: 3,
     bathrooms: 3,
     garage: "Compact Car Porch",
-    description: "Well-built 5 Marla double-story home situated close to Tower Road, Hayat Abad. Complete tile flooring, wood paneling, and ready to move in for modern family living.",
+    description: "Well-built 5 Marla double-story home situated in prime residential Hayat Abad (exact street confidential). Complete tile flooring, wood paneling, and ready to move in for modern family living.",
     image: "/assets/images/house-5marla-brandnew.jpg",
     badge: "5 Marla • Double Story",
     verified: true,
     featured: true,
     status: "Available",
-    facilities: ["Near Tower Road", "Complete Tile Flooring", "WAPDA & Gas Ready", "Balcony Terrace"]
+    facilities: ["Prime Hayat Abad Access", "Complete Tile Flooring", "WAPDA & Gas Ready", "Balcony Terrace"]
   },
   {
     id: "prop-7m-arched-block-4",

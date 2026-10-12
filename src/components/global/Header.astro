@@ -25,37 +25,58 @@ const { currentPath = '/' } = Astro.props;
     <nav class="desktop-nav" aria-label="Main Navigation">
       <ul class="nav-list">
         <li>
-          <a href="/" class:list={['nav-link', { active: currentPath === '/' }]}>Home</a>
+          <a href="/" class:list={['nav-link', { active: currentPath === '/' }]}>
+            <span>Home</span>
+          </a>
         </li>
         <li>
-          <a href="/#properties" class="nav-link">Properties</a>
+          <a href="/#properties" class="nav-link">
+            <span>Properties</span>
+          </a>
         </li>
         <li>
-          <a href="/#areas" class="nav-link">Market Map</a>
+          <a href="/#areas" class="nav-link">
+            <span>Market Map</span>
+          </a>
         </li>
 
-        <!-- City & Guides Dropdown -->
+        <!-- City & Guides 2-Column Mega Dropdown -->
         <li class="nav-dropdown-wrapper">
           <a href="/chichawatni-city-guide.html" class="nav-link dropdown-trigger">
             <span>City & Guides</span>
             <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
           </a>
-          <ul class="dropdown-menu">
-            <li><a href="/chichawatni-city-guide.html"><i class="fa-solid fa-city highlight-gold"></i> City Overview</a></li>
-            <li><a href="/chichawatni-residential-colonies-guide.html"><i class="fa-solid fa-house-chimney highlight-teal"></i> Residential Colonies</a></li>
-            <li><a href="/chichawatni-land-records-plra-guide.html"><i class="fa-solid fa-file-signature highlight-gold"></i> PLRA & Land Records</a></li>
-            <li><a href="/fbr-property-valuation-chichawatni.html"><i class="fa-solid fa-calculator highlight-teal"></i> FBR Property Valuation</a></li>
-            <li><a href="/property-buying-guide.html"><i class="fa-solid fa-shield-halved highlight-gold"></i> Buying Guide</a></li>
-            <li><a href="/chichawatni-overseas-investor-guide.html"><i class="fa-solid fa-plane-departure highlight-teal"></i> Overseas Investor Guide</a></li>
-            <li><a href="/chichawatni-commercial-property-guide.html"><i class="fa-solid fa-building highlight-gold"></i> Commercial Property</a></li>
-            <li><a href="/chichawatni-history-heritage.html"><i class="fa-solid fa-landmark highlight-teal"></i> History & 1913 Forest</a></li>
-            <li><a href="/chichawatni-hospitals-guide.html"><i class="fa-solid fa-hospital highlight-gold"></i> Hospitals & Clinics</a></li>
-            <li><a href="/chichawatni-schools-guide.html"><i class="fa-solid fa-graduation-cap highlight-teal"></i> Schools & Colleges</a></li>
-            <li><a href="/chichawatni-markets-guide.html"><i class="fa-solid fa-store highlight-gold"></i> Markets & Bazaars</a></li>
-            <li><a href="/chichawatni-roads-guide.html"><i class="fa-solid fa-road highlight-teal"></i> Roads & Highways</a></li>
-            <li><a href="/chichawatni-public-offices.html"><i class="fa-solid fa-building-columns highlight-gold"></i> Government Offices</a></li>
-            <li><a href="/chichawatni-city-facts.html"><i class="fa-solid fa-book-open highlight-teal"></i> City Encyclopedia</a></li>
-          </ul>
+          <div class="dropdown-menu mega-dropdown">
+            <div class="mega-header">
+              <span class="mega-title"><i class="fa-solid fa-book-atlas highlight-gold"></i> Chichawatni Civic & Property Knowledge</span>
+            </div>
+            <div class="mega-columns">
+              <div class="mega-col">
+                <span class="mega-col-label">Essential Guides</span>
+                <ul class="mega-sublist">
+                  <li><a href="/chichawatni-city-guide.html"><i class="fa-solid fa-city highlight-gold"></i> City Overview</a></li>
+                  <li><a href="/chichawatni-residential-colonies-guide.html"><i class="fa-solid fa-house-chimney highlight-teal"></i> Residential Colonies</a></li>
+                  <li><a href="/chichawatni-land-records-plra-guide.html"><i class="fa-solid fa-file-signature highlight-gold"></i> PLRA & Land Records</a></li>
+                  <li><a href="/fbr-property-valuation-chichawatni.html"><i class="fa-solid fa-calculator highlight-teal"></i> FBR Property Valuation</a></li>
+                  <li><a href="/property-buying-guide.html"><i class="fa-solid fa-shield-halved highlight-gold"></i> Buying Roadmap</a></li>
+                  <li><a href="/chichawatni-overseas-investor-guide.html"><i class="fa-solid fa-plane-departure highlight-teal"></i> Overseas Investor Guide</a></li>
+                  <li><a href="/chichawatni-commercial-property-guide.html"><i class="fa-solid fa-building highlight-gold"></i> Commercial Property</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <span class="mega-col-label">Civic & Community</span>
+                <ul class="mega-sublist">
+                  <li><a href="/chichawatni-history-heritage.html"><i class="fa-solid fa-landmark highlight-teal"></i> 1913 Forest & History</a></li>
+                  <li><a href="/chichawatni-hospitals-guide.html"><i class="fa-solid fa-hospital highlight-gold"></i> Hospitals & Clinics</a></li>
+                  <li><a href="/chichawatni-schools-guide.html"><i class="fa-solid fa-graduation-cap highlight-teal"></i> Schools & Colleges</a></li>
+                  <li><a href="/chichawatni-markets-guide.html"><i class="fa-solid fa-store highlight-gold"></i> Markets & Bazaars</a></li>
+                  <li><a href="/chichawatni-roads-guide.html"><i class="fa-solid fa-road highlight-teal"></i> Roads & Corridors</a></li>
+                  <li><a href="/chichawatni-public-offices.html"><i class="fa-solid fa-building-columns highlight-gold"></i> Government Offices</a></li>
+                  <li><a href="/chichawatni-city-facts.html"><i class="fa-solid fa-book-open highlight-teal"></i> City Encyclopedia</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </li>
 
         <!-- Property Blog Dropdown -->
@@ -64,23 +85,25 @@ const { currentPath = '/' } = Astro.props;
             <span>Property Blog</span>
             <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu compact-dropdown">
             <li><a href="/blog/index.html"><i class="fa-solid fa-newspaper highlight-gold"></i> All Articles</a></li>
             <li><a href="/blog/index.html?category=buying"><i class="fa-solid fa-house-circle-check highlight-teal"></i> Buying Guides</a></li>
-            <li><a href="/blog/index.html?category=selling"><i class="fa-solid fa-tags highlight-gold"></i> Selling Guides</a></li>
-            <li><a href="/blog/index.html?category=records"><i class="fa-solid fa-file-shield highlight-teal"></i> Property Records</a></li>
+            <li><a href="/blog/index.html?category=selling"><i class="fa-solid fa-tags highlight-gold"></i> Selling Advice</a></li>
+            <li><a href="/blog/index.html?category=records"><i class="fa-solid fa-file-shield highlight-teal"></i> Land Record Advice</a></li>
           </ul>
         </li>
 
         <li>
-          <a href="/#contact" class="nav-link">Contact</a>
+          <a href="/#contact" class="nav-link">
+            <span>Contact</span>
+          </a>
         </li>
       </ul>
     </nav>
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <a href="tel:+923063996764" class="header-call-btn" aria-label="Call Naeem Siddhu">
+      <a href="tel:+923063996764" class="header-call-btn" aria-label="Call consultation">
         <i class="fa-solid fa-phone"></i>
         <span class="call-text">{business.phoneFormatted}</span>
       </a>
@@ -98,27 +121,39 @@ const { currentPath = '/' } = Astro.props;
     </div>
   </div>
 
-  <!-- Mobile Drawer Menu -->
+  <!-- Mobile Drawer Overlay & Menu -->
+  <div id="mobileDrawerOverlay" class="mobile-drawer-overlay"></div>
   <div id="mobileDrawer" class="mobile-drawer" aria-hidden="true">
     <div class="drawer-inner container">
+      <div class="mobile-drawer-brand">
+        <div class="logo-text">
+          <span class="logo-brand">SIDDHU <span class="highlight-gold">PROPERTY</span></span>
+          <span class="logo-sub">REAL ESTATE ADVISOR • CHICHAWATNI</span>
+        </div>
+      </div>
+
       <ul class="mobile-nav-list">
-        <li><a href="/" class="mobile-nav-link">Home</a></li>
-        <li><a href="/#properties" class="mobile-nav-link">Properties</a></li>
-        <li><a href="/#areas" class="mobile-nav-link">Market Map</a></li>
-        <li><a href="/chichawatni-city-guide.html" class="mobile-nav-link">City & Guides</a></li>
-        <li><a href="/chichawatni-land-records-plra-guide.html" class="mobile-nav-link">PLRA & Land Records</a></li>
-        <li><a href="/fbr-property-valuation-chichawatni.html" class="mobile-nav-link">FBR Property Valuation</a></li>
-        <li><a href="/property-buying-guide.html" class="mobile-nav-link">Buying Guide</a></li>
-        <li><a href="/chichawatni-overseas-investor-guide.html" class="mobile-nav-link">Overseas Investor Guide</a></li>
-        <li><a href="/blog/index.html" class="mobile-nav-link">Property Blog</a></li>
-        <li><a href="/#contact" class="mobile-nav-link">Contact Us</a></li>
+        <li><a href="/" class="mobile-nav-link"><i class="fa-solid fa-house highlight-gold"></i> Home</a></li>
+        <li><a href="/#properties" class="mobile-nav-link"><i class="fa-solid fa-house-chimney highlight-teal"></i> Verified Properties</a></li>
+        <li><a href="/#areas" class="mobile-nav-link"><i class="fa-solid fa-map-location-dot highlight-gold"></i> Interactive Map</a></li>
+        
+        <li class="mobile-section-divider">City & Legal Knowledge</li>
+        <li><a href="/chichawatni-city-guide.html" class="mobile-nav-link"><i class="fa-solid fa-city highlight-gold"></i> City Overview</a></li>
+        <li><a href="/chichawatni-residential-colonies-guide.html" class="mobile-nav-link"><i class="fa-solid fa-tree-city highlight-teal"></i> Residential Colonies</a></li>
+        <li><a href="/chichawatni-land-records-plra-guide.html" class="mobile-nav-link"><i class="fa-solid fa-file-shield highlight-gold"></i> PLRA Land Records</a></li>
+        <li><a href="/fbr-property-valuation-chichawatni.html" class="mobile-nav-link"><i class="fa-solid fa-calculator highlight-teal"></i> FBR Property Valuation</a></li>
+        <li><a href="/property-buying-guide.html" class="mobile-nav-link"><i class="fa-solid fa-compass highlight-gold"></i> 5-Step Buying Roadmap</a></li>
+        <li><a href="/chichawatni-overseas-investor-guide.html" class="mobile-nav-link"><i class="fa-solid fa-plane-departure highlight-teal"></i> Overseas Investor Guide</a></li>
+        <li><a href="/blog/index.html" class="mobile-nav-link"><i class="fa-solid fa-newspaper highlight-gold"></i> Property Blog</a></li>
+        <li><a href="/#contact" class="mobile-nav-link"><i class="fa-solid fa-envelope highlight-teal"></i> Contact Us</a></li>
       </ul>
+
       <div class="mobile-drawer-footer">
-        <a href="/sell-my-property/index.html" class="btn-primary" style="width: 100%; margin-bottom: 12px;">
-          <i class="fa-solid fa-plus"></i> List Your Property
+        <a href="/sell-my-property/index.html" class="btn-primary" style="width: 100%; margin-bottom: 10px; justify-content: center;">
+          <i class="fa-solid fa-plus"></i> List Your Property Free
         </a>
-        <a href="tel:+923063996764" class="btn-whatsapp" style="width: 100%;">
-          <i class="fa-solid fa-phone"></i> Call Naeem Siddhu: {business.phoneFormatted}
+        <a href="tel:+923063996764" class="btn-whatsapp" style="width: 100%; justify-content: center;">
+          <i class="fa-solid fa-phone"></i> Call Advisor: {business.phoneFormatted}
         </a>
       </div>
     </div>
@@ -270,19 +305,17 @@ const { currentPath = '/' } = Astro.props;
 
   .dropdown-menu {
     position: absolute;
-    top: calc(100% + 12px);
+    top: calc(100% + 14px);
     left: 50%;
-    transform: translateX(-50%) translateY(8px);
+    transform: translateX(-50%) translateY(10px);
     opacity: 0;
     visibility: hidden;
     background: #FFFFFF;
-    border: 1px solid rgba(200, 169, 107, 0.3);
-    border-radius: 14px;
-    box-shadow: 0 20px 40px -10px rgba(27, 47, 40, 0.25);
-    padding: 10px 0;
-    min-width: 260px;
+    border: 1px solid rgba(200, 169, 107, 0.35);
+    border-radius: 18px;
+    box-shadow: 0 24px 48px -12px rgba(27, 47, 40, 0.3);
     list-style: none;
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
     z-index: 100;
   }
 
@@ -292,7 +325,13 @@ const { currentPath = '/' } = Astro.props;
     transform: translateX(-50%) translateY(0);
   }
 
-  .dropdown-menu li a {
+  /* Compact Dropdown (Blog) */
+  .compact-dropdown {
+    min-width: 240px;
+    padding: 10px 0;
+  }
+
+  .compact-dropdown li a {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -303,10 +342,76 @@ const { currentPath = '/' } = Astro.props;
     transition: background 0.2s, color 0.2s;
   }
 
-  .dropdown-menu li a:hover {
+  .compact-dropdown li a:hover {
     background: #F3F7F5;
     color: var(--color-dark-green);
     font-weight: 600;
+  }
+
+  /* 2-Column Mega Dropdown (City & Guides) */
+  .mega-dropdown {
+    min-width: 540px;
+    padding: 16px 20px 20px;
+  }
+
+  .mega-header {
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .mega-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--color-dark-green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mega-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .mega-col-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-gold);
+    margin-bottom: 8px;
+    padding-left: 10px;
+  }
+
+  .mega-sublist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mega-sublist li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #2D3D36;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+
+  .mega-sublist li a:hover {
+    background: #F3F7F5;
+    color: var(--color-dark-green);
+    font-weight: 600;
+    transform: translateX(3px);
   }
 
   /* Header Actions */
@@ -323,34 +428,39 @@ const { currentPath = '/' } = Astro.props;
     color: #FFFFFF;
     font-size: 0.88rem;
     font-weight: 600;
-    padding: 8px 15px;
-    border-radius: 9999px;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     text-decoration: none;
     transition: var(--transition);
   }
 
   .header-call-btn i {
     color: var(--color-gold);
+    font-size: 0.82rem;
   }
 
   .header-call-btn:hover {
     color: #FFFFFF;
-    background: rgba(200, 169, 107, 0.2);
+    background: rgba(200, 169, 107, 0.22);
     border-color: var(--color-gold);
+    transform: translateY(-1px);
   }
 
   .list-property-btn {
-    padding: 9px 20px;
+    padding: 9px 22px;
     font-size: 0.88rem;
     background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
     color: var(--color-deep-green);
-    border-radius: 9999px;
+    border-radius: var(--radius-full);
     font-weight: 700;
     text-decoration: none;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .list-property-btn:hover {
@@ -364,9 +474,9 @@ const { currentPath = '/' } = Astro.props;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(200, 169, 107, 0.35);
     color: #FFFFFF;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -379,6 +489,27 @@ const { currentPath = '/' } = Astro.props;
     border-color: var(--color-gold);
   }
 
+  /* Mobile Drawer Overlay */
+  .mobile-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 30, 24, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+
+  .mobile-drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
   /* Mobile Drawer */
   .mobile-drawer {
     display: none;
@@ -386,50 +517,69 @@ const { currentPath = '/' } = Astro.props;
     top: 100%;
     left: 0;
     right: 0;
-    background: #233D34;
+    background: #1F362E;
     border-bottom: 2px solid var(--color-gold);
     padding: 20px 0 30px;
-    max-height: calc(100vh - 75px);
+    max-height: calc(100vh - 80px);
     overflow-y: auto;
-    box-shadow: 0 20px 40px rgba(15, 30, 24, 0.4);
+    box-shadow: 0 24px 50px rgba(10, 20, 16, 0.6);
+    z-index: 999;
   }
 
   .mobile-drawer.open {
     display: block;
-    animation: fadeInDrawer 0.25s ease;
+    animation: fadeInDrawer 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @keyframes fadeInDrawer {
-    from { opacity: 0; transform: translateY(-8px); }
+    from { opacity: 0; transform: translateY(-12px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mobile-drawer-brand {
+    padding: 0 16px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
+  }
+
+  .mobile-section-divider {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-gold);
+    font-weight: 700;
+    padding: 12px 16px 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 8px;
   }
 
   .mobile-nav-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
     margin-bottom: 24px;
   }
 
   .mobile-nav-link {
-    font-size: 1.02rem;
+    font-size: 0.96rem;
     font-weight: 500;
     color: #E2ECE7;
-    display: block;
-    padding: 11px 16px;
-    border-radius: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: 10px;
     text-decoration: none;
     transition: background 0.2s, color 0.2s;
   }
 
   .mobile-nav-link:hover, .mobile-nav-link:active {
-    color: var(--color-gold);
-    background: rgba(63, 107, 91, 0.3);
+    color: #FFFFFF;
+    background: rgba(63, 107, 91, 0.4);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1060px) {
     .desktop-nav, .header-call-btn {
       display: none;
     }
@@ -451,7 +601,7 @@ const { currentPath = '/' } = Astro.props;
       letter-spacing: 1.2px;
     }
     .list-property-btn {
-      padding: 7px 14px;
+      padding: 8px 14px;
       font-size: 0.8rem;
     }
     .list-property-btn span {
@@ -465,9 +615,9 @@ const { currentPath = '/' } = Astro.props;
       gap: 10px;
     }
     .mobile-toggle {
-      width: 36px;
-      height: 36px;
-      font-size: 1rem;
+      width: 38px;
+      height: 38px;
+      font-size: 1.05rem;
     }
   }
 
@@ -489,6 +639,7 @@ const { currentPath = '/' } = Astro.props;
   const header = document.getElementById('siteHeader');
   const toggleBtn = document.getElementById('mobileMenuToggle');
   const drawer = document.getElementById('mobileDrawer');
+  const overlay = document.getElementById('mobileDrawerOverlay');
   const menuBars = document.getElementById('menuBarsIcon');
   const menuClose = document.getElementById('menuCloseIcon');
 
@@ -520,13 +671,30 @@ const { currentPath = '/' } = Astro.props;
     }
   }, { passive: true });
 
+  function closeMobileDrawer() {
+    drawer?.classList.remove('open');
+    overlay?.classList.remove('active');
+    toggleBtn?.setAttribute('aria-expanded', 'false');
+    if (menuBars && menuClose) {
+      menuBars.style.display = 'block';
+      menuClose.style.display = 'none';
+    }
+  }
+
   // Mobile menu toggle
   toggleBtn?.addEventListener('click', () => {
     const isOpen = drawer?.classList.toggle('open');
+    overlay?.classList.toggle('active', !!isOpen);
     toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     if (menuBars && menuClose) {
       menuBars.style.display = isOpen ? 'none' : 'block';
       menuClose.style.display = isOpen ? 'block' : 'none';
     }
+  });
+
+  // Close when clicking overlay or mobile nav link
+  overlay?.addEventListener('click', closeMobileDrawer);
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', closeMobileDrawer);
   });
 </script>

@@ -11,6 +11,63 @@ const categories = [
   { id: 'Safety', label: 'Safety & Emergency', icon: 'fa-shield-halved', count: cityPlaces.filter(p => p.category === 'Safety').length },
   { id: 'Real Estate', label: 'Real Estate & Heritage', icon: 'fa-landmark', count: cityPlaces.filter(p => p.category === 'Real Estate' || p.category === 'Services').length },
 ];
+
+const categorySummaries = [
+  {
+    id: 'Education',
+    title: 'Schools & Colleges',
+    icon: 'fa-graduation-cap',
+    count: cityPlaces.filter(p => p.category === 'Education').length,
+    badge: 'Family Proximity',
+    summary: 'Govt Crescent Model H/S, Punjab Group of Colleges, DPS, KIPS & superior girls colleges within 1.5–3 km radius.',
+    advisory: 'Family colonies like Model Town & Hayat Abad offer direct school van routes.'
+  },
+  {
+    id: 'Health',
+    title: 'Hospitals & Healthcare',
+    icon: 'fa-hospital',
+    count: cityPlaces.filter(p => p.category === 'Health').length,
+    badge: '24/7 Emergency Care',
+    summary: 'THQ Civil Hospital Trauma Center, Shafi Memorial Hospital, and specialized clinics along Burewala & G.T. Roads.',
+    advisory: 'Fast emergency arterial access via G.T. Road bypasses crowded inner bazaars.'
+  },
+  {
+    id: 'Government',
+    title: 'Land Records & Govt',
+    icon: 'fa-building-columns',
+    count: cityPlaces.filter(p => p.category === 'Government').length,
+    badge: 'Official Registry',
+    summary: 'PLRA Computerized Arazi Record Center, Sub-Registrar Tehsil Kachehri, & Municipal Committee Chichawatni.',
+    advisory: 'The essential hub for Fard Malkiat, computerized registry, Intiqal, and tax clearance.'
+  },
+  {
+    id: 'Banking',
+    title: 'Banks & ATMs',
+    icon: 'fa-building-columns',
+    count: cityPlaces.filter(p => p.category === 'Banking').length,
+    badge: 'Financial Services',
+    summary: 'NBP, HBL, Meezan Islamic Bank, MCB, Allied & UBL clustered along Railway & College Roads.',
+    advisory: 'All CDR securities, pay orders, and stamp paper banking payments are processed here.'
+  },
+  {
+    id: 'Safety',
+    title: 'Safety & Emergency',
+    icon: 'fa-shield-halved',
+    count: cityPlaces.filter(p => p.category === 'Safety').length,
+    badge: 'Rapid Response',
+    summary: 'City Police Station (Thana Chichawatni), Rescue 1122 Main Ambulance Station, and Fire Brigade Unit.',
+    advisory: 'Sub-7 minute emergency response time across all urban residential blocks.'
+  },
+  {
+    id: 'Real Estate',
+    title: 'Real Estate & Heritage',
+    icon: 'fa-landmark',
+    count: cityPlaces.filter(p => p.category === 'Real Estate' || p.category === 'Services').length,
+    badge: 'Commercial & Leisure',
+    summary: 'Main G.T. Road Commercial Belt, Clock Tower Market (Ghanta Ghar), and the historic Chichawatni Forest Reserve.',
+    advisory: 'Key retail footfall zones, rental yield strips, and green environmental buffers.'
+  }
+];
 ---
 
 <section id="city-intelligence" class="city-intelligence-section">
@@ -18,18 +75,48 @@ const categories = [
     <div class="section-header">
       <span class="section-badge">
         <i class="fa-solid fa-compass highlight-gold"></i>
-        <span>LOCAL PLACE INTELLIGENCE</span>
+        <span>LOCAL CIVIC & INFRASTRUCTURE INTELLIGENCE</span>
       </span>
       <h2>
         Everything Around <span class="editorial-italic highlight-gold">Chichawatni</span>
       </h2>
       <p>
-        Real community infrastructure, schools, hospitals, land registry centers, and civic landmarks that define property value and everyday family life across Tehsil Chichawatni.
+        Verified civic infrastructure, schools, hospitals, land registry centers, and commercial hubs that shape family living and determine long-term property values across Tehsil Chichawatni.
       </p>
     </div>
 
+    <!-- Category Summary Overview Cards (Summary Preview Boxes) -->
+    <div class="category-summary-grid">
+      {categorySummaries.map(cat => (
+        <div
+          class="cat-summary-box"
+          data-category={cat.id}
+          onclick={`window.selectCategoryFromSummary('${cat.id}');`}
+          role="button"
+          tabindex="0"
+          aria-label={`Explore ${cat.title} places`}
+        >
+          <div class="cat-summary-header">
+            <div class="cat-summary-icon">
+              <i class={`fa-solid ${cat.icon}`}></i>
+            </div>
+            <div class="cat-summary-meta">
+              <span class="cat-badge">{cat.badge}</span>
+              <span class="cat-count-pill">{cat.count} Places</span>
+            </div>
+          </div>
+          <h3 class="cat-summary-title">{cat.title}</h3>
+          <p class="cat-summary-desc">{cat.summary}</p>
+          <div class="cat-summary-action">
+            <span class="cat-action-text">Explore {cat.title}</span>
+            <i class="fa-solid fa-arrow-right-long cat-action-icon"></i>
+          </div>
+        </div>
+      ))}
+    </div>
+
     <!-- Category Tabs Filter Row -->
-    <div class="intel-tabs-wrapper">
+    <div class="intel-tabs-wrapper" id="intelTabsWrapper">
       <div class="intel-tabs-row" role="tablist" aria-label="City Intelligence Categories">
         {categories.map((cat, idx) => (
           <button
@@ -45,8 +132,8 @@ const categories = [
       </div>
     </div>
 
-    <!-- Place Search & Stats Bar -->
-    <div class="intel-search-bar-row">
+    <!-- Place Search & Interactive Stats Toolbar -->
+    <div class="intel-toolbar-row">
       <div class="intel-search-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
         <input
@@ -56,23 +143,46 @@ const categories = [
           class="intel-search-input"
           oninput="window.searchCityPlaces(this.value);"
         />
+        <button
+          type="button"
+          id="intelClearSearchBtn"
+          class="clear-search-btn"
+          onclick="window.clearSearchInput();"
+          style="display: none;"
+          aria-label="Clear search"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <div class="intel-stat-notice">
-        Showing <strong id="intelVisibleCount">{cityPlaces.length}</strong> verified civic locations in Chichawatni
+
+      <div class="intel-toolbar-actions">
+        <div class="intel-stat-notice">
+          Showing <strong id="intelVisibleCount">{cityPlaces.length}</strong> verified locations
+        </div>
+        <button
+          type="button"
+          id="btnToggleAllIntel"
+          class="btn-toggle-all-intel"
+          onclick="window.toggleAllIntelCards();"
+          aria-label="Expand or collapse all cards"
+        >
+          <i class="fa-solid fa-chevron-down" id="toggleAllIcon"></i>
+          <span id="toggleAllText">Expand All</span>
+        </button>
       </div>
     </div>
 
-    <!-- Places Cards Grid -->
+    <!-- Places Cards Grid (Accordion / Collapsible Drawer Pattern) -->
     <div class="intel-cards-grid" id="intelPlacesGrid">
       {cityPlaces.map(place => (
         <article
-          class="intel-card v4-card"
+          class="intel-card v4-card collapsed"
           data-id={place.id}
           data-category={place.category === 'Services' ? 'Real Estate' : place.category}
           data-search={`${place.name} ${place.locality} ${place.roadAddress} ${place.subCategory} ${place.usefulness}`.toLowerCase()}
         >
-          <!-- Card Header -->
-          <div class="intel-card-header">
+          <!-- Compact Preview Header -->
+          <div class="intel-card-header" onclick={`window.toggleCardByElement(this.closest('.intel-card'));`}>
             <div class="intel-icon-crest">
               {place.category === 'Education' && <i class="fa-solid fa-graduation-cap"></i>}
               {place.category === 'Health' && <i class="fa-solid fa-heart-pulse"></i>}
@@ -93,8 +203,8 @@ const categories = [
             </div>
           </div>
 
-          <!-- Card Body -->
-          <div class="intel-card-body">
+          <!-- Preview Body -->
+          <div class="intel-card-body" onclick={`window.toggleCardByElement(this.closest('.intel-card'));`}>
             <h3 class="intel-place-name">{place.name}</h3>
 
             <div class="intel-address-line">
@@ -102,42 +212,68 @@ const categories = [
               <span><strong>{place.locality}</strong> • {place.roadAddress}</span>
             </div>
 
-            <p class="intel-usefulness">
-              {place.usefulness}
+            <!-- Short 1-Sentence Summary Teaser -->
+            <p class="intel-preview-teaser">
+              {place.usefulness.length > 95 ? place.usefulness.slice(0, 95) + '...' : place.usefulness}
             </p>
-
-            <!-- Highlights Tags -->
-            <div class="intel-tags-row">
-              {place.highlights.map(tag => (
-                <span class="intel-tag">{tag}</span>
-              ))}
-            </div>
           </div>
 
-          <!-- Card Footer -->
-          <div class="intel-card-footer">
-            {place.contactOrTiming && (
-              <div class="intel-timing">
-                <i class="fa-regular fa-clock"></i>
-                <span>{place.contactOrTiming}</span>
+          <!-- Interactive Accordion Toggle Trigger -->
+          <div class="intel-toggle-bar">
+            <button
+              type="button"
+              class="btn-intel-toggle"
+              aria-expanded="false"
+              onclick="window.toggleCardButton(this, event);"
+            >
+              <span class="toggle-label">View Civic Details & Highlights</span>
+              <i class="fa-solid fa-chevron-down toggle-chevron"></i>
+            </button>
+          </div>
+
+          <!-- Expandable Details Drawer (Hidden by default, expands cleanly) -->
+          <div class="intel-details-drawer">
+            <div class="drawer-inner-content">
+              <!-- Full In-Depth Civic / Property Note -->
+              <div class="intel-full-note">
+                <strong><i class="fa-solid fa-circle-info highlight-gold"></i> Local Advisory:</strong>
+                <p>{place.usefulness}</p>
               </div>
-            )}
-            <div class="intel-actions">
-              <button
-                class="btn-intel-map"
-                onclick={`window.focusPlaceOnMap('${place.id}', ${place.lat}, ${place.lng}, '${place.name.replace(/'/g, "\\'")}');`}
-              >
-                <i class="fa-solid fa-map-location-dot"></i> View on Map
-              </button>
-              <a
-                href={`https://wa.me/923063996764?text=${encodeURIComponent(`Hello Naeem Siddhu, I have an inquiry regarding area near ${place.name} in Chichawatni.`)}`}
-                target="_blank"
-                rel="noopener"
-                class="btn-intel-inquire"
-                aria-label={`Inquire about property near ${place.name}`}
-              >
-                <i class="fa-brands fa-whatsapp"></i> Inquire Area
-              </a>
+
+              <!-- Highlights Tags -->
+              <div class="intel-tags-row">
+                {place.highlights.map(tag => (
+                  <span class="intel-tag">{tag}</span>
+                ))}
+              </div>
+
+              <!-- Timings or Contact Hours -->
+              {place.contactOrTiming && (
+                <div class="intel-timing">
+                  <i class="fa-regular fa-clock highlight-gold"></i>
+                  <span>{place.contactOrTiming}</span>
+                </div>
+              )}
+
+              <!-- Actions Buttons -->
+              <div class="intel-actions">
+                <button
+                  type="button"
+                  class="btn-intel-map"
+                  onclick={`window.focusPlaceOnMap('${place.id}', ${place.lat}, ${place.lng}, '${place.name.replace(/'/g, "\\'")}');`}
+                >
+                  <i class="fa-solid fa-map-location-dot"></i> View on Map
+                </button>
+                <a
+                  href={`https://wa.me/923063996764?text=${encodeURIComponent(`Hello Naeem Siddhu, I have an inquiry regarding area near ${place.name} in Chichawatni.`)}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="btn-intel-inquire"
+                  aria-label={`Inquire about property near ${place.name}`}
+                >
+                  <i class="fa-brands fa-whatsapp"></i> Inquire Area
+                </a>
+              </div>
             </div>
           </div>
         </article>
@@ -158,16 +294,148 @@ const categories = [
 
 <style>
   .city-intelligence-section {
-    padding: 90px 0;
+    padding: 85px 0 95px;
     background: #F7F7F3;
     position: relative;
     border-top: 1px solid #E2E6E3;
     border-bottom: 1px solid #E2E6E3;
   }
 
+  /* Category Summary Overview Grid */
+  .category-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+
+  .cat-summary-box {
+    background: #FFFFFF;
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-card);
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(31, 54, 46, 0.04);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cat-summary-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: transparent;
+    transition: background 0.25s ease;
+  }
+
+  .cat-summary-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(31, 54, 46, 0.09);
+    border-color: rgba(200, 169, 107, 0.5);
+  }
+
+  .cat-summary-box:hover::before {
+    background: var(--color-gold);
+  }
+
+  .cat-summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cat-summary-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: rgba(41, 71, 61, 0.07);
+    color: var(--color-matte-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    transition: all 0.25s ease;
+  }
+
+  .cat-summary-box:hover .cat-summary-icon {
+    background: var(--color-matte-green);
+    color: #FFFFFF;
+  }
+
+  .cat-summary-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .cat-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-matte-green);
+    background: rgba(41, 71, 61, 0.06);
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .cat-count-pill {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #8C6D2D;
+    background: rgba(200, 169, 107, 0.15);
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .cat-summary-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-dark-green);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .cat-summary-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .cat-summary-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-matte-green);
+    transition: color 0.2s;
+  }
+
+  .cat-action-icon {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+  }
+
+  .cat-summary-box:hover .cat-action-icon {
+    transform: translateX(4px);
+    color: var(--color-gold);
+  }
+
   /* Category Filter Tabs */
   .intel-tabs-wrapper {
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 6px;
@@ -185,22 +453,22 @@ const categories = [
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 18px;
+    padding: 9px 17px;
     border-radius: var(--radius-full);
     background: #FFFFFF;
     border: 1px solid var(--border-subtle);
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     transition: var(--transition);
     white-space: nowrap;
   }
 
   .intel-tab-btn i {
     color: var(--color-matte-green);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     transition: color 0.2s;
   }
 
@@ -215,7 +483,7 @@ const categories = [
     background: var(--color-dark-green);
     border-color: var(--color-dark-green);
     color: #FFFFFF;
-    box-shadow: 0 4px 14px rgba(41, 71, 61, 0.22);
+    box-shadow: 0 4px 14px rgba(41, 71, 61, 0.2);
   }
 
   .intel-tab-btn.active i {
@@ -223,12 +491,12 @@ const categories = [
   }
 
   .intel-count-pill {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     padding: 2px 7px;
     border-radius: var(--radius-full);
     background: rgba(41, 71, 61, 0.08);
-    color: var(--color-dark-green);
+    color: inherit;
   }
 
   .intel-tab-btn.active .intel-count-pill {
@@ -236,211 +504,340 @@ const categories = [
     color: #FFFFFF;
   }
 
-  /* Search & Stats Bar */
-  .intel-search-bar-row {
+  /* Toolbar Row: Search + Expand All */
+  .intel-toolbar-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 32px;
+    gap: 16px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
   }
 
   .intel-search-box {
     position: relative;
-    flex-grow: 1;
-    max-width: 520px;
+    flex: 1;
+    max-width: 500px;
   }
 
-  .intel-search-box .search-icon {
+  .search-icon {
     position: absolute;
-    left: 16px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
+    font-size: 0.9rem;
     color: var(--color-matte-green);
-    font-size: 0.95rem;
+    pointer-events: none;
   }
 
   .intel-search-input {
     width: 100%;
-    padding: 12px 18px 12px 44px;
-    border-radius: var(--radius-full);
     background: #FFFFFF;
     border: 1px solid var(--border-subtle);
-    font-size: 0.92rem;
     color: var(--text-primary);
-    box-shadow: var(--shadow-sm);
+    padding: 10px 38px 10px 40px;
+    border-radius: var(--radius-full);
+    font-size: 0.88rem;
+    font-family: inherit;
     transition: var(--transition);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   }
 
   .intel-search-input:focus {
     outline: none;
     border-color: var(--color-matte-green);
-    box-shadow: 0 0 0 3px rgba(63, 107, 91, 0.15);
+    box-shadow: 0 0 0 3px rgba(63, 107, 91, 0.12);
+  }
+
+  .clear-search-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .clear-search-btn:hover {
+    color: var(--text-primary);
+  }
+
+  .intel-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
 
   .intel-stat-notice {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
   }
 
   .intel-stat-notice strong {
     color: var(--color-dark-green);
+    font-weight: 700;
+  }
+
+  .btn-toggle-all-intel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-matte-green);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-toggle-all-intel:hover {
+    background: #FAFBF9;
+    border-color: var(--color-matte-green);
   }
 
   /* Places Cards Grid */
   .intel-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+    gap: 20px;
   }
 
   .intel-card {
     background: #FFFFFF;
     border: 1px solid var(--border-card);
     border-radius: var(--radius-card);
-    padding: 24px;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    transition: var(--transition);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    box-shadow: 0 2px 8px rgba(31, 54, 46, 0.04);
   }
 
   .intel-card:hover {
-    border-color: rgba(63, 107, 91, 0.4);
-    box-shadow: 0 16px 32px -4px rgba(41, 71, 61, 0.1);
-    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(31, 54, 46, 0.08);
+    border-color: rgba(200, 169, 107, 0.45);
   }
 
+  .intel-card.expanded {
+    border-color: var(--color-matte-green);
+    box-shadow: 0 10px 28px rgba(31, 54, 46, 0.1);
+  }
+
+  /* Card Header & Preview Body */
   .intel-card-header {
+    padding: 18px 20px 8px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 16px;
+    cursor: pointer;
   }
 
   .intel-icon-crest {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: rgba(63, 107, 91, 0.1);
-    border: 1px solid rgba(63, 107, 91, 0.2);
-    color: var(--color-dark-green);
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    background: rgba(41, 71, 61, 0.07);
+    color: var(--color-matte-green);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    flex-shrink: 0;
+    font-size: 1.05rem;
+    transition: all 0.2s;
+  }
+
+  .intel-card:hover .intel-icon-crest {
+    background: var(--color-matte-green);
+    color: #FFFFFF;
   }
 
   .intel-meta-top {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
+    align-items: center;
+    gap: 6px;
   }
 
   .intel-category-pill {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--color-matte-green);
-    background: rgba(63, 107, 91, 0.08);
-    padding: 3px 9px;
+    background: rgba(41, 71, 61, 0.06);
+    padding: 3px 8px;
     border-radius: var(--radius-full);
   }
 
   .intel-dist-pill {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
+    font-weight: 600;
     color: var(--text-muted);
+    background: #F1F4F2;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
     display: inline-flex;
     align-items: center;
     gap: 4px;
   }
 
-  .intel-dist-pill i {
-    color: var(--color-gold);
-    font-size: 0.68rem;
-  }
-
   .intel-card-body {
+    padding: 6px 20px 12px;
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 20px;
+    cursor: pointer;
   }
 
   .intel-place-name {
-    font-size: 1.18rem;
+    font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--color-dark-green);
     line-height: 1.35;
+    margin: 0 0 6px 0;
   }
 
   .intel-address-line {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
-    font-size: 0.84rem;
+    gap: 6px;
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    line-height: 1.45;
+    line-height: 1.4;
+    margin-bottom: 8px;
   }
 
   .intel-address-line i {
     margin-top: 3px;
     flex-shrink: 0;
+    font-size: 0.78rem;
   }
 
-  .intel-usefulness {
-    font-size: 0.88rem;
-    line-height: 1.6;
+  .intel-preview-teaser {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Toggle Bar (Accordion Trigger) */
+  .intel-toggle-bar {
+    padding: 8px 20px 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-intel-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FAFBF9;
+    border: 1px solid var(--border-subtle);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-matte-green);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-intel-toggle:hover {
+    background: #F2F5F3;
+    border-color: var(--color-matte-green);
+  }
+
+  .toggle-chevron {
+    font-size: 0.72rem;
+    transition: transform 0.3s ease;
+  }
+
+  .intel-card.expanded .toggle-chevron {
+    transform: rotate(180deg);
+  }
+
+  .intel-card.expanded .toggle-label {
+    color: var(--color-dark-green);
+  }
+
+  /* Expandable Drawer (Accordion Panel) */
+  .intel-details-drawer {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+    background: #FAFBF9;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .intel-card.expanded .intel-details-drawer {
+    max-height: 500px;
+    opacity: 1;
+  }
+
+  .drawer-inner-content {
+    padding: 16px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .intel-full-note {
+    font-size: 0.82rem;
+    line-height: 1.55;
     color: var(--text-secondary);
+  }
+
+  .intel-full-note strong {
+    display: block;
+    color: var(--color-dark-green);
+    margin-bottom: 4px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .intel-full-note p {
+    margin: 0;
   }
 
   .intel-tags-row {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 4px;
   }
 
   .intel-tag {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     font-weight: 500;
-    background: #F3F5F4;
-    color: var(--text-secondary);
+    background: #FFFFFF;
+    color: var(--color-matte-green);
+    border: 1px solid var(--border-subtle);
     padding: 3px 8px;
-    border-radius: 6px;
-    border: 1px solid #E6EAE8;
-  }
-
-  .intel-card-footer {
-    border-top: 1px solid #EEF1EF;
-    padding-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    border-radius: var(--radius-full);
   }
 
   .intel-timing {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     color: var(--text-muted);
-  }
-
-  .intel-timing i {
-    color: var(--color-gold);
+    background: #FFFFFF;
+    border: 1px dashed var(--border-subtle);
+    padding: 6px 10px;
+    border-radius: 6px;
   }
 
   .intel-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 4px;
   }
 
   .btn-intel-map {
@@ -450,27 +847,19 @@ const categories = [
     gap: 6px;
     padding: 8px 12px;
     border-radius: var(--radius-full);
-    background: #FAFBF9;
+    background: #FFFFFF;
     border: 1px solid var(--border-subtle);
     color: var(--color-dark-green);
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
   }
 
   .btn-intel-map:hover {
-    background: var(--color-dark-green);
+    background: var(--color-matte-green);
     color: #FFFFFF;
-    border-color: var(--color-dark-green);
-  }
-
-  .btn-intel-map i {
-    color: var(--color-gold);
-  }
-
-  .btn-intel-map:hover i {
-    color: #FFFFFF;
+    border-color: var(--color-matte-green);
   }
 
   .btn-intel-inquire {
@@ -480,10 +869,10 @@ const categories = [
     gap: 6px;
     padding: 8px 12px;
     border-radius: var(--radius-full);
-    background: rgba(37, 211, 102, 0.1);
-    border: 1px solid rgba(37, 211, 102, 0.3);
+    background: rgba(37, 211, 102, 0.12);
+    border: 1px solid rgba(37, 211, 102, 0.35);
     color: #15803D;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 600;
     text-decoration: none;
     transition: var(--transition);
@@ -496,46 +885,91 @@ const categories = [
   }
 
   /* Responsive Rules */
-  @media (max-width: 1100px) {
+  @media (max-width: 1200px) {
+    .category-summary-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
     .intel-cards-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
+      gap: 18px;
     }
   }
 
-  @media (max-width: 680px) {
-    .city-intelligence-section {
-      padding: 60px 0;
+  @media (max-width: 768px) {
+    .category-summary-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
     }
     .intel-cards-grid {
       grid-template-columns: 1fr;
-      gap: 18px;
+      gap: 16px;
     }
-    .intel-actions {
-      grid-template-columns: 1fr;
+    .intel-toolbar-row {
+      flex-direction: column;
+      align-items: stretch;
     }
     .intel-search-box {
       max-width: 100%;
+    }
+    .intel-toolbar-actions {
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .city-intelligence-section {
+      padding: 60px 0 70px;
+    }
+    .intel-actions {
+      grid-template-columns: 1fr;
     }
   }
 </style>
 
 <script is:inline>
   let activeIntelCategory = 'all';
+  let allCardsExpanded = false;
 
+  // Select Category from top summary cards
+  window.selectCategoryFromSummary = function(categoryId) {
+    const tabBtn = document.querySelector(`.intel-tab-btn[data-category="${categoryId}"]`);
+    if (tabBtn) {
+      window.filterCityPlaces(tabBtn);
+      const tabsWrapper = document.getElementById('intelTabsWrapper');
+      if (tabsWrapper) {
+        tabsWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
+  // Filter City Places by category tab
   window.filterCityPlaces = function(buttonEl) {
     const category = buttonEl.getAttribute('data-category');
     activeIntelCategory = category;
 
-    // Update active button state
+    // Update active tab button
     document.querySelectorAll('.intel-tab-btn').forEach(btn => btn.classList.remove('active'));
     buttonEl.classList.add('active');
 
     applyIntelFilter();
   };
 
+  // Search input handler
   window.searchCityPlaces = function(keyword) {
+    const clearBtn = document.getElementById('intelClearSearchBtn');
+    if (clearBtn) {
+      clearBtn.style.display = keyword && keyword.length > 0 ? 'block' : 'none';
+    }
     applyIntelFilter(keyword);
+  };
+
+  // Clear search input
+  window.clearSearchInput = function() {
+    const input = document.getElementById('intelPlaceSearchInput');
+    if (input) input.value = '';
+    const clearBtn = document.getElementById('intelClearSearchBtn');
+    if (clearBtn) clearBtn.style.display = 'none';
+    applyIntelFilter('');
   };
 
   function applyIntelFilter(keyword = null) {
@@ -569,13 +1003,70 @@ const categories = [
     }
   }
 
+  // Toggle Single Card (Clicking Toggle Button)
+  window.toggleCardButton = function(btn, event) {
+    event?.stopPropagation();
+    const card = btn.closest('.intel-card');
+    if (!card) return;
+
+    const isExpanded = card.classList.contains('expanded');
+    if (isExpanded) {
+      card.classList.remove('expanded');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.querySelector('.toggle-label').textContent = 'View Civic Details & Highlights';
+    } else {
+      card.classList.add('expanded');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.querySelector('.toggle-label').textContent = 'Hide Details';
+    }
+  };
+
+  // Toggle Single Card (Clicking Header/Body)
+  window.toggleCardByElement = function(card) {
+    if (!card) return;
+    const btn = card.querySelector('.btn-intel-toggle');
+    if (btn) {
+      window.toggleCardButton(btn);
+    }
+  };
+
+  // Toggle All Cards (Global Expand / Collapse)
+  window.toggleAllIntelCards = function() {
+    allCardsExpanded = !allCardsExpanded;
+    const cards = document.querySelectorAll('.intel-card');
+    const toggleBtnText = document.getElementById('toggleAllText');
+    const toggleBtnIcon = document.getElementById('toggleAllIcon');
+
+    cards.forEach(card => {
+      const btn = card.querySelector('.btn-intel-toggle');
+      if (allCardsExpanded) {
+        card.classList.add('expanded');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'true');
+          btn.querySelector('.toggle-label').textContent = 'Hide Details';
+        }
+      } else {
+        card.classList.remove('expanded');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+          btn.querySelector('.toggle-label').textContent = 'View Civic Details & Highlights';
+        }
+      }
+    });
+
+    if (toggleBtnText) toggleBtnText.textContent = allCardsExpanded ? 'Collapse All' : 'Expand All';
+    if (toggleBtnIcon) {
+      toggleBtnIcon.className = allCardsExpanded ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down';
+    }
+  };
+
   window.resetCityPlaceSearch = function() {
-    const input = document.getElementById('intelPlaceSearchInput');
-    if (input) input.value = '';
+    window.clearSearchInput();
     const allBtn = document.querySelector('.intel-tab-btn[data-category="all"]');
     if (allBtn) window.filterCityPlaces(allBtn);
   };
 
+  // Cross-component coordination with AreaExplorer Map
   window.focusPlaceOnMap = function(placeId, lat, lng, placeName) {
     const mapSection = document.getElementById('areas');
     if (mapSection) {

@@ -147,6 +147,25 @@ const allMapLocations = [
 
       <!-- Right Map View -->
       <div class="map-viewport-wrapper">
+        <!-- Floating Utility Controls Over Map -->
+        <div class="map-floating-toolbar">
+          <button
+            type="button"
+            class="map-util-btn"
+            onclick="window.recenterMap();"
+            title="Reset map view to central Chichawatni"
+            aria-label="Recenter map"
+          >
+            <i class="fa-solid fa-crosshairs highlight-gold"></i>
+            <span>Recenter Chichawatni</span>
+          </button>
+
+          <div class="map-live-badge">
+            <span class="live-pulse-dot"></span>
+            <span><strong id="mapLoadedBadge">{allMapLocations.length}</strong> Locations Loaded</span>
+          </div>
+        </div>
+
         <div id="osV4Map" class="leaflet-map-canvas"></div>
         <div class="map-attribution-note">
           <i class="fa-solid fa-circle-info highlight-gold"></i> Showing verified Tehsil Chichawatni GPS coordinates. Private home pins protected.
@@ -363,6 +382,17 @@ const allMapLocations = [
     }
   };
 
+  window.recenterMap = function() {
+    if (mapInstance) {
+      mapInstance.flyTo([30.5345, 72.6900], 14, { duration: 1.0 });
+      mapInstance.invalidateSize();
+    }
+    if (activeMarker && activeMarker._icon) {
+      activeMarker._icon.querySelector('.map-pin')?.classList.remove('pulse-active');
+      activeMarker = null;
+    }
+  };
+
   window.setMapCategory = function(cat, btn) {
     activeMapCategory = cat;
     document.querySelectorAll('.category-chips-row .chip-btn').forEach(b => b.classList.remove('active'));
@@ -377,6 +407,7 @@ const allMapLocations = [
   function applyMapFilters() {
     const searchVal = document.getElementById('mapLocalitySearch')?.value.toLowerCase().trim() || '';
     const items = document.querySelectorAll('#localityListContainer .locality-list-item');
+    let visibleCount = 0;
 
     items.forEach(item => {
       const cat = item.getAttribute('data-cat') || '';
@@ -388,6 +419,7 @@ const allMapLocations = [
 
       if (matchCat && matchSearch) {
         item.style.display = 'block';
+        visibleCount++;
       } else {
         item.style.display = 'none';
       }
@@ -407,6 +439,9 @@ const allMapLocations = [
         if (mapInstance?.hasLayer(marker)) mapInstance.removeLayer(marker);
       }
     });
+
+    const badgeEl = document.getElementById('mapLoadedBadge');
+    if (badgeEl) badgeEl.textContent = visibleCount;
 
     if (mapInstance) mapInstance.invalidateSize();
   }
@@ -737,6 +772,80 @@ const allMapLocations = [
     position: relative;
     width: 100%;
     height: 100%;
+  }
+
+  .map-floating-toolbar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+  }
+
+  .map-util-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFFFFF;
+    color: var(--color-dark-green);
+    border: 1px solid var(--border-subtle);
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
+  }
+
+  .map-util-btn:hover {
+    background: var(--color-dark-green);
+    color: #FFFFFF;
+    border-color: var(--color-dark-green);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(41, 71, 61, 0.25);
+  }
+
+  .map-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(31, 54, 46, 0.88);
+    backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    border: 1px solid rgba(200, 169, 107, 0.3);
+    padding: 7px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.74rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .live-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #25D366;
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    animation: pulseDot 2s infinite;
+  }
+
+  @keyframes pulseDot {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 6px rgba(37, 211, 102, 0);
+    }
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
   }
 
   .leaflet-map-canvas {

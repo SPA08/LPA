@@ -1,39 +1,45 @@
 :root {
   /* ==========================================================================
-     SIDDHU PROPERTY OS V4 - PREMIUM DESIGN SYSTEM (APPROVED V4 SPEC)
-     Based on Approved Modern Luxury Design Reference:
-     Airy White Canvas, Slate Depth, Rich Dark Navy Accents, Antique Gold & Emerald
+     SIDDHU PROPERTY OS V4 - REFINED MATTE GREEN & GOLD DESIGN SYSTEM
+     Primary Matte Green: #3F6B5B | Dark Green: #29473D | Deep Green: #1F362E
+     Gold Accent: #C8A96B | Soft Background: #F7F7F3 | White Cards
      ========================================================================== */
-  --bg-main: #FAFAFC;
-  --bg-surface: #FFFFFF;
-  --bg-secondary: #F3F4F6;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #F8FAFC;
-  --bg-elevated: #FFFFFF;
-  --bg-glass: rgba(255, 255, 255, 0.92);
-  --bg-dark: #0F172A;
+  --color-matte-green: #3F6B5B;
+  --color-matte-green-light: #528271;
+  --color-dark-green: #29473D;
+  --color-deep-green: #1F362E;
+  --color-gold: #C8A96B;
+  --color-gold-light: #D9BF85;
+  --color-gold-hover: #B79858;
 
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  --bg-main: #F7F7F3;
+  --bg-surface: #FFFFFF;
+  --bg-secondary: #EFEFE9;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FCFCFA;
+  --bg-elevated: #FFFFFF;
+  --bg-glass: rgba(255, 255, 255, 0.94);
+  --bg-header: #29473D;
+  --bg-footer: #1F362E;
+
+  --text-primary: #1C2D27;
+  --text-secondary: #4A5D55;
+  --text-muted: #6B7C75;
   --text-inverse: #FFFFFF;
 
-  --accent-gold: #B88A3B;
-  --accent-gold-light: #C39A52;
-  --accent-gold-hover: #9E742D;
-  --accent-gold-bg: rgba(184, 138, 59, 0.08);
+  --accent-gold: #C8A96B;
+  --accent-gold-light: #D9BF85;
+  --accent-gold-hover: #B79858;
+  --accent-gold-bg: rgba(200, 169, 107, 0.12);
 
-  --accent-teal: #0D9488;
-  --accent-teal-light: #14B8A6;
-  --accent-teal-bg: rgba(13, 148, 136, 0.08);
+  --accent-teal: #3F6B5B;
+  --accent-teal-light: #528271;
+  --accent-teal-bg: rgba(63, 107, 91, 0.1);
 
-  --accent-purple: #7C3AED;
-  --accent-purple-bg: rgba(124, 58, 237, 0.08);
-
-  --border-subtle: #E2E8F0;
-  --border-card: #E2E8F0;
-  --border-glass: rgba(226, 232, 240, 0.8);
-  --border-focus: #0F172A;
+  --border-subtle: #E2E6E3;
+  --border-card: #E4E8E5;
+  --border-glass: rgba(226, 230, 227, 0.85);
+  --border-focus: #3F6B5B;
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -45,12 +51,12 @@
   --font-body: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   --font-editorial: 'Cormorant Garamond', Georgia, serif;
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
-  --shadow-card-hover: 0 20px 35px -5px rgba(0, 0, 0, 0.08), 0 8px 16px -4px rgba(0, 0, 0, 0.04);
-  --shadow-elevated: 0 25px 50px -12px rgba(15, 23, 42, 0.12);
-  --shadow-floating: 0 12px 28px rgba(15, 23, 42, 0.08);
-  --gold-glow: 0 0 25px rgba(184, 138, 59, 0.2);
+  --shadow-sm: 0 1px 3px rgba(41, 71, 61, 0.05), 0 1px 2px rgba(41, 71, 61, 0.03);
+  --shadow-card: 0 8px 24px -4px rgba(41, 71, 61, 0.06), 0 3px 8px -2px rgba(41, 71, 61, 0.03);
+  --shadow-card-hover: 0 18px 32px -4px rgba(41, 71, 61, 0.1), 0 6px 14px -2px rgba(41, 71, 61, 0.05);
+  --shadow-elevated: 0 25px 45px -10px rgba(41, 71, 61, 0.14);
+  --shadow-floating: 0 12px 28px rgba(41, 71, 61, 0.1);
+  --gold-glow: 0 0 22px rgba(200, 169, 107, 0.28);
 
   --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   --container-max: 1320px;

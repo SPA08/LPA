@@ -1,6 +1,37 @@
 ---
 import { localities } from '@/data/locations';
+import { cityPlaces } from '@/data/cityIntelligence';
 import { business } from '@/data/business';
+
+// Map all civic intelligence places into map-friendly POI objects
+const allMapLocations = [
+  ...localities.map(loc => ({
+    id: loc.id,
+    name: loc.name,
+    category: loc.category,
+    group: 'Residential',
+    lat: loc.lat,
+    lng: loc.lng,
+    address: loc.parentChak || 'Chichawatni',
+    badge: loc.statusBadge,
+    desc: loc.description,
+    legal: loc.legalStatus,
+    highlights: loc.highlights
+  })),
+  ...cityPlaces.map(p => ({
+    id: p.id,
+    name: p.name,
+    category: p.category,
+    group: p.category,
+    lat: p.lat,
+    lng: p.lng,
+    address: `${p.locality} • ${p.roadAddress}`,
+    badge: p.subCategory,
+    desc: p.usefulness,
+    legal: p.roadAddress,
+    highlights: p.highlights
+  }))
+];
 ---
 
 <section id="areas" class="map-section">
@@ -8,28 +39,28 @@ import { business } from '@/data/business';
     <div class="section-header">
       <span class="section-badge">
         <i class="fa-solid fa-map-location-dot highlight-gold"></i>
-        <span>GEOGRAPHIC INTELLIGENCE</span>
+        <span>GEOGRAPHIC INTELLIGENCE & MAP</span>
       </span>
       <h2>
-        Chichawatni <span class="editorial-italic highlight-gold">Property Intelligence Map</span>
+        Chichawatni <span class="editorial-italic highlight-gold">Interactive Property & Civic Map</span>
       </h2>
       <p>
-        Explore verified residential colonies, road corridors, government revenue offices, and landmark facilities across Tehsil Chichawatni with verified geographic coordinates.
+        Explore verified residential colonies, road corridors, government revenue offices, hospitals, schools, and banks across Tehsil Chichawatni with live interactive GPS coordinates.
       </p>
     </div>
 
     <!-- Map Layout Container: Left Sidebar / Detail Panel + Right Map -->
-    <div class="map-layout-grid glass-panel">
+    <div class="map-layout-grid">
       <!-- Left Panel: Locality Search & Detail View -->
       <aside class="map-panel-sidebar">
         <!-- Search & Filter Controls -->
         <div class="sidebar-top" id="sidebarControls">
           <div class="map-search-box">
-            <i class="fa-solid fa-magnifying-glass search-icon highlight-gold"></i>
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
             <input
               type="text"
               id="mapLocalitySearch"
-              placeholder="Filter area, road, or office..."
+              placeholder="Search colony, school, hospital, or office..."
               class="map-search-input"
               oninput="window.filterMapLocalities(this.value);"
             />
@@ -38,31 +69,36 @@ import { business } from '@/data/business';
           <!-- Category Chips -->
           <div class="category-chips-row">
             <button class="chip-btn active" data-cat="all" onclick="window.setMapCategory('all', this);">All</button>
-            <button class="chip-btn" data-cat="Residential Locality" onclick="window.setMapCategory('Residential Locality', this);">Residential</button>
-            <button class="chip-btn" data-cat="Road & Highway" onclick="window.setMapCategory('Road & Highway', this);">Roads</button>
-            <button class="chip-btn" data-cat="Government & Revenue Office" onclick="window.setMapCategory('Government & Revenue Office', this);">Revenue & PLRA</button>
-            <button class="chip-btn" data-cat="Emergency & Healthcare" onclick="window.setMapCategory('Emergency & Healthcare', this);">Hospitals</button>
+            <button class="chip-btn" data-cat="Residential" onclick="window.setMapCategory('Residential', this);">Colonies</button>
+            <button class="chip-btn" data-cat="Education" onclick="window.setMapCategory('Education', this);">Schools/Colleges</button>
+            <button class="chip-btn" data-cat="Health" onclick="window.setMapCategory('Health', this);">Hospitals</button>
+            <button class="chip-btn" data-cat="Government" onclick="window.setMapCategory('Government', this);">PLRA & Govt</button>
+            <button class="chip-btn" data-cat="Banking" onclick="window.setMapCategory('Banking', this);">Banks</button>
+            <button class="chip-btn" data-cat="Safety" onclick="window.setMapCategory('Safety', this);">Safety</button>
           </div>
         </div>
 
         <!-- Locality Items Scroll List -->
         <div class="locality-scroll-list" id="localityListContainer">
-          {localities.map(loc => (
+          {allMapLocations.map(loc => (
             <div
               class="locality-list-item"
               data-id={loc.id}
-              data-cat={loc.category}
+              data-cat={loc.group}
               data-name={loc.name}
+              data-address={loc.address}
               onclick={`window.selectLocality('${loc.id}');`}
             >
               <div class="item-header">
                 <h4 class="item-name">{loc.name}</h4>
-                <span class:list={['item-badge', { 'badge-verified': loc.statusBadge === 'Verified' }]}>
-                  {loc.statusBadge}
+                <span class="item-badge">
+                  {loc.badge}
                 </span>
               </div>
-              <p class="item-category"><i class="fa-solid fa-layer-group highlight-gold"></i> {loc.category}</p>
-              <p class="item-desc">{loc.description.slice(0, 95)}...</p>
+              <p class="item-category">
+                <i class="fa-solid fa-location-dot highlight-gold"></i> {loc.address}
+              </p>
+              <p class="item-desc">{loc.desc.slice(0, 95)}...</p>
             </div>
           ))}
         </div>
@@ -70,7 +106,7 @@ import { business } from '@/data/business';
         <!-- Detail View (Shown on Locality Click) -->
         <div class="locality-detail-view" id="localityDetailView" style="display: none;">
           <button class="back-to-list-btn" onclick="window.closeLocalityDetail();">
-            <i class="fa-solid fa-arrow-left"></i> Back to all areas
+            <i class="fa-solid fa-arrow-left"></i> Back to all locations
           </button>
 
           <div class="detail-header">
@@ -83,7 +119,7 @@ import { business } from '@/data/business';
             <p class="detail-description" id="detailDesc"></p>
 
             <div class="detail-legal-box">
-              <strong><i class="fa-solid fa-shield-halved highlight-gold"></i> Legal / Map Status:</strong>
+              <strong><i class="fa-solid fa-shield-halved highlight-gold"></i> Location & Relevance:</strong>
               <p id="detailLegal"></p>
             </div>
 
@@ -95,7 +131,7 @@ import { business } from '@/data/business';
 
           <div class="detail-footer">
             <a href="tel:+923063996764" class="btn-primary" style="width: 100%; justify-content: center; font-size: 0.88rem;">
-              <i class="fa-solid fa-phone"></i> Inquire About This Area
+              <i class="fa-solid fa-phone"></i> Inquire About Property in This Area
             </a>
           </div>
         </div>
@@ -105,16 +141,16 @@ import { business } from '@/data/business';
       <div class="map-viewport-wrapper">
         <div id="osV4Map" class="leaflet-map-canvas"></div>
         <div class="map-attribution-note">
-          <i class="fa-solid fa-circle-info highlight-gold"></i> Showing verified Tehsil Chichawatni coordinates. Private seller GPS is protected.
+          <i class="fa-solid fa-circle-info highlight-gold"></i> Showing verified Tehsil Chichawatni GPS coordinates. Private home pins protected.
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<script is:inline define:vars={{ localitiesData: localities, officeCoords: business.coordinates }}>
-  window.MAP_LOCALITIES = localitiesData;
-  let activeCategory = 'all';
+<script is:inline define:vars={{ mapLocationsData: allMapLocations, officeCoords: business.coordinates }}>
+  window.ALL_MAP_LOCATIONS = mapLocationsData;
+  let activeMapCategory = 'all';
   let mapInstance = null;
   let activeMarker = null;
   const markersMap = {};
@@ -123,40 +159,59 @@ import { business } from '@/data/business';
     const container = document.getElementById('osV4Map');
     if (!container || typeof L === 'undefined' || mapInstance) return;
 
-    // Initialize Leaflet Map centered on Chichawatni
+    // Initialize Leaflet Map centered on central Chichawatni
     mapInstance = L.map('osV4Map', {
-      center: [30.5350, 72.6880],
-      zoom: 13,
+      center: [30.5345, 72.6900],
+      zoom: 14,
       zoomControl: true,
       scrollWheelZoom: false
     });
 
-    // Dark Tile Layer (CartoDB Dark Matter / High-contrast clean dark)
+    // Clean, crisp CARTO Voyager Map Tiles
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://carto.com/">CARTO</a> | Siddhu Property Intelligence',
+      attribution: '&copy; <a href="https://carto.com/">CARTO</a> & OpenStreetMap | Siddhu Property Advisor',
       maxZoom: 19
     }).addTo(mapInstance);
 
-    // Custom Icon Generator
-    function createIcon(category, isOffice = false) {
+    // Subtle Chichawatni Urban Boundary Ring
+    L.circle([30.5350, 72.6900], {
+      color: '#3F6B5B',
+      fillColor: '#3F6B5B',
+      fillOpacity: 0.04,
+      radius: 2400,
+      weight: 1.5,
+      dashArray: '6, 6'
+    }).addTo(mapInstance);
+
+    // Custom Icon Generator for Categories
+    function createCategoryIcon(group, isOffice = false) {
       let iconClass = 'fa-solid fa-location-dot';
-      let colorClass = 'pin-gold';
+      let colorClass = 'pin-residential';
 
       if (isOffice) {
         iconClass = 'fa-solid fa-star';
         colorClass = 'pin-office';
-      } else if (category === 'Residential Locality') {
-        iconClass = 'fa-solid fa-house';
-        colorClass = 'pin-gold';
-      } else if (category === 'Road & Highway') {
-        iconClass = 'fa-solid fa-road';
-        colorClass = 'pin-teal';
-      } else if (category === 'Government & Revenue Office') {
-        iconClass = 'fa-solid fa-building-columns';
-        colorClass = 'pin-slate';
-      } else if (category === 'Emergency & Healthcare') {
+      } else if (group === 'Residential') {
+        iconClass = 'fa-solid fa-house-chimney';
+        colorClass = 'pin-residential';
+      } else if (group === 'Education') {
+        iconClass = 'fa-solid fa-graduation-cap';
+        colorClass = 'pin-education';
+      } else if (group === 'Health') {
         iconClass = 'fa-solid fa-hospital';
-        colorClass = 'pin-emerald';
+        colorClass = 'pin-health';
+      } else if (group === 'Government') {
+        iconClass = 'fa-solid fa-building-columns';
+        colorClass = 'pin-government';
+      } else if (group === 'Banking') {
+        iconClass = 'fa-solid fa-building-ngo';
+        colorClass = 'pin-banking';
+      } else if (group === 'Safety') {
+        iconClass = 'fa-solid fa-shield-halved';
+        colorClass = 'pin-safety';
+      } else {
+        iconClass = 'fa-solid fa-landmark';
+        colorClass = 'pin-gold';
       }
 
       return L.divIcon({
@@ -168,17 +223,31 @@ import { business } from '@/data/business';
       });
     }
 
-    // Add HQ Marker
+    // Add Siddhu Property HQ Marker
     const hqMarker = L.marker([officeCoords.lat, officeCoords.lng], {
-      icon: createIcon('HQ', true)
+      icon: createCategoryIcon('HQ', true)
     }).addTo(mapInstance);
-    hqMarker.bindPopup(`<strong>SIDDHU Property Advisor HQ</strong><br>Street 08, Tower Road Side, Hayat Abad`);
+    hqMarker.bindPopup(`
+      <div style="font-family: inherit; padding: 4px;">
+        <strong style="color: #29473D; font-size: 0.95rem;">SIDDHU Property Advisor HQ</strong>
+        <p style="margin: 4px 0 0; color: #4A5D55; font-size: 0.8rem;">Street 08, Tower Road Side, Hayat Abad</p>
+        <span style="display: inline-block; margin-top: 4px; font-size: 0.72rem; color: #C8A96B; font-weight: 700;">★ Consultation Base</span>
+      </div>
+    `);
 
-    // Add Locality Markers
-    window.MAP_LOCALITIES.forEach(loc => {
+    // Add All Location Markers
+    window.ALL_MAP_LOCATIONS.forEach(loc => {
       const marker = L.marker([loc.lat, loc.lng], {
-        icon: createIcon(loc.category)
+        icon: createCategoryIcon(loc.group)
       }).addTo(mapInstance);
+
+      marker.bindPopup(`
+        <div style="font-family: inherit; padding: 4px; max-width: 200px;">
+          <strong style="color: #29473D; font-size: 0.92rem;">${loc.name}</strong>
+          <p style="margin: 3px 0 0; color: #4A5D55; font-size: 0.78rem;">${loc.address}</p>
+          <span style="display: inline-block; margin-top: 4px; font-size: 0.7rem; color: #3F6B5B; font-weight: 600;">${loc.badge}</span>
+        </div>
+      `);
 
       marker.on('click', () => {
         window.selectLocality(loc.id);
@@ -190,12 +259,12 @@ import { business } from '@/data/business';
 
   // Locality Selection & Panel Switcher
   window.selectLocality = function(id) {
-    const loc = window.MAP_LOCALITIES.find(l => l.id === id);
+    const loc = window.ALL_MAP_LOCATIONS.find(l => l.id === id);
     if (!loc) return;
 
-    // Pan map
+    // Pan & Fly map
     if (mapInstance) {
-      mapInstance.flyTo([loc.lat, loc.lng], 15, { duration: 1.2 });
+      mapInstance.flyTo([loc.lat, loc.lng], 16, { duration: 1.0 });
     }
 
     // Update marker styling (pulse gold)
@@ -203,12 +272,15 @@ import { business } from '@/data/business';
       activeMarker._icon.querySelector('.map-pin')?.classList.remove('pulse-active');
     }
     const marker = markersMap[id];
-    if (marker && marker._icon) {
-      marker._icon.querySelector('.map-pin')?.classList.add('pulse-active');
-      activeMarker = marker;
+    if (marker) {
+      marker.openPopup();
+      if (marker._icon) {
+        marker._icon.querySelector('.map-pin')?.classList.add('pulse-active');
+        activeMarker = marker;
+      }
     }
 
-    // Show details
+    // Show details in left panel
     const listWrap = document.getElementById('localityListContainer');
     const controls = document.getElementById('sidebarControls');
     const detailView = document.getElementById('localityDetailView');
@@ -219,10 +291,10 @@ import { business } from '@/data/business';
       detailView.style.display = 'flex';
 
       document.getElementById('detailTitle').textContent = loc.name;
-      document.getElementById('detailCategory').textContent = loc.category;
-      document.getElementById('detailBadge').textContent = loc.statusBadge;
-      document.getElementById('detailDesc').textContent = loc.description;
-      document.getElementById('detailLegal').textContent = loc.legalStatus;
+      document.getElementById('detailCategory').textContent = `${loc.group} • ${loc.address}`;
+      document.getElementById('detailBadge').textContent = loc.badge;
+      document.getElementById('detailDesc').textContent = loc.desc;
+      document.getElementById('detailLegal').textContent = loc.legal || loc.address;
 
       const highlightsEl = document.getElementById('detailHighlights');
       if (highlightsEl) {
@@ -248,31 +320,32 @@ import { business } from '@/data/business';
     }
 
     if (mapInstance) {
-      mapInstance.flyTo([30.5350, 72.6880], 13, { duration: 1.0 });
+      mapInstance.flyTo([30.5345, 72.6900], 14, { duration: 1.0 });
     }
   };
 
   window.setMapCategory = function(cat, btn) {
-    activeCategory = cat;
+    activeMapCategory = cat;
     document.querySelectorAll('.category-chips-row .chip-btn').forEach(b => b.classList.remove('active'));
     btn?.classList.add('active');
-    applyFilters();
+    applyMapFilters();
   };
 
-  window.filterMapLocalities = function(searchVal) {
-    applyFilters();
+  window.filterMapLocalities = function() {
+    applyMapFilters();
   };
 
-  function applyFilters() {
+  function applyMapFilters() {
     const searchVal = document.getElementById('mapLocalitySearch')?.value.toLowerCase().trim() || '';
     const items = document.querySelectorAll('#localityListContainer .locality-list-item');
 
     items.forEach(item => {
       const cat = item.getAttribute('data-cat') || '';
       const name = item.getAttribute('data-name')?.toLowerCase() || '';
+      const addr = item.getAttribute('data-address')?.toLowerCase() || '';
 
-      const matchCat = activeCategory === 'all' || cat === activeCategory;
-      const matchSearch = !searchVal || name.includes(searchVal);
+      const matchCat = activeMapCategory === 'all' || cat === activeMapCategory;
+      const matchSearch = !searchVal || name.includes(searchVal) || addr.includes(searchVal);
 
       if (matchCat && matchSearch) {
         item.style.display = 'block';
@@ -282,12 +355,12 @@ import { business } from '@/data/business';
     });
 
     // Also update map markers visibility
-    window.MAP_LOCALITIES.forEach(loc => {
+    window.ALL_MAP_LOCATIONS.forEach(loc => {
       const marker = markersMap[loc.id];
       if (!marker) return;
 
-      const matchCat = activeCategory === 'all' || loc.category === activeCategory;
-      const matchSearch = !searchVal || loc.name.toLowerCase().includes(searchVal);
+      const matchCat = activeMapCategory === 'all' || loc.group === activeMapCategory;
+      const matchSearch = !searchVal || loc.name.toLowerCase().includes(searchVal) || loc.address.toLowerCase().includes(searchVal);
 
       if (matchCat && matchSearch) {
         if (!mapInstance?.hasLayer(marker)) marker.addTo(mapInstance);
@@ -297,7 +370,18 @@ import { business } from '@/data/business';
     });
   }
 
-  // Defer map init until DOM ready or visible
+  // Cross-component coordination: Focus any place from CityIntelligence
+  window.flyToMapCoordinates = function(lat, lng, name, id) {
+    if (mapInstance) {
+      mapInstance.flyTo([lat, lng], 16, { duration: 1.2 });
+      if (markersMap[id]) {
+        setTimeout(() => {
+          window.selectLocality(id);
+        }, 800);
+      }
+    }
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
     initV4Map();
   });
@@ -306,21 +390,24 @@ import { business } from '@/data/business';
 <style>
   .map-section {
     padding: 90px 0;
-    background: var(--bg-secondary);
+    background: #EFEFE9;
     border-bottom: 1px solid var(--border-subtle);
   }
 
   .map-layout-grid {
     display: grid;
-    grid-template-columns: 420px 1fr;
-    height: 640px;
+    grid-template-columns: 440px 1fr;
+    height: 650px;
+    background: #FFFFFF;
     border: 1px solid var(--border-card);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
     overflow: hidden;
   }
 
   /* Sidebar */
   .map-panel-sidebar {
-    background: var(--bg-card);
+    background: #FFFFFF;
     border-right: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
@@ -331,12 +418,12 @@ import { business } from '@/data/business';
   .sidebar-top {
     padding: 20px 20px 14px;
     border-bottom: 1px solid var(--border-subtle);
-    background: var(--bg-card);
+    background: #FAFBF9;
   }
 
   .map-search-box {
     position: relative;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .search-icon {
@@ -345,34 +432,38 @@ import { business } from '@/data/business';
     top: 50%;
     transform: translateY(-50%);
     font-size: 0.9rem;
+    color: var(--color-matte-green);
   }
 
   .map-search-input {
     width: 100%;
-    background: #0D1723;
-    border: 1px solid var(--border-glass);
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
     color: var(--text-primary);
     padding: 10px 14px 10px 38px;
-    border-radius: var(--radius-control);
+    border-radius: var(--radius-full);
     font-size: 0.88rem;
     font-family: inherit;
+    transition: var(--transition);
   }
 
   .map-search-input:focus {
     outline: none;
-    border-color: var(--accent-gold);
+    border-color: var(--color-matte-green);
+    box-shadow: 0 0 0 3px rgba(63, 107, 91, 0.12);
   }
 
   .category-chips-row {
     display: flex;
     gap: 6px;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     padding-bottom: 4px;
   }
 
   .chip-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-glass);
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
     color: var(--text-secondary);
     padding: 5px 12px;
     border-radius: var(--radius-full);
@@ -383,10 +474,16 @@ import { business } from '@/data/business';
     transition: var(--transition);
   }
 
-  .chip-btn:hover, .chip-btn.active {
-    background: var(--accent-gold);
-    color: #0D1723;
-    border-color: var(--accent-gold);
+  .chip-btn:hover {
+    border-color: var(--color-matte-green);
+    color: var(--color-dark-green);
+    background: #F3F7F5;
+  }
+
+  .chip-btn.active {
+    background: var(--color-dark-green);
+    color: #FFFFFF;
+    border-color: var(--color-dark-green);
     font-weight: 600;
   }
 
@@ -398,20 +495,21 @@ import { business } from '@/data/business';
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background: #FFFFFF;
   }
 
   .locality-list-item {
-    background: rgba(13, 23, 35, 0.5);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-control);
+    background: #FAFBF9;
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-md);
     padding: 14px;
     cursor: pointer;
     transition: var(--transition);
   }
 
   .locality-list-item:hover {
-    background: rgba(184, 138, 59, 0.08);
-    border-color: var(--accent-gold);
+    background: #F3F7F5;
+    border-color: var(--color-matte-green);
     transform: translateX(3px);
   }
 
@@ -419,38 +517,37 @@ import { business } from '@/data/business';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 6px;
+    gap: 8px;
+    margin-bottom: 5px;
   }
 
   .item-name {
-    font-size: 1.05rem;
+    font-size: 0.98rem;
     color: var(--text-primary);
+    font-weight: 700;
   }
 
   .item-badge {
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--text-muted);
-  }
-
-  .item-badge.badge-verified {
-    background: rgba(90, 148, 141, 0.2);
-    color: var(--accent-teal-light);
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: var(--radius-full);
+    background: rgba(63, 107, 91, 0.1);
+    color: var(--color-dark-green);
+    font-weight: 600;
+    white-space: nowrap;
   }
 
   .item-category {
     font-size: 0.78rem;
     color: var(--text-secondary);
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
   .item-desc {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     line-height: 1.45;
   }
@@ -463,15 +560,17 @@ import { business } from '@/data/business';
     height: 100%;
     overflow-y: auto;
     gap: 16px;
+    background: #FFFFFF;
   }
 
   .back-to-list-btn {
-    background: transparent;
-    border: 1px solid var(--border-glass);
-    color: var(--text-secondary);
+    background: #FAFBF9;
+    border: 1px solid var(--border-subtle);
+    color: var(--color-dark-green);
     padding: 7px 14px;
-    border-radius: var(--radius-control);
+    border-radius: var(--radius-full);
     font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -481,8 +580,8 @@ import { business } from '@/data/business';
   }
 
   .back-to-list-btn:hover {
-    border-color: var(--accent-gold);
-    color: var(--accent-gold-light);
+    background: var(--color-dark-green);
+    color: #FFFFFF;
   }
 
   .detail-header {
@@ -493,19 +592,21 @@ import { business } from '@/data/business';
 
   .detail-badge {
     font-size: 0.72rem;
-    color: var(--accent-teal-light);
-    font-weight: 600;
+    color: var(--color-matte-green);
+    font-weight: 700;
     text-transform: uppercase;
   }
 
   .detail-title {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
     color: var(--text-primary);
+    line-height: 1.3;
   }
 
   .detail-category {
     font-size: 0.82rem;
-    color: var(--accent-gold);
+    color: var(--color-gold);
+    font-weight: 600;
   }
 
   .detail-body {
@@ -516,14 +617,14 @@ import { business } from '@/data/business';
   }
 
   .detail-description {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     line-height: 1.6;
     color: var(--text-secondary);
   }
 
   .detail-legal-box {
-    background: rgba(184, 138, 59, 0.08);
-    border-left: 3px solid var(--accent-gold);
+    background: #F3F7F5;
+    border-left: 3px solid var(--color-matte-green);
     padding: 10px 14px;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     font-size: 0.82rem;
@@ -560,26 +661,28 @@ import { business } from '@/data/business';
   .leaflet-map-canvas {
     width: 100%;
     height: 100%;
-    background: #0D1723;
+    background: #EFEFE9;
   }
 
   .map-attribution-note {
     position: absolute;
     bottom: 12px;
     left: 12px;
-    background: rgba(13, 23, 35, 0.88);
-    border: 1px solid var(--border-glass);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-subtle);
     padding: 6px 12px;
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    color: var(--text-muted);
+    border-radius: var(--radius-full);
+    font-size: 0.74rem;
+    color: var(--text-secondary);
     z-index: 500;
     display: flex;
     align-items: center;
     gap: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   }
 
-  /* Pins styling */
+  /* Map Pins Styling */
   :global(.custom-map-pin-wrapper) {
     background: transparent;
     border: none;
@@ -593,23 +696,26 @@ import { business } from '@/data/business';
     align-items: center;
     justify-content: center;
     font-size: 0.85rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     border: 2px solid #FFFFFF;
     transition: transform 0.3s ease;
   }
 
-  :global(.map-pin.pin-gold) { background: #B88A3B; color: #0D1723; }
-  :global(.map-pin.pin-teal) { background: #5A948D; color: #FFFFFF; }
-  :global(.map-pin.pin-slate) { background: #4A5568; color: #FFFFFF; }
-  :global(.map-pin.pin-emerald) { background: #2E7D32; color: #FFFFFF; }
-  :global(.map-pin.pin-office) { background: #D5AF66; color: #0D1723; border-color: #B88A3B; }
+  :global(.map-pin.pin-office) { background: #C8A96B; color: #1F362E; border-color: #29473D; }
+  :global(.map-pin.pin-residential) { background: #3F6B5B; color: #FFFFFF; }
+  :global(.map-pin.pin-education) { background: #2563EB; color: #FFFFFF; }
+  :global(.map-pin.pin-health) { background: #DC2626; color: #FFFFFF; }
+  :global(.map-pin.pin-government) { background: #1F362E; color: #FFFFFF; }
+  :global(.map-pin.pin-banking) { background: #D97706; color: #FFFFFF; }
+  :global(.map-pin.pin-safety) { background: #4338CA; color: #FFFFFF; }
+  :global(.map-pin.pin-gold) { background: #C8A96B; color: #1F362E; }
 
   :global(.map-pin.pulse-active) {
     animation: goldPulse 1.8s infinite;
-    transform: scale(1.2);
+    transform: scale(1.25);
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 990px) {
     .map-layout-grid {
       grid-template-columns: 1fr;
       height: auto;
@@ -618,7 +724,7 @@ import { business } from '@/data/business';
       height: 380px;
     }
     .map-viewport-wrapper {
-      height: 400px;
+      height: 420px;
     }
   }
 
@@ -627,10 +733,10 @@ import { business } from '@/data/business';
       padding: 60px 0;
     }
     .map-panel-sidebar {
-      height: 320px;
+      height: 330px;
     }
     .map-viewport-wrapper {
-      height: 320px;
+      height: 340px;
     }
     .sidebar-top {
       padding: 14px 14px 10px;

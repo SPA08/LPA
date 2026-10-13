@@ -1,0 +1,349 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { properties } from '@/data/properties';
+import PropertyCard from '@/components/property/PropertyCard.astro';
+import PropertyComparison from '@/components/property/PropertyComparison.astro';
+import { business } from '@/data/business';
+
+const pageTitle = "Verified Residential Houses for Sale in Chichawatni | SIDDHU Property Advisor";
+const pageDesc = "Explore all verified family houses for sale in Chichawatni across Model Town, Housing Colony, Hayat Abad, Block 5, and Civil Lines. Genuine prices, clear ownership titles, and direct seller meetings.";
+
+const areas = ["All", "Model Town", "Housing Colony", "Hayat Abad", "Civil Lines", "Block 5"];
+const sizes = ["All", "5 Marla", "7 Marla", "10 Marla", "12 Marla"];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <div class="properties-catalog-page">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+        <i class="fa-solid fa-chevron-right separator"></i>
+        <span>Verified Properties</span>
+      </nav>
+
+      <!-- Page Header -->
+      <div class="section-header">
+        <span class="section-badge">
+          <i class="fa-solid fa-house-chimney highlight-gold"></i>
+          <span>COMPLETE INVENTORY</span>
+        </span>
+        <h1>
+          Verified Houses for Sale in <span class="editorial-italic highlight-gold">Chichawatni</span>
+        </h1>
+        <p>
+          Browse our complete catalog of verified residential houses across prime housing schemes and urban blocks in Tehsil Chichawatni. Every listing features verified PLRA title records and accompanied on-site visits with Naeem Siddhu.
+        </p>
+      </div>
+
+      <!-- Filter Controls Bar -->
+      <div class="catalog-filters-bar glass-panel">
+        <div class="filter-group">
+          <label for="filterAreaSelect"><i class="fa-solid fa-location-dot highlight-gold"></i> Colony / Area</label>
+          <select id="filterAreaSelect" class="filter-select" onchange="window.filterCatalog();">
+            {areas.map(a => (
+              <option value={a === "All" ? "all" : a}>{a}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterSizeSelect"><i class="fa-solid fa-ruler-combined highlight-teal"></i> House Size</label>
+          <select id="filterSizeSelect" class="filter-select" onchange="window.filterCatalog();">
+            {sizes.map(s => (
+              <option value={s === "All" ? "all" : s.replace(" Marla", "")}>{s}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="filter-group search-group">
+          <label for="catalogSearch"><i class="fa-solid fa-magnifying-glass highlight-gold"></i> Keyword Search</label>
+          <input
+            type="text"
+            id="catalogSearch"
+            placeholder="Search by area, bedrooms, corner..."
+            class="filter-input"
+            oninput="window.filterCatalog();"
+          />
+        </div>
+
+        <div class="filter-actions">
+          <button type="button" class="btn-outline reset-btn" onclick="window.resetCatalog();">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Inventory Status Bar -->
+      <div class="catalog-status-bar">
+        <span>Showing <strong id="catalogCount">{properties.length}</strong> of <strong>{properties.length}</strong> verified properties</span>
+        <span class="status-note"><i class="fa-solid fa-shield-halved highlight-gold"></i> Direct Seller Deals • Zero Speculation</span>
+      </div>
+
+      <!-- Properties Grid (Responsive 4-column layout on wide screens) -->
+      <div class="catalog-grid" id="catalogGrid">
+        {properties.map(property => (
+          <div class="catalog-card-wrap" data-area={property.area} data-size={property.sizeMarla} data-search={`${property.title} ${property.area} ${property.locationLabel} ${property.description}`.toLowerCase()}>
+            <PropertyCard property={property} />
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="catalogEmpty" class="empty-state-card glass-panel" style="display: none; margin: 40px auto; max-width: 600px; text-align: center; padding: 40px 24px;">
+        <div class="empty-icon" style="font-size: 2.4rem; color: var(--color-gold); margin-bottom: 12px;">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <h3>No matching properties found</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">
+          Try adjusting your area or size filter, or send your custom requirement directly to Naeem Siddhu.
+        </p>
+        <button class="btn-primary" onclick="window.resetCatalog();">
+          <i class="fa-solid fa-rotate-left"></i> View All Properties
+        </button>
+      </div>
+
+      <!-- Contact Banner -->
+      <div class="custom-req-banner glass-panel" style="margin-top: 60px;">
+        <div class="banner-text">
+          <h3>Need a specific house in Chichawatni?</h3>
+          <p>We maintain active off-market seller portfolios. Contact Naeem Siddhu with your exact budget and preference.</p>
+        </div>
+        <div class="banner-actions">
+          <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp Inquiry
+          </a>
+          <a href={`tel:${business.phone}`} class="btn-primary">
+            <i class="fa-solid fa-phone"></i> Call {business.phoneFormatted}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <PropertyComparison />
+</BaseLayout>
+
+<style>
+  .properties-catalog-page {
+    padding: 120px 0 80px;
+    background: var(--bg-main);
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .breadcrumb-nav a {
+    color: var(--color-matte-green);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .breadcrumb-nav a:hover {
+    color: var(--color-dark-green);
+  }
+
+  .breadcrumb-nav .separator {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  .catalog-filters-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr auto;
+    gap: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    align-items: flex-end;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .filter-group label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-dark-green);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .filter-select, .filter-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+    background: #FFFFFF;
+    color: var(--text-primary);
+    font-size: 0.88rem;
+    font-family: inherit;
+    transition: var(--transition);
+  }
+
+  .filter-select:focus, .filter-input:focus {
+    outline: none;
+    border-color: var(--color-matte-green);
+    box-shadow: 0 0 0 3px rgba(63, 107, 91, 0.12);
+  }
+
+  .reset-btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    height: 42px;
+  }
+
+  .catalog-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    padding: 0 4px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .catalog-status-bar strong {
+    color: var(--color-dark-green);
+  }
+
+  .status-note {
+    font-size: 0.8rem;
+    color: var(--color-matte-green);
+    font-weight: 600;
+  }
+
+  /* Catalog Grid: 4 items per row on large desktop */
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .catalog-card-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .custom-req-banner {
+    padding: 32px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    border: 1px solid var(--border-card);
+  }
+
+  .banner-text h3 {
+    font-size: 1.35rem;
+    color: var(--color-dark-green);
+    margin-bottom: 6px;
+  }
+
+  .banner-text p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .banner-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 1200px) {
+    .catalog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .catalog-filters-bar {
+      grid-template-columns: 1fr 1fr;
+    }
+    .filter-actions {
+      grid-column: span 2;
+    }
+    .reset-btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .properties-catalog-page {
+      padding: 90px 0 60px;
+    }
+    .catalog-filters-bar {
+      grid-template-columns: 1fr;
+    }
+    .filter-actions {
+      grid-column: span 1;
+    }
+    .catalog-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .custom-req-banner {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 24px 20px;
+    }
+  }
+</style>
+
+<script is:inline>
+  window.filterCatalog = function() {
+    const area = document.getElementById('filterAreaSelect')?.value || 'all';
+    const size = document.getElementById('filterSizeSelect')?.value || 'all';
+    const query = document.getElementById('catalogSearch')?.value.toLowerCase().trim() || '';
+
+    const cards = document.querySelectorAll('.catalog-card-wrap');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const cardArea = card.getAttribute('data-area') || '';
+      const cardSize = card.getAttribute('data-size') || '';
+      const cardSearch = card.getAttribute('data-search') || '';
+
+      const matchArea = area === 'all' || cardArea.toLowerCase() === area.toLowerCase();
+      const matchSize = size === 'all' || cardSize === size;
+      const matchQuery = !query || cardSearch.includes(query);
+
+      if (matchArea && matchSize && matchQuery) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    const countEl = document.getElementById('catalogCount');
+    if (countEl) countEl.textContent = visibleCount;
+
+    const emptyBox = document.getElementById('catalogEmpty');
+    if (emptyBox) emptyBox.style.display = visibleCount === 0 ? 'block' : 'none';
+  };
+
+  window.resetCatalog = function() {
+    const areaSel = document.getElementById('filterAreaSelect');
+    const sizeSel = document.getElementById('filterSizeSelect');
+    const searchInp = document.getElementById('catalogSearch');
+    if (areaSel) areaSel.value = 'all';
+    if (sizeSel) sizeSel.value = 'all';
+    if (searchInp) searchInp.value = '';
+    window.filterCatalog();
+  };
+</script>

@@ -3,7 +3,7 @@ import { cityPlaces } from '@/data/cityIntelligence';
 import { business } from '@/data/business';
 
 const categories = [
-  { id: 'all', label: 'All Places', icon: 'fa-layer-group', count: cityPlaces.length },
+  { id: 'all', label: 'All Highlights', icon: 'fa-layer-group', count: cityPlaces.length },
   { id: 'Education', label: 'Schools & Colleges', icon: 'fa-graduation-cap', count: cityPlaces.filter(p => p.category === 'Education').length },
   { id: 'Health', label: 'Hospitals & Healthcare', icon: 'fa-hospital', count: cityPlaces.filter(p => p.category === 'Health').length },
   { id: 'Government', label: 'Land Records & Govt', icon: 'fa-building-columns', count: cityPlaces.filter(p => p.category === 'Government').length },
@@ -20,7 +20,7 @@ const categorySummaries = [
     count: cityPlaces.filter(p => p.category === 'Education').length,
     badge: 'Family Proximity',
     summary: 'Govt Crescent Model H/S, Punjab Group of Colleges, DPS, KIPS & superior girls colleges within 1.5–3 km radius.',
-    advisory: 'Family colonies like Model Town & Hayat Abad offer direct school van routes.'
+    guideUrl: '/chichawatni-schools-guide.html'
   },
   {
     id: 'Health',
@@ -29,7 +29,7 @@ const categorySummaries = [
     count: cityPlaces.filter(p => p.category === 'Health').length,
     badge: '24/7 Emergency Care',
     summary: 'THQ Civil Hospital Trauma Center, Shafi Memorial Hospital, and specialized clinics along Burewala & G.T. Roads.',
-    advisory: 'Fast emergency arterial access via G.T. Road bypasses crowded inner bazaars.'
+    guideUrl: '/chichawatni-hospitals-guide.html'
   },
   {
     id: 'Government',
@@ -38,16 +38,16 @@ const categorySummaries = [
     count: cityPlaces.filter(p => p.category === 'Government').length,
     badge: 'Official Registry',
     summary: 'PLRA Computerized Arazi Record Center, Sub-Registrar Tehsil Kachehri, & Municipal Committee Chichawatni.',
-    advisory: 'The essential hub for Fard Malkiat, computerized registry, Intiqal, and tax clearance.'
+    guideUrl: '/chichawatni-public-offices.html'
   },
   {
     id: 'Banking',
     title: 'Banks & ATMs',
-    icon: 'fa-building-columns',
+    icon: 'fa-money-bill-transfer',
     count: cityPlaces.filter(p => p.category === 'Banking').length,
     badge: 'Financial Services',
     summary: 'NBP, HBL, Meezan Islamic Bank, MCB, Allied & UBL clustered along Railway & College Roads.',
-    advisory: 'All CDR securities, pay orders, and stamp paper banking payments are processed here.'
+    guideUrl: '/chichawatni-property-directory/index.html'
   },
   {
     id: 'Safety',
@@ -56,7 +56,7 @@ const categorySummaries = [
     count: cityPlaces.filter(p => p.category === 'Safety').length,
     badge: 'Rapid Response',
     summary: 'City Police Station (Thana Chichawatni), Rescue 1122 Main Ambulance Station, and Fire Brigade Unit.',
-    advisory: 'Sub-7 minute emergency response time across all urban residential blocks.'
+    guideUrl: '/chichawatni-public-offices.html'
   },
   {
     id: 'Real Estate',
@@ -65,7 +65,7 @@ const categorySummaries = [
     count: cityPlaces.filter(p => p.category === 'Real Estate' || p.category === 'Services').length,
     badge: 'Commercial & Leisure',
     summary: 'Main G.T. Road Commercial Belt, Clock Tower Market (Ghanta Ghar), and the historic Chichawatni Forest Reserve.',
-    advisory: 'Key retail footfall zones, rental yield strips, and green environmental buffers.'
+    guideUrl: '/chichawatni-residential-colonies-guide.html'
   }
 ];
 ---
@@ -108,7 +108,7 @@ const categorySummaries = [
           <h3 class="cat-summary-title">{cat.title}</h3>
           <p class="cat-summary-desc">{cat.summary}</p>
           <div class="cat-summary-action">
-            <span class="cat-action-text">Explore {cat.title}</span>
+            <span class="cat-action-text">Preview 4 Top Places</span>
             <i class="fa-solid fa-arrow-right-long cat-action-icon"></i>
           </div>
         </div>
@@ -157,7 +157,7 @@ const categorySummaries = [
 
       <div class="intel-toolbar-actions">
         <div class="intel-stat-notice">
-          Showing <strong id="intelVisibleCount">{cityPlaces.length}</strong> verified locations
+          Showing <strong id="intelVisibleCount">4</strong> of <strong id="intelTotalCatCount">{cityPlaces.length}</strong> in this category
         </div>
         <button
           type="button"
@@ -172,112 +172,144 @@ const categorySummaries = [
       </div>
     </div>
 
-    <!-- Places Cards Grid (Accordion / Collapsible Drawer Pattern) -->
-    <div class="intel-cards-grid" id="intelPlacesGrid">
-      {cityPlaces.map(place => (
-        <article
-          class="intel-card v4-card collapsed"
-          data-id={place.id}
-          data-category={place.category === 'Services' ? 'Real Estate' : place.category}
-          data-search={`${place.name} ${place.locality} ${place.roadAddress} ${place.subCategory} ${place.usefulness}`.toLowerCase()}
-        >
-          <!-- Compact Preview Header -->
-          <div class="intel-card-header" onclick={`window.toggleCardByElement(this.closest('.intel-card'));`}>
-            <div class="intel-icon-crest">
-              {place.category === 'Education' && <i class="fa-solid fa-graduation-cap"></i>}
-              {place.category === 'Health' && <i class="fa-solid fa-heart-pulse"></i>}
-              {place.category === 'Government' && <i class="fa-solid fa-landmark-dome"></i>}
-              {place.category === 'Banking' && <i class="fa-solid fa-building-columns"></i>}
-              {place.category === 'Safety' && <i class="fa-solid fa-shield-halved"></i>}
-              {place.category === 'Real Estate' && <i class="fa-solid fa-house-chimney"></i>}
-              {place.category === 'Services' && <i class="fa-solid fa-landmark"></i>}
-            </div>
+    <!-- Places Carousel / Single Horizontal Row (Max 4 Cards Visible On Desktop) -->
+    <div class="intel-carousel-wrapper">
+      <button
+        type="button"
+        class="intel-carousel-nav prev"
+        id="intelPrevBtn"
+        onclick="window.slideIntelCards(-1);"
+        aria-label="Previous civic locations"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
 
-            <div class="intel-meta-top">
-              <span class="intel-category-pill">{place.subCategory}</span>
-              {place.distanceFromCenter && (
-                <span class="intel-dist-pill">
-                  <i class="fa-solid fa-route"></i> {place.distanceFromCenter}
-                </span>
-              )}
-            </div>
-          </div>
-
-          <!-- Preview Body -->
-          <div class="intel-card-body" onclick={`window.toggleCardByElement(this.closest('.intel-card'));`}>
-            <h3 class="intel-place-name">{place.name}</h3>
-
-            <div class="intel-address-line">
-              <i class="fa-solid fa-location-dot highlight-gold"></i>
-              <span><strong>{place.locality}</strong> • {place.roadAddress}</span>
-            </div>
-
-            <!-- Short 1-Sentence Summary Teaser -->
-            <p class="intel-preview-teaser">
-              {place.usefulness.length > 95 ? place.usefulness.slice(0, 95) + '...' : place.usefulness}
-            </p>
-          </div>
-
-          <!-- Interactive Accordion Toggle Trigger -->
-          <div class="intel-toggle-bar">
-            <button
-              type="button"
-              class="btn-intel-toggle"
-              aria-expanded="false"
-              onclick="window.toggleCardButton(this, event);"
-            >
-              <span class="toggle-label">View Civic Details & Highlights</span>
-              <i class="fa-solid fa-chevron-down toggle-chevron"></i>
-            </button>
-          </div>
-
-          <!-- Expandable Details Drawer (Hidden by default, expands cleanly) -->
-          <div class="intel-details-drawer">
-            <div class="drawer-inner-content">
-              <!-- Full In-Depth Civic / Property Note -->
-              <div class="intel-full-note">
-                <strong><i class="fa-solid fa-circle-info highlight-gold"></i> Local Advisory:</strong>
-                <p>{place.usefulness}</p>
-              </div>
-
-              <!-- Highlights Tags -->
-              <div class="intel-tags-row">
-                {place.highlights.map(tag => (
-                  <span class="intel-tag">{tag}</span>
-                ))}
-              </div>
-
-              <!-- Timings or Contact Hours -->
-              {place.contactOrTiming && (
-                <div class="intel-timing">
-                  <i class="fa-regular fa-clock highlight-gold"></i>
-                  <span>{place.contactOrTiming}</span>
+      <div class="intel-cards-track" id="intelPlacesTrack">
+        {cityPlaces.map((place, pIdx) => (
+          <div
+            class="intel-card-slide"
+            data-id={place.id}
+            data-category={place.category === 'Services' ? 'Real Estate' : place.category}
+            data-search={`${place.name} ${place.locality} ${place.roadAddress} ${place.subCategory} ${place.usefulness}`.toLowerCase()}
+            data-index={pIdx}
+          >
+            <article class="intel-card v4-card collapsed">
+              <!-- Compact Preview Header -->
+              <div class="intel-card-header" onclick={`window.toggleCardByElement(this.closest('.intel-card'));`}>
+                <div class="intel-icon-crest">
+                  {place.category === 'Education' && <i class="fa-solid fa-graduation-cap"></i>}
+                  {place.category === 'Health' && <i class="fa-solid fa-heart-pulse"></i>}
+                  {place.category === 'Government' && <i class="fa-solid fa-landmark-dome"></i>}
+                  {place.category === 'Banking' && <i class="fa-solid fa-building-columns"></i>}
+                  {place.category === 'Safety' && <i class="fa-solid fa-shield-halved"></i>}
+                  {place.category === 'Real Estate' && <i class="fa-solid fa-house-chimney"></i>}
+                  {place.category === 'Services' && <i class="fa-solid fa-landmark"></i>}
                 </div>
-              )}
 
-              <!-- Actions Buttons -->
-              <div class="intel-actions">
+                <div class="intel-meta-top">
+                  <span class="intel-category-pill">{place.subCategory}</span>
+                  {place.distanceFromCenter && (
+                    <span class="intel-dist-pill">
+                      <i class="fa-solid fa-route"></i> {place.distanceFromCenter}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <!-- Preview Body -->
+              <div class="intel-card-body" onclick={`window.toggleCardByElement(this.closest('.intel-card'));`}>
+                <h3 class="intel-place-name">{place.name}</h3>
+
+                <div class="intel-address-line">
+                  <i class="fa-solid fa-location-dot highlight-gold"></i>
+                  <span><strong>{place.locality}</strong> • {place.roadAddress}</span>
+                </div>
+
+                <p class="intel-preview-teaser">
+                  {place.usefulness.length > 90 ? place.usefulness.slice(0, 90) + '...' : place.usefulness}
+                </p>
+              </div>
+
+              <!-- Interactive Accordion Toggle Trigger -->
+              <div class="intel-toggle-bar">
                 <button
                   type="button"
-                  class="btn-intel-map"
-                  onclick={`window.focusPlaceOnMap('${place.id}', ${place.lat}, ${place.lng}, '${place.name.replace(/'/g, "\\'")}');`}
+                  class="btn-intel-toggle"
+                  aria-expanded="false"
+                  onclick="window.toggleCardButton(this, event);"
                 >
-                  <i class="fa-solid fa-map-location-dot"></i> View on Map
+                  <span class="toggle-label">View Civic Details</span>
+                  <i class="fa-solid fa-chevron-down toggle-chevron"></i>
                 </button>
-                <a
-                  href={`https://wa.me/923063996764?text=${encodeURIComponent(`Hello Naeem Siddhu, I have an inquiry regarding area near ${place.name} in Chichawatni.`)}`}
-                  target="_blank"
-                  rel="noopener"
-                  class="btn-intel-inquire"
-                  aria-label={`Inquire about property near ${place.name}`}
-                >
-                  <i class="fa-brands fa-whatsapp"></i> Inquire Area
-                </a>
               </div>
-            </div>
+
+              <!-- Expandable Details Drawer (Collapsible) -->
+              <div class="intel-details-drawer">
+                <div class="drawer-inner-content">
+                  <div class="intel-full-note">
+                    <strong><i class="fa-solid fa-circle-info highlight-gold"></i> Local Advisory:</strong>
+                    <p>{place.usefulness}</p>
+                  </div>
+
+                  <div class="intel-tags-row">
+                    {place.highlights.map(tag => (
+                      <span class="intel-tag">{tag}</span>
+                    ))}
+                  </div>
+
+                  {place.contactOrTiming && (
+                    <div class="intel-timing">
+                      <i class="fa-regular fa-clock highlight-gold"></i>
+                      <span>{place.contactOrTiming}</span>
+                    </div>
+                  )}
+
+                  <div class="intel-actions">
+                    <button
+                      type="button"
+                      class="btn-intel-map"
+                      onclick={`window.focusPlaceOnMap('${place.id}', ${place.lat}, ${place.lng}, '${place.name.replace(/'/g, "\\'")}');`}
+                    >
+                      <i class="fa-solid fa-map-location-dot"></i> View on Map
+                    </button>
+                    <a
+                      href={`https://wa.me/923063996764?text=${encodeURIComponent(`Hello Naeem Siddhu, I have an inquiry regarding area near ${place.name} in Chichawatni.`)}`}
+                      target="_blank"
+                      rel="noopener"
+                      class="btn-intel-inquire"
+                      aria-label={`Inquire about property near ${place.name}`}
+                    >
+                      <i class="fa-brands fa-whatsapp"></i> Inquire Area
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
-      ))}
+        ))}
+      </div>
+
+      <button
+        type="button"
+        class="intel-carousel-nav next"
+        id="intelNextBtn"
+        onclick="window.slideIntelCards(1);"
+        aria-label="Next civic locations"
+      >
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Active Category Dedicated Guide Banner (Direct View All Access) -->
+    <div class="intel-category-guide-banner" id="intelCategoryGuideBanner">
+      <div class="banner-guide-left">
+        <i class="fa-solid fa-circle-info highlight-gold"></i>
+        <span id="intelGuideText">Looking for all verified civic locations across Tehsil Chichawatni?</span>
+      </div>
+      <a id="intelGuideLink" href="/chichawatni-property-directory/index.html" class="btn-outline intel-guide-btn">
+        <span id="intelGuideBtnText">Explore Complete Directory</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
     </div>
 
     <!-- Empty State for Search -->
@@ -504,7 +536,7 @@ const categorySummaries = [
     color: #FFFFFF;
   }
 
-  /* Toolbar Row: Search + Expand All */
+  /* Toolbar Row: Search + Counter + Expand All */
   .intel-toolbar-row {
     display: flex;
     align-items: center;
@@ -562,10 +594,6 @@ const categorySummaries = [
     padding: 4px;
   }
 
-  .clear-search-btn:hover {
-    color: var(--text-primary);
-  }
-
   .intel-toolbar-actions {
     display: flex;
     align-items: center;
@@ -603,13 +631,107 @@ const categorySummaries = [
     border-color: var(--color-matte-green);
   }
 
-  /* Places Cards Grid */
-  .intel-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  /* Single-Row Carousel Track: Exactly 4 Cards Per Row on Desktop */
+  .intel-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
   }
 
+  .intel-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    color: var(--color-dark-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    transition: all 0.2s ease;
+  }
+
+  .intel-carousel-nav:hover {
+    background: var(--color-dark-green);
+    color: #FFFFFF;
+    border-color: var(--color-dark-green);
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  .intel-carousel-nav.prev {
+    left: -20px;
+  }
+
+  .intel-carousel-nav.next {
+    right: -20px;
+  }
+
+  .intel-cards-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 4px 16px;
+    scrollbar-width: none;
+  }
+
+  .intel-cards-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Desktop (>= 1200px): Exactly 4 cards visible per row in 1 single row! */
+  .intel-card-slide {
+    flex: 0 0 calc(25% - 15px);
+    max-width: calc(25% - 15px);
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Tablet (768px - 1199px): Exactly 2 visible cards */
+  @media (max-width: 1199px) {
+    .intel-card-slide {
+      flex: 0 0 calc(50% - 10px);
+      max-width: calc(50% - 10px);
+    }
+    .intel-carousel-nav.prev { left: -10px; }
+    .intel-carousel-nav.next { right: -10px; }
+  }
+
+  /* Mobile (< 768px): Exactly 1 visible card with smooth swipe */
+  @media (max-width: 767px) {
+    .intel-card-slide {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .intel-carousel-nav {
+      display: none;
+    }
+    .category-summary-grid {
+      grid-template-columns: 1fr;
+    }
+    .intel-toolbar-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .intel-search-box {
+      max-width: 100%;
+    }
+    .intel-toolbar-actions {
+      justify-content: space-between;
+    }
+  }
+
+  /* Card Interior Styling */
   .intel-card {
     background: #FFFFFF;
     border: 1px solid var(--border-card);
@@ -617,6 +739,7 @@ const categorySummaries = [
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    height: 100%;
     transition: box-shadow 0.25s ease, border-color 0.25s ease;
     box-shadow: 0 2px 8px rgba(31, 54, 46, 0.04);
   }
@@ -631,9 +754,8 @@ const categorySummaries = [
     box-shadow: 0 10px 28px rgba(31, 54, 46, 0.1);
   }
 
-  /* Card Header & Preview Body */
   .intel-card-header {
-    padding: 18px 20px 8px;
+    padding: 16px 18px 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -641,15 +763,15 @@ const categorySummaries = [
   }
 
   .intel-icon-crest {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 9px;
     background: rgba(41, 71, 61, 0.07);
     color: var(--color-matte-green);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.05rem;
+    font-size: 1rem;
     transition: all 0.2s;
   }
 
@@ -688,13 +810,13 @@ const categorySummaries = [
   }
 
   .intel-card-body {
-    padding: 6px 20px 12px;
+    padding: 6px 18px 12px;
     flex-grow: 1;
     cursor: pointer;
   }
 
   .intel-place-name {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     font-weight: 700;
     color: var(--color-dark-green);
     line-height: 1.35;
@@ -705,7 +827,7 @@ const categorySummaries = [
     display: flex;
     align-items: flex-start;
     gap: 6px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-secondary);
     line-height: 1.4;
     margin-bottom: 8px;
@@ -714,19 +836,18 @@ const categorySummaries = [
   .intel-address-line i {
     margin-top: 3px;
     flex-shrink: 0;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
   }
 
   .intel-preview-teaser {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
     line-height: 1.5;
     margin: 0;
   }
 
-  /* Toggle Bar (Accordion Trigger) */
   .intel-toggle-bar {
-    padding: 8px 20px 14px;
+    padding: 8px 18px 12px;
     border-top: 1px solid rgba(0, 0, 0, 0.04);
   }
 
@@ -737,9 +858,9 @@ const categorySummaries = [
     justify-content: space-between;
     background: #FAFBF9;
     border: 1px solid var(--border-subtle);
-    padding: 8px 12px;
+    padding: 7px 12px;
     border-radius: 8px;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 600;
     color: var(--color-matte-green);
     cursor: pointer;
@@ -760,11 +881,6 @@ const categorySummaries = [
     transform: rotate(180deg);
   }
 
-  .intel-card.expanded .toggle-label {
-    color: var(--color-dark-green);
-  }
-
-  /* Expandable Drawer (Accordion Panel) */
   .intel-details-drawer {
     max-height: 0;
     overflow: hidden;
@@ -780,14 +896,14 @@ const categorySummaries = [
   }
 
   .drawer-inner-content {
-    padding: 16px 20px 20px;
+    padding: 14px 18px 18px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
 
   .intel-full-note {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     line-height: 1.55;
     color: var(--text-secondary);
   }
@@ -796,14 +912,12 @@ const categorySummaries = [
     display: block;
     color: var(--color-dark-green);
     margin-bottom: 4px;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
-  .intel-full-note p {
-    margin: 0;
-  }
+  .intel-full-note p { margin: 0; }
 
   .intel-tags-row {
     display: flex;
@@ -812,12 +926,12 @@ const categorySummaries = [
   }
 
   .intel-tag {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 500;
     background: #FFFFFF;
     color: var(--color-matte-green);
     border: 1px solid var(--border-subtle);
-    padding: 3px 8px;
+    padding: 2px 7px;
     border-radius: var(--radius-full);
   }
 
@@ -825,11 +939,11 @@ const categorySummaries = [
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     color: var(--text-muted);
     background: #FFFFFF;
     border: 1px dashed var(--border-subtle);
-    padding: 6px 10px;
+    padding: 5px 8px;
     border-radius: 6px;
   }
 
@@ -844,13 +958,13 @@ const categorySummaries = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 8px 12px;
+    gap: 5px;
+    padding: 7px 10px;
     border-radius: var(--radius-full);
     background: #FFFFFF;
     border: 1px solid var(--border-subtle);
     color: var(--color-dark-green);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
@@ -866,13 +980,13 @@ const categorySummaries = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 8px 12px;
+    gap: 5px;
+    padding: 7px 10px;
     border-radius: var(--radius-full);
     background: rgba(37, 211, 102, 0.12);
     border: 1px solid rgba(37, 211, 102, 0.35);
     color: #15803D;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     text-decoration: none;
     transition: var(--transition);
@@ -884,51 +998,101 @@ const categorySummaries = [
     border-color: #25D366;
   }
 
-  /* Responsive Rules */
-  @media (max-width: 1200px) {
-    .category-summary-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .intel-cards-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
+  /* Dedicated Category Guide Banner */
+  .intel-category-guide-banner {
+    background: #FFFFFF;
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-card);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 8px rgba(31, 54, 46, 0.04);
   }
 
-  @media (max-width: 768px) {
-    .category-summary-grid {
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    .intel-cards-grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-    .intel-toolbar-row {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .intel-search-box {
-      max-width: 100%;
-    }
-    .intel-toolbar-actions {
-      justify-content: space-between;
-    }
+  .banner-guide-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.92rem;
+    color: var(--color-dark-green);
+    font-weight: 600;
   }
 
-  @media (max-width: 640px) {
-    .city-intelligence-section {
-      padding: 60px 0 70px;
-    }
-    .intel-actions {
-      grid-template-columns: 1fr;
-    }
+  .intel-guide-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--color-matte-green);
+    border-radius: var(--radius-full);
+  }
+
+  .intel-guide-btn:hover {
+    background: var(--color-matte-green);
+    color: #FFFFFF;
+    border-color: var(--color-matte-green);
   }
 </style>
 
 <script is:inline>
   let activeIntelCategory = 'all';
   let allCardsExpanded = false;
+
+  const categoryGuideMap = {
+    'all': {
+      text: 'Looking for all verified civic locations across Tehsil Chichawatni?',
+      btnText: 'Explore Master Directory (25+ Places)',
+      url: '/chichawatni-property-directory/index.html'
+    },
+    'Education': {
+      text: 'Need verified admission & transport details for family residences?',
+      btnText: 'Explore Schools & Colleges Guide',
+      url: '/chichawatni-schools-guide.html'
+    },
+    'Health': {
+      text: 'Looking for 24/7 trauma emergency centers & clinical routes?',
+      btnText: 'Explore Hospitals & Clinics Guide',
+      url: '/chichawatni-hospitals-guide.html'
+    },
+    'Government': {
+      text: 'Conducting PLRA title deeds, Fard verification & Tehsil registrations?',
+      btnText: 'Explore Land Records & Govt Guide',
+      url: '/chichawatni-public-offices.html'
+    },
+    'Banking': {
+      text: 'Need CDR pay orders, demand drafts & branch banking information?',
+      btnText: 'Explore Commercial Directory',
+      url: '/chichawatni-property-directory/index.html'
+    },
+    'Safety': {
+      text: 'Need emergency response stations & police jurisdiction mapping?',
+      btnText: 'Explore Emergency Services Guide',
+      url: '/chichawatni-public-offices.html'
+    },
+    'Real Estate': {
+      text: 'Exploring major housing colonies, commercial zones & land corridors?',
+      btnText: 'Explore Residential Colonies Guide',
+      url: '/chichawatni-residential-colonies-guide.html'
+    }
+  };
+
+  // Carousel slider function
+  window.slideIntelCards = function(direction) {
+    const track = document.getElementById('intelPlacesTrack');
+    if (!track) return;
+    const visibleSlides = Array.from(track.querySelectorAll('.intel-card-slide')).filter(s => s.style.display !== 'none');
+    if (!visibleSlides.length) return;
+    const slideWidth = visibleSlides[0].offsetWidth + 20;
+    track.scrollBy({
+      left: direction * slideWidth,
+      behavior: 'smooth'
+    });
+  };
 
   // Select Category from top summary cards
   window.selectCategoryFromSummary = function(categoryId) {
@@ -950,6 +1114,19 @@ const categorySummaries = [
     // Update active tab button
     document.querySelectorAll('.intel-tab-btn').forEach(btn => btn.classList.remove('active'));
     buttonEl.classList.add('active');
+
+    // Reset track scroll
+    const track = document.getElementById('intelPlacesTrack');
+    if (track) track.scrollLeft = 0;
+
+    // Update Category Guide Banner
+    const guideConfig = categoryGuideMap[category] || categoryGuideMap['all'];
+    const guideText = document.getElementById('intelGuideText');
+    const guideBtnText = document.getElementById('intelGuideBtnText');
+    const guideLink = document.getElementById('intelGuideLink');
+    if (guideText) guideText.textContent = guideConfig.text;
+    if (guideBtnText) guideBtnText.textContent = guideConfig.btnText;
+    if (guideLink) guideLink.href = guideConfig.url;
 
     applyIntelFilter();
   };
@@ -976,26 +1153,34 @@ const categorySummaries = [
     const inputVal = keyword !== null ? keyword : (document.getElementById('intelPlaceSearchInput')?.value || '');
     const searchLower = inputVal.toLowerCase().trim();
 
-    const cards = document.querySelectorAll('.intel-card');
+    const slides = document.querySelectorAll('#intelPlacesTrack .intel-card-slide');
     let visibleCount = 0;
+    let totalInCat = 0;
 
-    cards.forEach(card => {
-      const cardCategory = card.getAttribute('data-category');
-      const cardSearchText = card.getAttribute('data-search') || '';
+    slides.forEach(slide => {
+      const cardCategory = slide.getAttribute('data-category');
+      const cardSearchText = slide.getAttribute('data-search') || '';
 
       const matchesCategory = (activeIntelCategory === 'all' || cardCategory === activeIntelCategory);
       const matchesSearch = (!searchLower || cardSearchText.includes(searchLower));
 
+      if (matchesCategory) {
+        totalInCat++;
+      }
+
       if (matchesCategory && matchesSearch) {
-        card.style.display = 'flex';
+        slide.style.display = 'flex';
         visibleCount++;
       } else {
-        card.style.display = 'none';
+        slide.style.display = 'none';
       }
     });
 
     const countEl = document.getElementById('intelVisibleCount');
-    if (countEl) countEl.textContent = visibleCount;
+    if (countEl) countEl.textContent = Math.min(4, visibleCount);
+
+    const totalEl = document.getElementById('intelTotalCatCount');
+    if (totalEl) totalEl.textContent = visibleCount;
 
     const emptyNotice = document.getElementById('intelEmptyState');
     if (emptyNotice) {
@@ -1013,7 +1198,7 @@ const categorySummaries = [
     if (isExpanded) {
       card.classList.remove('expanded');
       btn.setAttribute('aria-expanded', 'false');
-      btn.querySelector('.toggle-label').textContent = 'View Civic Details & Highlights';
+      btn.querySelector('.toggle-label').textContent = 'View Civic Details';
     } else {
       card.classList.add('expanded');
       btn.setAttribute('aria-expanded', 'true');
@@ -1049,7 +1234,7 @@ const categorySummaries = [
         card.classList.remove('expanded');
         if (btn) {
           btn.setAttribute('aria-expanded', 'false');
-          btn.querySelector('.toggle-label').textContent = 'View Civic Details & Highlights';
+          btn.querySelector('.toggle-label').textContent = 'View Civic Details';
         }
       }
     });

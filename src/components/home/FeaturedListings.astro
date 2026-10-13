@@ -7,20 +7,29 @@ import { business } from '@/data/business';
 
 <section id="properties" class="properties-section">
   <div class="container">
-    <div class="section-header">
-      <span class="section-badge">
-        <i class="fa-solid fa-house-chimney highlight-gold"></i>
-        <span>GENUINE INVENTORY</span>
-      </span>
-      <h2>
-        Selected <span class="editorial-italic highlight-gold">Residential Homes</span> in Chichawatni
-      </h2>
-      <p>
-        Verified 5 Marla, 7 Marla, 10 Marla, and 12 Marla family houses with authentic on-site photographs and clear ownership records.
-      </p>
+    <!-- Header with "View All Properties" Action -->
+    <div class="section-header-split">
+      <div class="header-left">
+        <span class="section-badge">
+          <i class="fa-solid fa-house-chimney highlight-gold"></i>
+          <span>GENUINE INVENTORY</span>
+        </span>
+        <h2>
+          Selected <span class="editorial-italic highlight-gold">Residential Homes</span> in Chichawatni
+        </h2>
+        <p>
+          Verified 5 Marla, 7 Marla, 10 Marla, and 12 Marla family houses with authentic on-site photographs and clear ownership records.
+        </p>
+      </div>
+      <div class="header-right">
+        <a href="/properties.html" class="btn-outline view-all-header-btn">
+          <span>View All Properties ({properties.length})</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
     </div>
 
-    <!-- Live Filter Status bar -->
+    <!-- Live Filter Status bar (when searched from hero) -->
     <div id="filterActiveNotice" class="filter-status-notice" style="display: none;">
       <span>Showing filtered results: <strong id="filterCriteriaLabel"></strong></span>
       <button class="clear-filters-btn" onclick="window.resetPropertySearch();">
@@ -28,11 +37,59 @@ import { business } from '@/data/business';
       </button>
     </div>
 
-    <!-- Properties Grid -->
-    <div class="properties-grid" id="propertiesGrid">
-      {properties.map(property => (
-        <PropertyCard property={property} />
-      ))}
+    <!-- Properties Carousel / Single-Row Wrapper -->
+    <div class="properties-carousel-container">
+      <!-- Carousel Navigation Arrows -->
+      <button
+        type="button"
+        class="carousel-nav-btn prev"
+        id="propPrevBtn"
+        onclick="window.slideProperties(-1);"
+        aria-label="Previous Property"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <!-- Carousel Track (Strict Single Horizontal Row) -->
+      <div class="properties-carousel-track" id="propertiesTrack">
+        {properties.map(property => (
+          <div class="prop-carousel-slide">
+            <PropertyCard property={property} />
+          </div>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        class="carousel-nav-btn next"
+        id="propNextBtn"
+        onclick="window.slideProperties(1);"
+        aria-label="Next Property"
+      >
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Carousel Controls Bar (For Touch / Navigation Clarity) -->
+    <div class="carousel-meta-bar">
+      <div class="carousel-dots-row" id="propDotsRow">
+        {properties.map((_, idx) => (
+          <button
+            type="button"
+            class:list={['carousel-dot', { active: idx === 0 }]}
+            onclick={`window.goToPropertySlide(${idx});`}
+            aria-label={`Go to property ${idx + 1}`}
+          ></button>
+        ))}
+      </div>
+      <div class="carousel-hint-text">
+        <i class="fa-solid fa-arrows-left-right highlight-gold"></i>
+        <span>Swipe or use arrows to view all {properties.length} listings</span>
+      </div>
+      <a href="/properties.html" class="view-all-mobile-link">
+        <span>View Full Catalog</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
     </div>
 
     <!-- Empty State -->
@@ -74,15 +131,58 @@ import { business } from '@/data/business';
 </section>
 
 <script is:inline>
+  let currentPropIndex = 0;
+
+  window.slideProperties = function(direction) {
+    const track = document.getElementById('propertiesTrack');
+    if (!track) return;
+
+    const slides = track.querySelectorAll('.prop-carousel-slide');
+    if (!slides.length) return;
+
+    // Calculate width of one slide + gap
+    const slideWidth = slides[0].offsetWidth + 24;
+    track.scrollBy({
+      left: direction * slideWidth,
+      behavior: 'smooth'
+    });
+  };
+
+  window.goToPropertySlide = function(index) {
+    const track = document.getElementById('propertiesTrack');
+    if (!track) return;
+    const slides = track.querySelectorAll('.prop-carousel-slide');
+    if (slides[index]) {
+      slides[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    }
+  };
+
+  // Sync dots with scroll
+  const trackEl = document.getElementById('propertiesTrack');
+  if (trackEl) {
+    trackEl.addEventListener('scroll', () => {
+      const slides = trackEl.querySelectorAll('.prop-carousel-slide');
+      if (!slides.length) return;
+      const slideWidth = slides[0].offsetWidth + 24;
+      const activeIdx = Math.round(trackEl.scrollLeft / slideWidth);
+      const dots = document.querySelectorAll('#propDotsRow .carousel-dot');
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === activeIdx);
+      });
+    }, { passive: true });
+  }
+
   window.executePropertySearch = function() {
     const loc = document.getElementById('filterLocation')?.value || 'all';
     const type = document.getElementById('filterType')?.value || 'all';
     const size = document.getElementById('filterSize')?.value || 'all';
 
-    const cards = document.querySelectorAll('#propertiesGrid .property-card');
+    const slides = document.querySelectorAll('#propertiesTrack .prop-carousel-slide');
     let visibleCount = 0;
 
-    cards.forEach(card => {
+    slides.forEach(slide => {
+      const card = slide.querySelector('.property-card');
+      if (!card) return;
       const cardArea = card.getAttribute('data-area') || '';
       const cardType = card.getAttribute('data-type') || '';
       const cardSize = card.getAttribute('data-size') || '';
@@ -99,10 +199,10 @@ import { business } from '@/data/business';
       }
 
       if (match) {
-        card.style.display = 'flex';
+        slide.style.display = 'flex';
         visibleCount++;
       } else {
-        card.style.display = 'none';
+        slide.style.display = 'none';
       }
     });
 
@@ -121,7 +221,6 @@ import { business } from '@/data/business';
       }
     }
 
-    // Smooth scroll down to properties
     const propSection = document.getElementById('properties');
     if (propSection) {
       propSection.scrollIntoView({ behavior: 'smooth' });
@@ -136,8 +235,8 @@ import { business } from '@/data/business';
     if (type) type.value = 'all';
     if (size) size.value = 'all';
 
-    document.querySelectorAll('#propertiesGrid .property-card').forEach(card => {
-      card.style.display = 'flex';
+    document.querySelectorAll('#propertiesTrack .prop-carousel-slide').forEach(slide => {
+      slide.style.display = 'flex';
     });
 
     const emptyBox = document.getElementById('emptyPropertiesNotice');
@@ -149,17 +248,225 @@ import { business } from '@/data/business';
 
 <style>
   .properties-section {
-    padding: 90px 0;
+    padding: 85px 0 90px;
     background: var(--bg-main);
     border-bottom: 1px solid var(--border-subtle);
+    position: relative;
   }
 
-  .properties-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+  /* Header Split: Left Title, Right View All */
+  .section-header-split {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
   }
 
+  .header-left {
+    max-width: 680px;
+  }
+
+  .header-left h2 {
+    margin-bottom: 12px;
+  }
+
+  .header-left p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .header-right {
+    flex-shrink: 0;
+  }
+
+  .view-all-header-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-dark-green);
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+  }
+
+  .view-all-header-btn:hover {
+    background: var(--color-dark-green);
+    color: #FFFFFF;
+    border-color: var(--color-dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(41, 71, 61, 0.18);
+  }
+
+  /* Carousel Container & Navigation */
+  .properties-carousel-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    color: var(--color-dark-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    z-index: 10;
+    transition: all 0.25s ease;
+  }
+
+  .carousel-nav-btn:hover {
+    background: var(--color-dark-green);
+    color: #FFFFFF;
+    border-color: var(--color-dark-green);
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  .carousel-nav-btn.prev {
+    left: -22px;
+  }
+
+  .carousel-nav-btn.next {
+    right: -22px;
+  }
+
+  /* Carousel Track - Single Horizontal Row */
+  .properties-carousel-track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 4px 18px;
+    scrollbar-width: none; /* Hide default scrollbar */
+  }
+
+  .properties-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Desktop (>= 1200px): Exactly 4 equal cards per row in 1 single horizontal row! */
+  .prop-carousel-slide {
+    flex: 0 0 calc(25% - 18px);
+    max-width: calc(25% - 18px);
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Tablet (768px - 1199px): Exactly 2 visible cards in the row */
+  @media (max-width: 1199px) {
+    .prop-carousel-slide {
+      flex: 0 0 calc(50% - 12px);
+      max-width: calc(50% - 12px);
+    }
+    .carousel-nav-btn.prev {
+      left: -12px;
+    }
+    .carousel-nav-btn.next {
+      right: -12px;
+    }
+  }
+
+  /* Mobile (< 768px): Exactly 1 visible card with smooth swipe */
+  @media (max-width: 767px) {
+    .prop-carousel-slide {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .carousel-nav-btn {
+      display: none; /* Mobile uses natural touch swipe */
+    }
+    .section-header-split {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .view-all-header-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  /* Carousel Meta Bar: Dots + Hint */
+  .carousel-meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding: 0 4px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .carousel-dots-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #D1D8D4;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    padding: 0;
+  }
+
+  .carousel-dot.active {
+    background: var(--color-matte-green);
+    width: 24px;
+    border-radius: var(--radius-full);
+  }
+
+  .carousel-hint-text {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .view-all-mobile-link {
+    display: none;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--color-matte-green);
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+
+  @media (max-width: 767px) {
+    .view-all-mobile-link {
+      display: inline-flex;
+    }
+    .carousel-hint-text {
+      display: none;
+    }
+  }
+
+  /* Filter Notice */
   .filter-status-notice {
     display: flex;
     align-items: center;
@@ -202,14 +509,6 @@ import { business } from '@/data/business';
     margin-bottom: 16px;
   }
 
-  .empty-state-card h3 {
-    margin-bottom: 12px;
-  }
-
-  .empty-state-card p {
-    margin-bottom: 24px;
-  }
-
   .empty-actions {
     display: flex;
     justify-content: center;
@@ -218,8 +517,8 @@ import { business } from '@/data/business';
   }
 
   .custom-req-banner {
-    margin-top: 60px;
-    padding: 36px 40px;
+    margin-top: 50px;
+    padding: 34px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -233,14 +532,15 @@ import { business } from '@/data/business';
   }
 
   .banner-text h3 {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     margin-bottom: 6px;
     color: var(--text-primary);
   }
 
   .banner-text p {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     color: var(--text-secondary);
+    margin: 0;
   }
 
   .banner-actions {
@@ -249,19 +549,11 @@ import { business } from '@/data/business';
     flex-wrap: wrap;
   }
 
-  @media (max-width: 1024px) {
-    .properties-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
   @media (max-width: 768px) {
-    .properties-grid {
-      grid-template-columns: 1fr;
-    }
     .custom-req-banner {
       flex-direction: column;
       align-items: flex-start;
+      padding: 24px 20px;
     }
   }
 </style>

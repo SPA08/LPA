@@ -12,38 +12,51 @@ import { localities } from '@/data/locations';
     <div class="hero-split-grid">
       <!-- Left Column: Editorial Headline & Actions -->
       <div class="hero-editorial-col">
-        <!-- Main Headline with Signature Inline Pill Images -->
+        <!-- SaaS Live Authority & Verification Badge -->
+        <div class="hero-authority-badge-row">
+          <span class="hero-saas-badge">
+            <span class="saas-pulse-dot"></span>
+            <i class="fa-solid fa-crown"></i>
+            <span>#1 in Chichawatni • Top 1 Property Dealer</span>
+          </span>
+          <span class="hero-live-indicator">
+            <i class="fa-solid fa-shield-halved"></i> 100% PLRA Verified
+          </span>
+        </div>
+
+        <!-- Main Headline with Signature Clean SaaS Typography & Verified Micro-Pills -->
         <h1 class="hero-main-title">
-          Discover Your 
+          Discover Best Buy & 
           <span class="headline-pill-img">
-            <img src="/assets/images/house-10marla-corner.jpg" alt="Model Town Corner Residence" width="78" height="44" />
+            <img src="/assets/images/house-10marla-corner.jpg" alt="Best Town Location in Chichawatni" width="78" height="44" />
           </span>
           <br />
-          Dream Property
+          Sale Deals in Chichawatni
           <br />
-          Today 
+          With Confidence 
           <span class="headline-pill-img">
-            <img src="/assets/images/house-signature.jpg" alt="Signature Family Residence" width="78" height="44" />
+            <img src="/assets/images/house-signature.jpg" alt="No. 1 Property Portal in Chichawatni" width="78" height="44" />
           </span>
         </h1>
 
-        <!-- Subtitle Paragraph -->
+        <!-- Subtitle Paragraph with Hyper-local SEO Keyword Cluster -->
         <p class="hero-subtitle">
-          Discovering the ideal property that perfectly suits your lifestyle and budget in Chichawatni is an exciting and fulfilling journey with <strong>{business.advisor}</strong>.
+          Find genuine residential houses, commercial plots, and urgent sale properties in top locations — <strong>Hayat Abad</strong>, <strong>Model Town</strong>, <strong>Housing Colony</strong>, and along <strong>GT Road</strong> with direct guidance from <strong>{business.advisor}</strong>.
         </p>
 
         <!-- CTA Buttons Row -->
         <div class="hero-cta-row">
           <a href="#propertyFinder" class="btn-primary hero-search-pill-btn">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <span>Search Your Property</span>
+            <span>Search Best Properties</span>
           </a>
-          <a href="#properties" class="btn-outline hero-learn-pill-btn">
-            <span>Learn More</span>
+          <a href="/sell-my-property/index.html" class="btn-outline hero-learn-pill-btn">
+            <i class="fa-solid fa-tag highlight-gold"></i>
+            <span>Sell My Property Fast</span>
           </a>
           <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp hero-wa-pill-btn" aria-label="WhatsApp Naeem Siddhu">
             <i class="fa-brands fa-whatsapp"></i>
-            <span>WhatsApp</span>
+            <span>WhatsApp Now</span>
           </a>
         </div>
 
@@ -70,7 +83,7 @@ import { localities } from '@/data/locations';
               <i class="fa-solid fa-star"></i>
             </div>
             <span class="rating-caption">
-              <strong>4.9 / 5</strong> based on verified local reviews
+              <strong>4.9 / 5.0 Rating</strong> • Rated #1 Property Advisor near me in Chichawatni
             </span>
           </div>
         </div>
@@ -174,22 +187,47 @@ import { localities } from '@/data/locations';
       </div>
     </div>
 
-    <!-- Section 2C: Advanced Smart Property Finder (Clean Modern Style) -->
-    <div class="search-finder-card glass-panel" id="propertyFinder">
+    <!-- Section 2C: Advanced Smart Property Finder (Floating SaaS Command Bar) -->
+    <div class="search-finder-card saas-command-bar" id="propertyFinder">
       <div class="finder-header">
         <div class="finder-header-left">
-          <span class="section-badge"><i class="fa-solid fa-magnifying-glass"></i> PROPERTY SEARCH</span>
-          <h3 class="finder-title">Smart Property Finder</h3>
+          <div class="finder-badge-line">
+            <span class="finder-tag-pill">
+              <i class="fa-solid fa-magnifying-glass"></i> PROPERTY COMMAND BAR
+            </span>
+            <span class="finder-status-tag">
+              <i class="fa-solid fa-circle-check"></i> Real-Time Inventory
+            </span>
+          </div>
+          <h3 class="finder-title">Best Buy & Fast Sale Property Finder in Chichawatni</h3>
         </div>
-        <span class="finder-sub">Filter genuine family homes, plots, and locations in Chichawatni</span>
+        
+        <!-- Geographic Quick Tabs -->
+        <div class="finder-quick-tabs">
+          <button type="button" class="quick-tab-pill active" onclick="document.getElementById('filterLocation').value='all'; window.executePropertySearch();">
+            <span>All Chichawatni</span>
+          </button>
+          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Hayat Abad'; window.executePropertySearch();">
+            <i class="fa-solid fa-location-dot"></i> <span>Hayat Abad</span>
+          </button>
+          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Model Town'; window.executePropertySearch();">
+            <i class="fa-solid fa-location-dot"></i> <span>Model Town</span>
+          </button>
+          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Housing Scheme'; window.executePropertySearch();">
+            <i class="fa-solid fa-location-dot"></i> <span>Housing Colony</span>
+          </button>
+          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Civil Lines'; window.executePropertySearch();">
+            <i class="fa-solid fa-location-dot"></i> <span>Civil Lines</span>
+          </button>
+        </div>
       </div>
 
       <form id="finderForm" class="finder-grid" onsubmit="event.preventDefault(); window.executePropertySearch();">
         <!-- Field 1: Location -->
         <div class="finder-field">
-          <label for="filterLocation"><i class="fa-solid fa-location-dot highlight-gold"></i> Locality</label>
+          <label for="filterLocation"><i class="fa-solid fa-location-dot highlight-gold"></i> Locality / Best Town</label>
           <select id="filterLocation" class="finder-select">
-            <option value="all">All Chichawatni Areas</option>
+            <option value="all">All Chichawatni Locations</option>
             {localities.map(loc => (
               <option value={loc.name}>{loc.name}</option>
             ))}
@@ -198,12 +236,12 @@ import { localities } from '@/data/locations';
 
         <!-- Field 2: Property Type -->
         <div class="finder-field">
-          <label for="filterType"><i class="fa-solid fa-house-chimney highlight-gold"></i> Type</label>
+          <label for="filterType"><i class="fa-solid fa-house-chimney highlight-gold"></i> Property Type</label>
           <select id="filterType" class="finder-select">
-            <option value="all">All Property Types</option>
-            <option value="residential">Residential House</option>
-            <option value="plot">Residential Plot</option>
-            <option value="commercial">Commercial Shop / Plaza</option>
+            <option value="all">All Types (Houses & Plots)</option>
+            <option value="residential">Residential Houses for Sale</option>
+            <option value="plot">Residential Plots for Sale</option>
+            <option value="commercial">Commercial Shops & Plazas</option>
           </select>
         </div>
 
@@ -211,8 +249,8 @@ import { localities } from '@/data/locations';
         <div class="finder-field">
           <label for="filterListingType"><i class="fa-solid fa-tag highlight-gold"></i> Purpose</label>
           <select id="filterListingType" class="finder-select">
-            <option value="sale">For Sale (Purchase)</option>
-            <option value="rent">For Rent</option>
+            <option value="sale">Best Sale Deals (Buy)</option>
+            <option value="rent">Rental Properties</option>
           </select>
         </div>
 
@@ -223,11 +261,11 @@ import { localities } from '@/data/locations';
             <option value="all">Any Size</option>
             <option value="3">3 Marla</option>
             <option value="4">4 Marla</option>
-            <option value="5">5 Marla</option>
+            <option value="5">5 Marla (Most Popular)</option>
             <option value="7">7 Marla</option>
             <option value="8">8 Marla</option>
-            <option value="10">10 Marla</option>
-            <option value="12">12 Marla</option>
+            <option value="10">10 Marla Luxury</option>
+            <option value="12">12 Marla & Above</option>
           </select>
         </div>
 
@@ -235,11 +273,10 @@ import { localities } from '@/data/locations';
         <div class="finder-actions">
           <button type="submit" class="btn-primary finder-btn">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <span>Search</span>
+            <span>Search Deals</span>
           </button>
-          <button type="button" id="resetFinderBtn" class="btn-outline finder-reset-btn" onclick="window.resetPropertySearch();">
+          <button type="button" id="resetFinderBtn" class="btn-outline finder-reset-btn" onclick="window.resetPropertySearch();" title="Reset Filters">
             <i class="fa-solid fa-rotate-left"></i>
-            <span>Reset</span>
           </button>
         </div>
       </form>
@@ -289,6 +326,67 @@ import { localities } from '@/data/locations';
     flex-direction: column;
     gap: 24px;
     max-width: 640px;
+  }
+
+  /* SaaS Live Authority Badge Row */
+  .hero-authority-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: -6px;
+  }
+
+  .hero-saas-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    color: #166534;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    box-shadow: 0 1px 3px rgba(22, 101, 52, 0.08);
+  }
+
+  .hero-saas-badge i {
+    color: #CA8A04;
+    font-size: 0.82rem;
+  }
+
+  .saas-pulse-dot {
+    width: 7px;
+    height: 7px;
+    background: #16A34A;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6);
+    animation: saasDotPulse 2s infinite;
+  }
+
+  @keyframes saasDotPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+  }
+
+  .hero-live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    color: #334155;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 9999px;
+  }
+
+  .hero-live-indicator i {
+    color: var(--color-matte-green);
   }
 
   .hero-main-title {
@@ -622,38 +720,106 @@ import { localities } from '@/data/locations';
     display: none;
   }
 
-  /* Smart Property Finder */
-  .search-finder-card {
-    padding: 32px 36px;
-    border: 1px solid var(--border-card);
+  /* Smart Property Finder (SaaS Command Bar) */
+  .search-finder-card.saas-command-bar {
+    padding: 34px 38px;
+    border: 1px solid #E2E8F0;
     background: #FFFFFF;
-    box-shadow: var(--shadow-card);
+    border-radius: 20px;
+    box-shadow: 
+      0 20px 40px -8px rgba(15, 23, 42, 0.08),
+      0 0 0 1px rgba(15, 23, 42, 0.03);
   }
 
   .finder-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 24px;
+    align-items: center;
+    margin-bottom: 26px;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 16px;
   }
 
   .finder-header-left {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
+  }
+
+  .finder-badge-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .finder-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(200, 169, 107, 0.15);
+    color: #926E27;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+  }
+
+  .finder-status-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #16A34A;
+    font-size: 0.75rem;
+    font-weight: 600;
   }
 
   .finder-title {
-    font-size: 1.45rem;
-    font-weight: 700;
+    font-size: 1.35rem;
+    font-weight: 800;
     color: #0F172A;
+    letter-spacing: -0.02em;
   }
 
-  .finder-sub {
-    font-size: 0.9rem;
-    color: #64748B;
+  /* Quick Location Filter Tabs */
+  .finder-quick-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .quick-tab-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    color: #475569;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .quick-tab-pill i {
+    color: #B88A3B;
+    font-size: 0.78rem;
+  }
+
+  .quick-tab-pill:hover,
+  .quick-tab-pill.active {
+    background: var(--color-dark-green);
+    border-color: var(--color-dark-green);
+    color: #FFFFFF;
+  }
+
+  .quick-tab-pill:hover i,
+  .quick-tab-pill.active i {
+    color: #E8C98B;
   }
 
   .finder-grid {

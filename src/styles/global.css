@@ -311,10 +311,12 @@ img {
   border: 1px solid rgba(37, 211, 102, 0.3);
   font-weight: 600;
   font-size: 0.95rem;
-  padding: 12px 24px;
+  padding: 13px 28px;
   border-radius: var(--radius-full);
   box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
   transition: var(--transition);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .btn-whatsapp:hover {
@@ -322,6 +324,69 @@ img {
   color: #FFFFFF;
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
   transform: translateY(-2px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #FFFFFF;
+  color: var(--color-dark-green);
+  border: 1.5px solid var(--border-card);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background: var(--color-dark-green);
+  color: #FFFFFF;
+  border-color: var(--color-dark-green);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(41, 71, 61, 0.2);
+}
+
+/* Official Real Brand Colors for Logos Across Entire Website */
+i.fa-whatsapp,
+.fa-brands.fa-whatsapp {
+  color: #25D366 !important;
+}
+
+i.fa-facebook,
+i.fa-facebook-f,
+.fa-brands.fa-facebook,
+.fa-brands.fa-facebook-f {
+  color: #1877F2 !important;
+}
+
+i.fa-google,
+.fa-brands.fa-google {
+  color: #4285F4 !important;
+}
+
+i.fa-youtube,
+.fa-brands.fa-youtube {
+  color: #FF0000 !important;
+}
+
+i.fa-instagram,
+.fa-brands.fa-instagram {
+  color: #E4405F !important;
+}
+
+/* Ensure inside filled buttons the icon stays clean white */
+.btn-whatsapp i,
+.btn-whatsapp .fa-brands,
+.btn-whatsapp .fa-whatsapp,
+.btn-primary i.fa-whatsapp,
+.btn-primary .fa-brands.fa-whatsapp {
+  color: #FFFFFF !important;
 }
 
 /* Animations & Motion */
@@ -342,4 +407,59 @@ img {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ==========================================================================
+   GLOBAL SAAS INPUT & AUTOFILL CONTRAST STYLES
+   Ensures all form controls stay crisp white/light with high-contrast text
+   ========================================================================== */
+input, select, textarea {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #CBD5E1;
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-dark-green) !important;
+  box-shadow: 0 0 0 3px rgba(41, 71, 61, 0.12) !important;
+}
+
+/* Chrome/Safari/Edge Autofill Contrast Overrides */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+  -webkit-text-fill-color: #0F172A !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: #0F172A !important;
+}
+
+/* Universal Clean Scrollbar Utility */
+.no-scrollbar,
+.intel-cards-track,
+.intel-tabs-wrapper {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.intel-cards-track::-webkit-scrollbar,
+.intel-tabs-wrapper::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }

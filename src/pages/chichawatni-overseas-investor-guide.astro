@@ -92,13 +92,13 @@ const breadcrumbs = [
       <h3 class="cta-title">Living Abroad & Planning to Invest in Chichawatni?</h3>
       <p class="cta-subtitle">Connect directly with CEO Naeem Siddhu via WhatsApp call or message for confidential advisory.</p>
       <div class="cta-actions">
-        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-primary" style="background: #25D366; color: #ffffff;">
-          <i class="fa-brands fa-whatsapp"></i>
-          <span>Direct WhatsApp Consultation</span>
-        </a>
-        <a href={`tel:${business.phone}`} class="btn-secondary">
+        <a href={`tel:${business.phone}`} class="btn-primary">
           <i class="fa-solid fa-phone"></i>
           <span>Call Naeem Siddhu</span>
+        </a>
+        <a href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" class="btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp</span>
         </a>
       </div>
     </section>

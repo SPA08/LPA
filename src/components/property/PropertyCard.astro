@@ -45,49 +45,55 @@ const { property } = Astro.props;
 
     <h3 class="card-title">{property.title}</h3>
 
-    <!-- Specs Pill Row -->
+    <!-- Specs Pill Grid -->
     <div class="card-specs">
-      <div class="spec-item">
-        <i class="fa-solid fa-ruler-combined highlight-teal"></i>
+      <div class="spec-item" title={property.sizeLabel}>
+        <i class="fa-solid fa-ruler-combined"></i>
         <span>{property.sizeLabel}</span>
       </div>
       {property.bedrooms !== null && (
-        <div class="spec-item">
-          <i class="fa-solid fa-bed highlight-teal"></i>
+        <div class="spec-item" title={`${property.bedrooms} Bedrooms`}>
+          <i class="fa-solid fa-bed"></i>
           <span>{property.bedrooms} Beds</span>
         </div>
       )}
       {property.bathrooms !== null && (
-        <div class="spec-item">
-          <i class="fa-solid fa-bath highlight-teal"></i>
+        <div class="spec-item" title={`${property.bathrooms} Bathrooms`}>
+          <i class="fa-solid fa-bath"></i>
           <span>{property.bathrooms} Baths</span>
         </div>
       )}
       {property.garage && (
-        <div class="spec-item">
-          <i class="fa-solid fa-car highlight-teal"></i>
+        <div class="spec-item" title={property.garage}>
+          <i class="fa-solid fa-car"></i>
           <span>{property.garage}</span>
         </div>
       )}
     </div>
 
-    <p class="card-desc">
-      {property.description}
-    </p>
-
-    <!-- Facilities tags -->
+    <!-- Facilities tags (Clean presentation with icons, no clipped words) -->
     <div class="facilities-tags">
-      {property.facilities.slice(0, 3).map(f => (
-        <span class="facility-pill">{f}</span>
+      {property.facilities.slice(0, 2).map(f => (
+        <span class="facility-pill">
+          {f.toLowerCase().includes('electricity') || f.toLowerCase().includes('wapda') ? <i class="fa-solid fa-bolt spec-icon-mini"></i> :
+           f.toLowerCase().includes('gas') ? <i class="fa-solid fa-fire-flame-simple spec-icon-mini"></i> :
+           f.toLowerCase().includes('porch') || f.toLowerCase().includes('garage') || f.toLowerCase().includes('car') ? <i class="fa-solid fa-car spec-icon-mini"></i> :
+           f.toLowerCase().includes('road') || f.toLowerCase().includes('street') ? <i class="fa-solid fa-road spec-icon-mini"></i> :
+           f.toLowerCase().includes('corner') ? <i class="fa-solid fa-diamond spec-icon-mini"></i> :
+           <i class="fa-solid fa-circle-check spec-icon-mini"></i>}
+          <span>{f}</span>
+        </span>
       ))}
-      {property.facilities.length > 3 && (
-        <span class="facility-pill more">+{property.facilities.length - 3} more</span>
+      {property.facilities.length > 2 && (
+        <span class="facility-pill more" title={property.facilities.slice(2).join(', ')}>
+          +{property.facilities.length - 2} more
+        </span>
       )}
     </div>
 
-    <!-- Card Actions Footer -->
+    <!-- SaaS Dual Action Footer -->
     <div class="card-footer">
-      <a href={`tel:${business.phone}`} class="btn-primary card-action-btn">
+      <a href={`tel:${business.phone}`} class="btn-card-call card-action-btn">
         <i class="fa-solid fa-phone"></i>
         <span>Call Naeem</span>
       </a>
@@ -95,7 +101,7 @@ const { property } = Astro.props;
         href={`https://wa.me/923063996764?text=${encodeURIComponent(`Hello Naeem Siddhu, I am inquiring about: ${property.title} in ${property.locationLabel}`)}`}
         target="_blank"
         rel="noopener"
-        class="btn-whatsapp card-action-btn"
+        class="btn-card-whatsapp card-action-btn"
       >
         <i class="fa-brands fa-whatsapp"></i>
         <span>WhatsApp</span>
@@ -111,15 +117,15 @@ const { property } = Astro.props;
     overflow: hidden;
     height: 100%;
     background: #FFFFFF;
-    border: 1px solid var(--border-card);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
-    transition: var(--transition);
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .property-card:hover {
-    border-color: rgba(63, 107, 91, 0.4);
-    box-shadow: 0 16px 32px -4px rgba(41, 71, 61, 0.1);
+    border-color: #CBD5E1;
+    box-shadow: 0 16px 32px -4px rgba(31, 54, 46, 0.12);
     transform: translateY(-4px);
   }
 
@@ -127,7 +133,7 @@ const { property } = Astro.props;
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 10;
-    background: #1F362E;
+    background: #0F172A;
     overflow: hidden;
   }
 
@@ -136,7 +142,7 @@ const { property } = Astro.props;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .property-card:hover .card-img {
@@ -145,54 +151,55 @@ const { property } = Astro.props;
 
   .card-badges {
     position: absolute;
-    top: 14px;
-    left: 14px;
+    top: 12px;
+    left: 12px;
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
     z-index: 2;
   }
 
   .badge-tag {
-    background: rgba(41, 71, 61, 0.88);
-    border: 1px solid rgba(200, 169, 107, 0.35);
-    color: #FFFFFF;
-    font-size: 0.76rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
+    background: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
   }
 
   .badge-verified {
-    background: var(--color-matte-green);
+    background: #059669;
     color: #FFFFFF;
-    font-size: 0.74rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    gap: 5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    gap: 4px;
+    box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
   }
 
   .compare-toggle-label {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    background: rgba(41, 71, 61, 0.88);
-    border: 1px solid rgba(200, 169, 107, 0.35);
+    top: 12px;
+    right: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #FFFFFF;
-    font-size: 0.78rem;
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     cursor: pointer;
-    backdrop-filter: blur(8px);
-    transition: var(--transition);
+    transition: all 0.2s ease;
     z-index: 2;
   }
 
@@ -203,35 +210,33 @@ const { property } = Astro.props;
 
   .compare-checkbox {
     cursor: pointer;
-    accent-color: var(--color-gold);
+    accent-color: #059669;
   }
 
   .card-body {
-    padding: 24px;
+    padding: 16px 18px 18px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 14px;
+    gap: 10px;
     background: #FFFFFF;
+    justify-content: space-between;
   }
 
   .card-location {
-    font-size: 0.82rem;
-    color: var(--text-muted);
+    font-size: 0.78rem;
+    color: #64748B;
     display: flex;
     align-items: center;
-    gap: 8px;
-    letter-spacing: 0.5px;
+    gap: 6px;
     font-weight: 500;
   }
 
   .blurred-address-text {
     filter: blur(4.5px);
     user-select: none;
-    -webkit-user-select: none;
     opacity: 0.82;
-    cursor: default;
-    transition: filter 0.3s ease, opacity 0.3s ease;
+    transition: filter 0.3s ease;
   }
 
   .property-card:hover .blurred-address-text {
@@ -247,92 +252,164 @@ const { property } = Astro.props;
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 3px 8px;
-    border-radius: 9999px;
-    background: rgba(200, 169, 107, 0.12);
-    color: var(--color-gold-hover);
-    border: 1px solid rgba(200, 169, 107, 0.3);
-    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #FEF3C7;
+    color: #B45309;
+    border: 1px solid #FDE68A;
   }
 
   .card-title {
-    font-size: 1.35rem;
-    line-height: 1.3;
-    color: var(--text-primary);
+    font-size: 1.05rem;
+    line-height: 1.35;
+    color: #0F172A;
     font-weight: 700;
+    min-height: 2.7em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
   }
 
+  /* Specs Tray */
   .card-specs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    padding: 12px 0;
-    border-top: 1px solid var(--border-subtle);
-    border-bottom: 1px solid var(--border-subtle);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 8px 10px;
+    background: #F8FAFC;
+    border-radius: 8px;
+    border: 1px solid #F1F5F9;
   }
 
   .spec-item {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-weight: 500;
+    gap: 5px;
+    font-size: 0.74rem;
+    color: #334155;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .spec-item i {
-    color: var(--color-matte-green);
+    color: #059669;
+    font-size: 0.74rem;
+    flex-shrink: 0;
   }
 
-  .card-desc {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    flex-grow: 1;
-  }
-
+  /* Facilities Tags */
   .facilities-tags {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 6px;
+    flex-wrap: wrap;
+    min-height: 26px;
   }
 
   .facility-pill {
-    background: #F3F5F4;
-    border: 1px solid #E6EAE8;
-    color: var(--text-secondary);
-    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    color: #475569;
+    font-size: 0.72rem;
     padding: 3px 8px;
-    border-radius: var(--radius-sm);
+    border-radius: 6px;
     font-weight: 500;
+    white-space: nowrap;
+    line-height: 1.4;
+    transition: all 0.15s ease;
+  }
+
+  .facility-pill .spec-icon-mini {
+    font-size: 0.68rem;
+    color: #059669;
   }
 
   .facility-pill.more {
-    color: var(--color-gold-hover);
+    background: #F0FDF4;
+    border-color: rgba(5, 150, 105, 0.25);
+    color: #059669;
     font-weight: 600;
   }
 
+  .facility-pill:hover {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+  }
+
+  /* Action Buttons */
   .card-footer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 6px;
+    gap: 8px;
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid #F1F5F9;
   }
 
   .card-action-btn {
-    padding: 10px 14px;
-    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 38px;
+    padding: 0 10px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
   }
 
-  @media (max-width: 400px) {
-    .card-footer {
-      gap: 8px;
-    }
-    .card-action-btn {
-      padding: 10px 6px;
-      font-size: 0.8rem;
-      gap: 6px;
-    }
+  .btn-card-call {
+    background: #1F362E;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 6px rgba(31, 54, 46, 0.15);
+  }
+
+  .btn-card-call i {
+    font-size: 0.8rem;
+    color: #C8A96B;
+  }
+
+  .btn-card-call:hover {
+    background: #162822;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(31, 54, 46, 0.25);
+  }
+
+  .btn-card-whatsapp {
+    background: #25D366;
+    color: #FFFFFF;
+    border: 1px solid rgba(37, 211, 102, 0.4);
+    box-shadow: 0 2px 6px rgba(37, 211, 102, 0.2);
+  }
+
+  .btn-card-whatsapp i {
+    font-size: 0.92rem;
+    color: #FFFFFF;
+  }
+
+  .btn-card-whatsapp:hover {
+    background: #20BA5A;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+  }
+
+  .card-action-btn:active {
+    transform: scale(0.98);
   }
 </style>

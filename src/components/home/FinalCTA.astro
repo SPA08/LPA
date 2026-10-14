@@ -87,34 +87,89 @@ import { business } from '@/data/business';
       </div>
     </div>
 
-    <!-- Contact & Consultation Card -->
-    <div class="direct-consultation-banner glass-panel">
+    <!-- Contact & Consultation Card (High-Contrast Modern SaaS Redesign) -->
+    <div class="direct-consultation-banner">
+      <div class="banner-mesh-bg"></div>
       <div class="banner-inner">
         <div class="banner-text-col">
-          <span class="section-badge"><i class="fa-solid fa-handshake highlight-gold"></i> DIRECT CONSULTATION</span>
-          <h3>Ready to Discuss Your Property Plans?</h3>
-          <p>
-            Whether you are buying your first home, selling ancestral property, or investing from abroad, talk directly with Naeem Siddhu today.
+          <div class="banner-badge-row">
+            <span class="saas-badge">
+              <span class="badge-dot"></span>
+              <i class="fa-solid fa-bolt-lightning"></i>
+              <span>DIRECT CONSULTATION</span>
+            </span>
+            <span class="saas-status-pill">
+              <i class="fa-solid fa-circle-check"></i> Free Advisory
+            </span>
+          </div>
+
+          <h3 class="consultation-title">
+            Ready to Discuss Your <span class="highlight-text">Property Plans?</span>
+          </h3>
+
+          <p class="consultation-subtitle">
+            Whether you are buying your first home, selling ancestral property, or investing from abroad — speak directly with <strong>Naeem Siddhu</strong> today.
           </p>
+
+          <div class="saas-features-list">
+            <div class="feature-item">
+              <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <span>100% Verified Titles & PLRA Arazi Records</span>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i class="fa-solid fa-handshake"></i></div>
+              <span>Direct Principal Dealing, Zero Middleman Markup</span>
+            </div>
+          </div>
+
           <div class="office-quick-address">
-            <i class="fa-solid fa-location-dot highlight-gold"></i>
-            <span>{business.address.full}</span>
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <strong>Office:</strong> {business.address.full}
+            </div>
           </div>
         </div>
 
         <div class="banner-actions-col">
-          <a href={`tel:${business.phone}`} class="btn-primary" style="padding: 14px 28px; font-size: 1rem;">
-            <i class="fa-solid fa-phone"></i>
-            <span>Call {business.phoneFormatted}</span>
-          </a>
-          <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp" style="padding: 14px 28px; font-size: 1rem;">
-            <i class="fa-brands fa-whatsapp"></i>
-            <span>WhatsApp Naeem Direct</span>
-          </a>
-          <a href="/sell-my-property/index.html" class="btn-outline" style="padding: 14px 24px; font-size: 0.95rem;">
-            <i class="fa-solid fa-plus highlight-gold"></i>
-            <span>Submit Property for Sale</span>
-          </a>
+          <div class="consultation-card-box">
+            <div class="card-box-header">
+              <div class="advisor-avatar">
+                <i class="fa-solid fa-user-tie"></i>
+              </div>
+              <div>
+                <h4 class="advisor-name">{business.advisor}</h4>
+                <p class="advisor-role">Chief Property Consultant</p>
+              </div>
+            </div>
+
+            <div class="action-buttons-group">
+              <a href={`tel:${business.phone}`} class="saas-btn saas-btn-call">
+                <i class="fa-solid fa-phone"></i>
+                <div class="btn-text-wrap">
+                  <span class="btn-small-label">Direct Line</span>
+                  <span class="btn-main-label">{business.phoneFormatted}</span>
+                </div>
+              </a>
+
+              <a href={business.whatsappUrl} target="_blank" rel="noopener" class="saas-btn saas-btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i>
+                <div class="btn-text-wrap">
+                  <span class="btn-small-label">Instant Chat</span>
+                  <span class="btn-main-label">Chat on WhatsApp</span>
+                </div>
+              </a>
+
+              <a href="/sell-my-property/index.html" class="saas-btn saas-btn-portal">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <span>Submit Property Online</span>
+              </a>
+            </div>
+
+            <div class="response-guarantee">
+              <i class="fa-regular fa-clock"></i>
+              <span>Typically responds within <strong>15 minutes</strong></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -190,54 +245,368 @@ import { business } from '@/data/business';
     color: var(--text-secondary);
   }
 
-  /* Consultation Banner */
+  /* ========================================================
+     MODERN SAAS DIRECT CONSULTATION BANNER
+     ======================================================== */
   .direct-consultation-banner {
+    position: relative;
+    border-radius: 24px;
+    background: #0E1A15; /* Rich deep matte forest/graphite */
+    border: 1px solid rgba(200, 169, 107, 0.28);
+    box-shadow: 
+      0 20px 50px -10px rgba(10, 20, 16, 0.45),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
     padding: 48px;
-    border: 1px solid var(--border-card);
-    background: linear-gradient(135deg, rgba(27, 43, 57, 0.95) 0%, rgba(20, 34, 48, 0.95) 100%);
+  }
+
+  .banner-mesh-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 12% 18%, rgba(63, 107, 91, 0.35) 0%, transparent 48%),
+      radial-gradient(circle at 88% 82%, rgba(200, 169, 107, 0.18) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+    pointer-events: none;
   }
 
   .banner-inner {
+    position: relative;
+    z-index: 2;
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 40px;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
     align-items: center;
   }
 
-  .banner-text-col h3 {
-    font-size: 2rem;
-    margin-bottom: 12px;
-    color: var(--text-primary);
-  }
-
-  .banner-text-col p {
-    font-size: 1.02rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: var(--text-secondary);
-  }
-
-  .office-quick-address {
+  /* Badge Row */
+  .banner-badge-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 0.88rem;
-    color: var(--text-muted);
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
   }
 
-  .banner-actions-col {
+  .saas-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200, 169, 107, 0.15);
+    border: 1px solid rgba(200, 169, 107, 0.4);
+    color: #E8C98B;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #E8C98B;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #E8C98B;
+  }
+
+  .saas-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(46, 204, 113, 0.12);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    color: #4EFA96;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 9999px;
+  }
+
+  /* Typography - Crisp & Ultra Legible */
+  .consultation-title {
+    font-size: clamp(1.9rem, 3.2vw, 2.5rem);
+    font-weight: 800;
+    color: #FFFFFF !important;
+    line-height: 1.22;
+    margin-bottom: 18px;
+    letter-spacing: -0.02em;
+  }
+
+  .highlight-text {
+    color: #E8C98B !important;
+    background: linear-gradient(135deg, #F5DC9F 0%, #C8A96B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  .consultation-subtitle {
+    font-size: 1.05rem !important;
+    line-height: 1.7;
+    color: #D3E4DC !important; /* High contrast clean readable text */
+    margin-bottom: 24px;
+    max-width: 580px;
+  }
+
+  .consultation-subtitle strong {
+    color: #FFFFFF !important;
+    font-weight: 700;
+  }
+
+  /* SaaS Feature Bullet Points */
+  .saas-features-list {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #EAF3EF;
+    font-size: 0.94rem;
+    font-weight: 500;
+  }
+
+  .feature-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(63, 107, 91, 0.4);
+    border: 1px solid rgba(82, 130, 113, 0.5);
+    color: #E8C98B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    flex-shrink: 0;
+  }
+
+  /* Address Bar */
+  .office-quick-address {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.88rem;
+    color: #A3BDB1;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    line-height: 1.45;
+  }
+
+  .office-quick-address i {
+    color: #E8C98B;
+    font-size: 1rem;
+    margin-top: 2px;
+  }
+
+  .office-quick-address strong {
+    color: #FFFFFF;
+  }
+
+  /* Right Side Glass Card */
+  .consultation-card-box {
+    background: rgba(22, 38, 31, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 20px;
+    padding: 32px 28px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+  }
+
+  .card-box-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .advisor-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #3F6B5B 0%, #29473D 100%);
+    border: 1.5px solid #C8A96B;
+    color: #F5DC9F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .advisor-name {
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 3px;
+  }
+
+  .advisor-role {
+    font-size: 0.82rem;
+    color: #A3BDB1;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Buttons */
+  .action-buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .saas-btn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  .btn-text-wrap {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .btn-small-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    opacity: 0.85;
+    line-height: 1.1;
+  }
+
+  .btn-main-label {
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  /* Call Button (Gold Solid) */
+  .saas-btn-call {
+    background: linear-gradient(135deg, #E0BC48 0%, #C8A96B 50%, #B79858 100%);
+    color: #101F18 !important;
+    box-shadow: 0 6px 18px rgba(200, 169, 107, 0.25);
     gap: 14px;
   }
 
-  @media (max-width: 900px) {
+  .saas-btn-call i {
+    font-size: 1.15rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(18, 34, 26, 0.15);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .saas-btn-call:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(200, 169, 107, 0.38);
+    filter: brightness(1.06);
+  }
+
+  /* WhatsApp Button */
+  .saas-btn-whatsapp {
+    background: #25D366;
+    color: #FFFFFF !important;
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.22);
+    gap: 14px;
+  }
+
+  .saas-btn-whatsapp i {
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.14);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .saas-btn-whatsapp:hover {
+    transform: translateY(-2px);
+    background: #20BA5A;
+    box-shadow: 0 10px 24px rgba(37, 211, 102, 0.36);
+  }
+
+  /* Portal Outline Button */
+  .saas-btn-portal {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #FFFFFF !important;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 13px 18px;
+  }
+
+  .saas-btn-portal i {
+    color: #E8C98B;
+    font-size: 0.88rem;
+  }
+
+  .saas-btn-portal:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(200, 169, 107, 0.5);
+    transform: translateY(-2px);
+  }
+
+  /* Response Guarantee Footer */
+  .response-guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+    font-size: 0.82rem;
+    color: #A3BDB1;
+  }
+
+  .response-guarantee i {
+    color: #4EFA96;
+  }
+
+  .response-guarantee strong {
+    color: #FFFFFF;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 960px) {
     .banner-inner {
       grid-template-columns: 1fr;
-      gap: 28px;
+      gap: 36px;
     }
+
     .direct-consultation-banner {
-      padding: 32px 24px;
+      padding: 32px 22px;
+    }
+
+    .consultation-title {
+      font-size: 1.85rem;
+    }
+
+    .consultation-card-box {
+      padding: 24px 20px;
     }
   }
 </style>
+

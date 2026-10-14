@@ -1,5 +1,8 @@
 ---
 import { services } from '@/data/services';
+
+// Show only first 6 services
+const displayServices = services.slice(0, 6);
 ---
 
 <section id="services" class="services-section">
@@ -18,26 +21,20 @@ import { services } from '@/data/services';
     </div>
 
     <div class="services-grid">
-      {services.map(svc => (
-        <div class="service-card v4-card">
+      {displayServices.map(svc => (
+        <a href={`/services/${svc.slug}.html`} class="service-card v4-card">
           <div class="svc-icon-box">
             <i class={svc.icon}></i>
           </div>
           <span class="svc-badge">{svc.badge}</span>
           <h3 class="svc-title">{svc.title}</h3>
-          <p class="svc-summary">{svc.summary}</p>
-          <ul class="svc-deliverables">
-            {svc.deliverables.slice(0, 3).map(d => (
-              <li><i class="fa-solid fa-check highlight-gold"></i> {d}</li>
-            ))}
-          </ul>
           <div class="svc-footer">
-            <a href={`/services/${svc.slug}.html`} class="svc-link">
-              <span>Read Full Guide</span>
+            <span class="svc-link">
+              <span>Read Guide</span>
               <i class="fa-solid fa-arrow-right"></i>
-            </a>
+            </span>
           </div>
-        </div>
+        </a>
       ))}
     </div>
   </div>
@@ -52,21 +49,37 @@ import { services } from '@/data/services';
 
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
 
   .service-card {
-    padding: 30px 26px;
+    padding: 22px 20px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
     position: relative;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .service-card:hover .svc-link {
+    color: #FFFFFF;
+  }
+
+  .service-card:hover .svc-link i {
+    transform: translateX(4px);
   }
 
   .svc-icon-box {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     border-radius: var(--radius-control);
     background: rgba(184, 138, 59, 0.12);
     border: 1px solid rgba(184, 138, 59, 0.3);
@@ -74,11 +87,11 @@ import { services } from '@/data/services';
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.35rem;
+    font-size: 1.15rem;
   }
 
   .svc-badge {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     color: var(--accent-teal-light);
     font-weight: 600;
     text-transform: uppercase;
@@ -86,64 +99,35 @@ import { services } from '@/data/services';
   }
 
   .svc-title {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     color: var(--text-primary);
-  }
-
-  .svc-summary {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  .svc-deliverables {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 4px;
-    flex-grow: 1;
-  }
-
-  .svc-deliverables li {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    line-height: 1.4;
-  }
-
-  .svc-deliverables li i {
-    margin-top: 3px;
-    flex-shrink: 0;
-    font-size: 0.75rem;
+    line-height: 1.3;
   }
 
   .svc-footer {
-    padding-top: 16px;
+    padding-top: 10px;
     border-top: 1px solid var(--border-subtle);
+    margin-top: auto;
   }
 
   .svc-link {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--accent-gold-light);
     display: inline-flex;
     align-items: center;
     gap: 6px;
     font-weight: 600;
-    transition: var(--transition);
+    transition: color 0.2s ease;
   }
 
-  .svc-link:hover {
-    color: #FFFFFF;
-    transform: translateX(4px);
+  .svc-link i {
+    transition: transform 0.2s ease;
   }
 
   @media (max-width: 1199px) and (min-width: 768px) {
     .services-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      gap: 16px;
     }
   }
 
@@ -152,21 +136,14 @@ import { services } from '@/data/services';
       padding: 60px 0;
     }
     .services-grid {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      gap: 16px;
-      padding-bottom: 14px;
-      scrollbar-width: none;
-    }
-    .services-grid::-webkit-scrollbar {
-      display: none;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
     .service-card {
-      flex: 0 0 100%;
-      scroll-snap-align: start;
-      padding: 24px 20px;
+      padding: 18px 16px;
+    }
+    .svc-title {
+      font-size: 0.95rem;
     }
   }
 </style>

@@ -26,10 +26,17 @@ const schemaData = {
   "@context": "https://schema.org",
   "@type": ["RealEstateAgent", "LocalBusiness"],
   "name": business.name,
+  "alternateName": [
+    "Naeem Siddhu Property Advisor",
+    "#1 Property Dealer in Chichawatni",
+    "Top 1 Real Estate Consultant Chichawatni",
+    "SIDDHU OS Real Estate Portal"
+  ],
   "image": "https://siddhupropertyadvisor.com/assets/images/siddhu-logo-new.jpg",
   "description": description,
   "telephone": business.phone,
   "url": business.website,
+  "priceRange": "PKR 2,000,000 - 50,000,000",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": business.address.street,
@@ -44,14 +51,21 @@ const schemaData = {
     "longitude": business.coordinates.lng
   },
   "areaServed": [
-    {
-      "@type": "AdministrativeArea",
-      "name": "Chichawatni"
-    },
-    {
-      "@type": "AdministrativeArea",
-      "name": "Sahiwal Division"
-    }
+    { "@type": "Place", "name": "Chichawatni" },
+    { "@type": "Place", "name": "Hayat Abad Chichawatni" },
+    { "@type": "Place", "name": "Model Town Chichawatni" },
+    { "@type": "Place", "name": "Housing Colony Chichawatni" },
+    { "@type": "Place", "name": "Civil Lines Chichawatni" },
+    { "@type": "Place", "name": "GT Road Chichawatni" },
+    { "@type": "AdministrativeArea", "name": "Sahiwal Division" }
+  ],
+  "knowsAbout": [
+    "Best Buy Property in Chichawatni",
+    "Best Sale Deals in Chichawatni",
+    "Residential Houses for Sale",
+    "Arazi Record Center PLRA Verification",
+    "Commercial Plazas on Burewala & GT Road",
+    "Overseas Pakistani Property Investment"
   ],
   "founder": {
     "@type": "Person",
@@ -95,7 +109,10 @@ const schemaData = {
   {includeMap && (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" crossorigin="" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" crossorigin="" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" crossorigin="" />
       <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" crossorigin=""></script>
+      <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js" crossorigin=""></script>
     </>
   )}
 

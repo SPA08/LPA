@@ -9,6 +9,8 @@ export interface LocalityItem {
   legalStatus: string;
   statusBadge: "Verified" | "Government Record" | "Map Confirmed" | "Local Knowledge" | "TMA Approved" | "Private / Unregistered" | "Revenue Mouza";
   subType?: "Registered Colony" | "Private Society" | "Revenue Village" | "Civic Facility";
+  districtHub?: "Chichawatni" | "Sahiwal";
+  perMarlaRate?: string;
   description: string;
   highlights: string[];
 }
@@ -808,5 +810,159 @@ export const localities: LocalityItem[] = [
     subType: "Civic Facility",
     description: "The historic 1913 irrigated plantation spanning over 11,000 acres that catalyzed the foundation and climatic comfort of modern Chichawatni.",
     highlights: ["Established in 1913", "Historic national green belt", "Environmental lung of the region", "Defining heritage of Chichawatni"]
+  },
+
+  // =========================================================================
+  // 6. DISTRICT SAHIWAL — TOP 10 PREMIER TOWNS
+  // =========================================================================
+  {
+    id: "farid-town-sahiwal",
+    name: "Farid Town, Sahiwal",
+    slug: "farid-town-sahiwal",
+    category: "Residential Locality",
+    districtHub: "Sahiwal",
+    lat: 30.6720,
+    lng: 73.1110,
+    perMarlaRate: "PKR 28 – 42 Lakh / Marla",
+    legalStatus: "CDA / TMA Sahiwal Master-Planned Premier Colony.",
+    statusBadge: "TMA Approved",
+    subType: "Registered Colony",
+    description: "Premier planned residential sector of District Sahiwal featuring wide tree-lined boulevards, family parks, prestigious schools, and vibrant Commercial Markaz.",
+    highlights: ["CDA/TMA Standard Master Plan", "Commercial Markaz & Civic Parks", "High Overseas Pakistani Demand", "Underground Utilities Active"]
+  },
+  {
+    id: "tariq-bin-ziyad-colony-sahiwal",
+    name: "Tariq Bin Ziyad (TBZ) Colony, Sahiwal",
+    slug: "tariq-bin-ziyad-colony-sahiwal",
+    category: "Residential Locality",
+    districtHub: "Sahiwal",
+    lat: 30.6650,
+    lng: 73.1020,
+    perMarlaRate: "PKR 30 – 48 Lakh / Marla",
+    legalStatus: "Prime elite urban residential sector with TMA approval.",
+    statusBadge: "TMA Approved",
+    subType: "Registered Colony",
+    description: "Prime elite residential enclave with high-street commercial connectivity. Renowned for luxury designer bungalows, corporate clinics, and prime investment stability.",
+    highlights: ["High-Street Commercial Corridor", "Luxury Designer Homes (10 Marla – 2 Kanal)", "Unrivaled Central Location", "High Rental Returns"]
+  },
+  {
+    id: "shadman-town-sahiwal",
+    name: "Shadman Town, Sahiwal",
+    slug: "shadman-town-sahiwal",
+    category: "Residential Locality",
+    districtHub: "Sahiwal",
+    lat: 30.6780,
+    lng: 73.1250,
+    perMarlaRate: "PKR 20 – 30 Lakh / Marla",
+    legalStatus: "TMA Sahiwal approved residential sector.",
+    statusBadge: "TMA Approved",
+    subType: "Registered Colony",
+    description: "Family-centric peaceful residential town featuring park-facing blocks, community mosques, and high liquidity 5, 7, and 10 Marla residences.",
+    highlights: ["Dedicated Community Parks", "Wide Carpeted Streets", "Quiet Family Environment", "Sui Gas & Electricity Active"]
+  },
+  {
+    id: "green-town-sahiwal",
+    name: "Green Town, Sahiwal",
+    slug: "green-town-sahiwal",
+    category: "Residential Locality",
+    districtHub: "Sahiwal",
+    lat: 30.6580,
+    lng: 73.1150,
+    perMarlaRate: "PKR 18 – 26 Lakh / Marla",
+    legalStatus: "Established TMA approved residential scheme.",
+    statusBadge: "TMA Approved",
+    subType: "Registered Colony",
+    description: "Contemporary neighborhood popular for modern 5, 7, and 10 Marla designer residences, fast market turnover, and direct urban road links.",
+    highlights: ["Fast Developing Sector", "Modern Double-Story Constructions", "Immediate Utility Connections", "High Rental Occupancy"]
+  },
+  {
+    id: "palm-view-housing-sahiwal",
+    name: "Palm View Housing Society, Sahiwal",
+    slug: "palm-view-housing-sahiwal",
+    category: "Private Housing Scheme",
+    districtHub: "Sahiwal",
+    lat: 30.6850,
+    lng: 73.1380,
+    perMarlaRate: "PKR 20 – 32 Lakh / Marla",
+    legalStatus: "Gated modern housing society with TMA approval.",
+    statusBadge: "TMA Approved",
+    subType: "Private Society",
+    description: "Modern gated community on Sahiwal bypass offering 24/7 security, grand entrance gate, palm-lined central avenue, and underground utilities.",
+    highlights: ["24/7 Gated Security & CCTV", "Palm-Lined Central Boulevard", "Underground Electricity", "Modern Community Club"]
+  },
+  {
+    id: "jeewan-city-sahiwal",
+    name: "Jeewan City, Sahiwal",
+    slug: "jeewan-city-sahiwal",
+    category: "Private Housing Scheme",
+    districtHub: "Sahiwal",
+    lat: 30.6920,
+    lng: 73.1480,
+    perMarlaRate: "PKR 15 – 24 Lakh / Marla",
+    legalStatus: "Fast-growing master-planned housing scheme with TMA sanction.",
+    statusBadge: "TMA Approved",
+    subType: "Private Society",
+    description: "Fast-growing master-planned community attracting both families and investors with 5 Marla and 10 Marla plots, commercial zones, and modern street planning.",
+    highlights: ["Master-Planned Sector Layout", "Commercial Main Boulevard", "Parks & School Reserves", "High Capital Appreciation"]
+  },
+  {
+    id: "royal-orchard-sahiwal",
+    name: "Royal Orchard, Sahiwal",
+    slug: "royal-orchard-sahiwal",
+    category: "Private Housing Scheme",
+    districtHub: "Sahiwal",
+    lat: 30.6480,
+    lng: 73.0820,
+    perMarlaRate: "PKR 24 – 40 Lakh / Marla",
+    legalStatus: "Fully approved luxury master community by Habib Rafiq (Pvt) Ltd.",
+    statusBadge: "TMA Approved",
+    subType: "Private Society",
+    description: "Luxury boulevard living and overseas investor favorite with wide green avenues, underground electricity, grand Jamia mosque, and premier sports complex.",
+    highlights: ["HRL Standard Development", "Underground Electrification", "Grand Jamia Mosque & Complex", "Overseas Pakistani Choice"]
+  },
+  {
+    id: "al-razzaq-royals-sahiwal",
+    name: "Al-Razzaq Royals / Executive, Sahiwal",
+    slug: "al-razzaq-royals-sahiwal",
+    category: "Private Housing Scheme",
+    districtHub: "Sahiwal",
+    lat: 30.6810,
+    lng: 73.0950,
+    perMarlaRate: "PKR 18 – 28 Lakh / Marla",
+    legalStatus: "TMA approved gated housing community.",
+    statusBadge: "TMA Approved",
+    subType: "Private Society",
+    description: "Exclusive gated development offering modern security, paved roads, dedicated commercial arcade, and underground sewerage system.",
+    highlights: ["Gated Security & CCTV Access", "Underground Sewerage System", "Family Parks & Jogging Track", "Clear Legal Registry Mutation"]
+  },
+  {
+    id: "fateh-sher-colony-sahiwal",
+    name: "Fateh Sher Colony, Sahiwal",
+    slug: "fateh-sher-colony-sahiwal",
+    category: "Residential Locality",
+    districtHub: "Sahiwal",
+    lat: 30.6610,
+    lng: 73.1080,
+    perMarlaRate: "PKR 22 – 34 Lakh / Marla",
+    legalStatus: "Established municipal residential colony with complete civic services.",
+    statusBadge: "Verified",
+    subType: "Registered Colony",
+    description: "Centrally positioned residential colony with exceptional access to hospitals, district courts, and main markets. Established family neighborhood.",
+    highlights: ["Central Sahiwal Location", "Near District Administration", "High Rental Demand", "Solid Red Brick Construction"]
+  },
+  {
+    id: "bilal-colony-jahaz-ground-sahiwal",
+    name: "Bilal Colony & Jahaz Ground Corridor, Sahiwal",
+    slug: "bilal-colony-jahaz-ground-sahiwal",
+    category: "Residential Locality",
+    districtHub: "Sahiwal",
+    lat: 30.6550,
+    lng: 73.1040,
+    perMarlaRate: "PKR 18 – 28 Lakh / Marla",
+    legalStatus: "High-demand urban residential sector with approved registry.",
+    statusBadge: "Verified",
+    subType: "Registered Colony",
+    description: "High-demand urban residential corridor near the landmark Jahaz Ground recreation park. Excellent sports facilities, wide access roads, and steady price growth.",
+    highlights: ["Adjacent to Jahaz Ground Park", "Vibrant Urban Community", "Excellent Public Transport Access", "Solid Family Living"]
   }
 ];

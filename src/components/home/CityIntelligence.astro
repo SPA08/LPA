@@ -89,7 +89,7 @@ const categorySummaries = [
     <div class="category-summary-grid">
       {categorySummaries.map(cat => (
         <div
-          class="cat-summary-box"
+          class:list={['cat-summary-box', `cat-type-${cat.id.toLowerCase().replace(/\s+/g, '-')}`]}
           data-category={cat.id}
           onclick={`window.selectCategoryFromSummary('${cat.id}');`}
           role="button"
@@ -97,11 +97,11 @@ const categorySummaries = [
           aria-label={`Explore ${cat.title} places`}
         >
           <div class="cat-summary-header">
-            <div class="cat-summary-icon">
+            <div class:list={['cat-summary-icon', `icon-${cat.id.toLowerCase().replace(/\s+/g, '-')}`]}>
               <i class={`fa-solid ${cat.icon}`}></i>
             </div>
             <div class="cat-summary-meta">
-              <span class="cat-badge">{cat.badge}</span>
+              <span class:list={['cat-badge', `badge-cat-${cat.id.toLowerCase().replace(/\s+/g, '-')}`]}>{cat.badge}</span>
               <span class="cat-count-pill">{cat.count} Places</span>
             </div>
           </div>
@@ -120,7 +120,7 @@ const categorySummaries = [
       <div class="intel-tabs-row" role="tablist" aria-label="City Intelligence Categories">
         {categories.map((cat, idx) => (
           <button
-            class:list={['intel-tab-btn', { active: idx === 0 }]}
+            class:list={['intel-tab-btn', `tab-${cat.id.toLowerCase().replace(/\s+/g, '-')}`, { active: idx === 0 }]}
             data-category={cat.id}
             onclick="window.filterCityPlaces(this);"
           >
@@ -196,21 +196,21 @@ const categorySummaries = [
             <article class="intel-card v4-card collapsed">
               <!-- Compact Preview Header -->
               <div class="intel-card-header" onclick={`window.toggleCardByElement(this.closest('.intel-card'));`}>
-                <div class="intel-icon-crest">
+                <div class:list={['intel-icon-crest', `crest-${place.category.toLowerCase().replace(/\s+/g, '-')}`]}>
                   {place.category === 'Education' && <i class="fa-solid fa-graduation-cap"></i>}
-                  {place.category === 'Health' && <i class="fa-solid fa-heart-pulse"></i>}
-                  {place.category === 'Government' && <i class="fa-solid fa-landmark-dome"></i>}
-                  {place.category === 'Banking' && <i class="fa-solid fa-building-columns"></i>}
+                  {place.category === 'Health' && <i class="fa-solid fa-hospital"></i>}
+                  {place.category === 'Government' && <i class="fa-solid fa-building-columns"></i>}
+                  {place.category === 'Banking' && <i class="fa-solid fa-money-bill-transfer"></i>}
                   {place.category === 'Safety' && <i class="fa-solid fa-shield-halved"></i>}
-                  {place.category === 'Real Estate' && <i class="fa-solid fa-house-chimney"></i>}
+                  {place.category === 'Real Estate' && <i class="fa-solid fa-landmark"></i>}
                   {place.category === 'Services' && <i class="fa-solid fa-landmark"></i>}
                 </div>
 
                 <div class="intel-meta-top">
-                  <span class="intel-category-pill">{place.subCategory}</span>
+                  <span class:list={['intel-category-pill', `catpill-${place.category.toLowerCase().replace(/\s+/g, '-')}`]}>{place.subCategory}</span>
                   {place.distanceFromCenter && (
                     <span class="intel-dist-pill">
-                      <i class="fa-solid fa-route"></i> {place.distanceFromCenter}
+                      <i class="fa-solid fa-location-dot dist-icon"></i> {place.distanceFromCenter}
                     </span>
                   )}
                 </div>
@@ -384,21 +384,117 @@ const categorySummaries = [
   }
 
   .cat-summary-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    background: rgba(41, 71, 61, 0.07);
-    color: var(--color-matte-green);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     transition: all 0.25s ease;
   }
 
-  .cat-summary-box:hover .cat-summary-icon {
-    background: var(--color-matte-green);
+  /* Real SaaS Color Styling for Summary Category Icons & Badges */
+  .icon-education {
+    background: rgba(79, 70, 229, 0.12);
+    color: #4F46E5;
+    border: 1px solid rgba(79, 70, 229, 0.28);
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.15);
+  }
+  .badge-cat-education {
+    background: rgba(79, 70, 229, 0.1);
+    color: #4338CA;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+  }
+  .cat-type-education:hover .icon-education {
+    background: #4F46E5;
     color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+  }
+
+  .icon-health {
+    background: rgba(239, 68, 68, 0.12);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
+  }
+  .badge-cat-health {
+    background: rgba(239, 68, 68, 0.1);
+    color: #DC2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+  .cat-type-health:hover .icon-health {
+    background: #EF4444;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+  }
+
+  .icon-government {
+    background: rgba(217, 119, 6, 0.12);
+    color: #D97706;
+    border: 1px solid rgba(217, 119, 6, 0.28);
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15);
+  }
+  .badge-cat-government {
+    background: rgba(217, 119, 6, 0.1);
+    color: #B45309;
+    border: 1px solid rgba(217, 119, 6, 0.2);
+  }
+  .cat-type-government:hover .icon-government {
+    background: #D97706;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);
+  }
+
+  .icon-banking {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+  }
+  .badge-cat-banking {
+    background: rgba(16, 185, 129, 0.1);
+    color: #047857;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  .cat-type-banking:hover .icon-banking {
+    background: #059669;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+  }
+
+  .icon-safety {
+    background: rgba(2, 132, 199, 0.12);
+    color: #0284C7;
+    border: 1px solid rgba(2, 132, 199, 0.28);
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
+  }
+  .badge-cat-safety {
+    background: rgba(2, 132, 199, 0.1);
+    color: #0369A1;
+    border: 1px solid rgba(2, 132, 199, 0.2);
+  }
+  .cat-type-safety:hover .icon-safety {
+    background: #0284C7;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+  }
+
+  .icon-real-estate {
+    background: rgba(139, 92, 246, 0.12);
+    color: #8B5CF6;
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
+  }
+  .badge-cat-real-estate {
+    background: rgba(139, 92, 246, 0.1);
+    color: #7C3AED;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+  }
+  .cat-type-real-estate:hover .icon-real-estate {
+    background: #8B5CF6;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
   }
 
   .cat-summary-meta {
@@ -412,8 +508,6 @@ const categorySummaries = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--color-matte-green);
-    background: rgba(41, 71, 61, 0.06);
     padding: 3px 8px;
     border-radius: var(--radius-full);
   }
@@ -508,27 +602,36 @@ const categorySummaries = [
   }
 
   .intel-tab-btn i {
-    color: var(--color-matte-green);
-    font-size: 0.9rem;
-    transition: color 0.2s;
+    font-size: 0.95rem;
+    transition: all 0.2s;
   }
 
+  /* Real SaaS Colors for Filter Tab Icons */
+  .intel-tab-btn.tab-all i { color: #D4AF37; }
+  .intel-tab-btn.tab-education i { color: #4F46E5; }
+  .intel-tab-btn.tab-health i { color: #EF4444; }
+  .intel-tab-btn.tab-government i { color: #D97706; }
+  .intel-tab-btn.tab-banking i { color: #059669; }
+  .intel-tab-btn.tab-safety i { color: #0284C7; }
+  .intel-tab-btn.tab-real-estate i { color: #8B5CF6; }
+
   .intel-tab-btn:hover {
-    border-color: var(--color-matte-green);
+    border-color: #CBD5E1;
     color: var(--color-dark-green);
     background: #FCFCFA;
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   }
 
   .intel-tab-btn.active {
-    background: var(--color-dark-green);
-    border-color: var(--color-dark-green);
+    background: #132A1F;
+    border-color: #132A1F;
     color: #FFFFFF;
-    box-shadow: 0 4px 14px rgba(41, 71, 61, 0.2);
+    box-shadow: 0 4px 14px rgba(19, 42, 31, 0.25);
   }
 
   .intel-tab-btn.active i {
-    color: var(--color-gold);
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
   }
 
   .intel-count-pill {
@@ -775,22 +878,61 @@ const categorySummaries = [
   }
 
   .intel-icon-crest {
-    width: 36px;
-    height: 36px;
-    border-radius: 9px;
-    background: rgba(41, 71, 61, 0.07);
-    color: var(--color-matte-green);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
-    transition: all 0.2s;
+    font-size: 1.05rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
   }
 
-  .intel-card:hover .intel-icon-crest {
-    background: var(--color-matte-green);
-    color: #FFFFFF;
+  /* Real SaaS Colors for Place Card Crests */
+  .crest-education {
+    background: rgba(79, 70, 229, 0.12);
+    color: #4F46E5;
+    border: 1px solid rgba(79, 70, 229, 0.28);
+    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.12);
   }
+  .crest-health {
+    background: rgba(239, 68, 68, 0.12);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.12);
+  }
+  .crest-government {
+    background: rgba(217, 119, 6, 0.12);
+    color: #D97706;
+    border: 1px solid rgba(217, 119, 6, 0.28);
+    box-shadow: 0 2px 6px rgba(217, 119, 6, 0.12);
+  }
+  .crest-banking {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.12);
+  }
+  .crest-safety {
+    background: rgba(2, 132, 199, 0.12);
+    color: #0284C7;
+    border: 1px solid rgba(2, 132, 199, 0.28);
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.12);
+  }
+  .crest-real-estate, .crest-services {
+    background: rgba(139, 92, 246, 0.12);
+    color: #8B5CF6;
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    box-shadow: 0 2px 6px rgba(139, 92, 246, 0.12);
+  }
+
+  .intel-card:hover .crest-education { background: #4F46E5; color: #FFFFFF; }
+  .intel-card:hover .crest-health { background: #EF4444; color: #FFFFFF; }
+  .intel-card:hover .crest-government { background: #D97706; color: #FFFFFF; }
+  .intel-card:hover .crest-banking { background: #059669; color: #FFFFFF; }
+  .intel-card:hover .crest-safety { background: #0284C7; color: #FFFFFF; }
+  .intel-card:hover .crest-real-estate, .intel-card:hover .crest-services { background: #8B5CF6; color: #FFFFFF; }
 
   .intel-meta-top {
     display: flex;
@@ -803,22 +945,59 @@ const categorySummaries = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--color-matte-green);
-    background: rgba(41, 71, 61, 0.06);
     padding: 3px 8px;
     border-radius: var(--radius-full);
   }
 
+  .catpill-education {
+    background: rgba(79, 70, 229, 0.08);
+    color: #4338CA;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+  }
+  .catpill-health {
+    background: rgba(239, 68, 68, 0.08);
+    color: #DC2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+  .catpill-government {
+    background: rgba(217, 119, 6, 0.08);
+    color: #B45309;
+    border: 1px solid rgba(217, 119, 6, 0.2);
+  }
+  .catpill-banking {
+    background: rgba(16, 185, 129, 0.08);
+    color: #047857;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  .catpill-safety {
+    background: rgba(2, 132, 199, 0.08);
+    color: #0369A1;
+    border: 1px solid rgba(2, 132, 199, 0.2);
+  }
+  .catpill-real-estate, .catpill-services {
+    background: rgba(139, 92, 246, 0.08);
+    color: #7C3AED;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  /* Distance Pill with Vivid Coral Pin */
   .intel-dist-pill {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    background: #F1F4F2;
-    padding: 3px 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #334155;
+    background: rgba(239, 68, 68, 0.07);
+    border: 1px solid rgba(239, 68, 68, 0.22);
+    padding: 3px 9px;
     border-radius: var(--radius-full);
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
+  }
+
+  .intel-dist-pill i,
+  .dist-icon {
+    color: #EF4444 !important;
+    font-size: 0.76rem;
   }
 
   .intel-card-body {

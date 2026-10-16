@@ -12,18 +12,32 @@ import { business } from '@/data/business';
       <div class="header-left">
         <span class="section-badge">
           <i class="fa-solid fa-house-chimney highlight-gold"></i>
-          <span>GENUINE INVENTORY</span>
+          <span>GENUINE INVENTORY • CHICHAWATNI & SAHIWAL</span>
         </span>
         <h2>
-          Selected <span class="editorial-italic highlight-gold">Residential Homes</span> in Chichawatni
+          Selected <span class="editorial-italic highlight-gold">Residential Homes</span> & Plots
         </h2>
         <p>
-          Verified 5 Marla, 7 Marla, 10 Marla, and 12 Marla family houses with authentic on-site photographs and clear ownership records.
+          Verified 5 Marla, 7 Marla, 10 Marla, 12 Marla & 1 Kanal properties with authentic on-site verification, direct owner pricing, and protected street locations.
         </p>
       </div>
       <div class="header-right">
+        <!-- Hub Quick Switcher -->
+        <div class="hub-filter-pills" id="featuredHubPills">
+          <button type="button" class="hub-pill-btn active" data-hub="all" onclick="window.filterFeaturedByHub('all');">
+            <span>All Listings ({properties.length})</span>
+          </button>
+          <button type="button" class="hub-pill-btn" data-hub="Chichawatni" onclick="window.filterFeaturedByHub('Chichawatni');">
+            <i class="fa-solid fa-landmark"></i>
+            <span>Chichawatni</span>
+          </button>
+          <button type="button" class="hub-pill-btn" data-hub="Sahiwal" onclick="window.filterFeaturedByHub('Sahiwal');">
+            <i class="fa-solid fa-city"></i>
+            <span>Sahiwal Top Towns</span>
+          </button>
+        </div>
         <a href="/properties.html" class="btn-outline view-all-header-btn">
-          <span>View All Properties ({properties.length})</span>
+          <span>View All ({properties.length})</span>
           <i class="fa-solid fa-arrow-right"></i>
         </a>
       </div>
@@ -271,6 +285,41 @@ import { business } from '@/data/business';
     const notice = document.getElementById('filterActiveNotice');
     if (emptyBox) emptyBox.style.display = 'none';
     if (notice) notice.style.display = 'none';
+
+    // Reset hub pills
+    document.querySelectorAll('#featuredHubPills .hub-pill-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-hub') === 'all');
+    });
+  };
+
+  window.filterFeaturedByHub = function(hub) {
+    const buttons = document.querySelectorAll('#featuredHubPills .hub-pill-btn');
+    buttons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-hub') === hub);
+    });
+
+    const slides = document.querySelectorAll('#propertiesTrack .prop-carousel-slide');
+    let visibleCount = 0;
+
+    slides.forEach(slide => {
+      const card = slide.querySelector('.property-card');
+      if (!card) return;
+      const cardCity = card.getAttribute('data-city') || 'Chichawatni';
+
+      if (hub === 'all' || cardCity.toLowerCase() === hub.toLowerCase()) {
+        slide.style.display = 'flex';
+        visibleCount++;
+      } else {
+        slide.style.display = 'none';
+      }
+    });
+
+    const emptyBox = document.getElementById('emptyPropertiesNotice');
+    if (emptyBox) emptyBox.style.display = visibleCount === 0 ? 'block' : 'none';
+
+    // Reset carousel position to start
+    const track = document.getElementById('propertiesTrack');
+    if (track) track.scrollTo({ left: 0, behavior: 'smooth' });
   };
 </script>
 
@@ -307,16 +356,65 @@ import { business } from '@/data/business';
   }
 
   .header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
     flex-shrink: 0;
+  }
+
+  .hub-filter-pills {
+    display: inline-flex;
+    align-items: center;
+    background: #F1F5F9;
+    padding: 4px;
+    border-radius: var(--radius-full, 9999px);
+    border: 1px solid #E2E8F0;
+    gap: 4px;
+  }
+
+  .hub-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-full, 9999px);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #475569;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hub-pill-btn i {
+    font-size: 0.78rem;
+    color: #94A3B8;
+    transition: color 0.2s ease;
+  }
+
+  .hub-pill-btn:hover {
+    color: #0F291E;
+  }
+
+  .hub-pill-btn.active {
+    background: #0F291E;
+    color: #FFFFFF;
+    box-shadow: 0 2px 6px rgba(15, 41, 30, 0.2);
+  }
+
+  .hub-pill-btn.active i {
+    color: #C8A96B;
   }
 
   .view-all-header-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 22px;
+    padding: 10px 20px;
     border-radius: var(--radius-full);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 700;
     color: var(--color-dark-green);
     background: #FFFFFF;

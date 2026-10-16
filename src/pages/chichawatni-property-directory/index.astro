@@ -1,293 +1,2472 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { cadastralDataset } from '@/data/cadastralDataset';
 import { localities } from '@/data/locations';
 import { business } from '@/data/business';
 
-const pageTitle = "Chichawatni Property & Locality Directory | SIDDHU Property Advisor";
-const pageDesc = "Comprehensive directory of residential colonies, housing schemes, road networks, government revenue offices, and public facilities across Tehsil Chichawatni.";
+const pageTitle = "Chichawatni Land Records, Rakba & Area Directory | SIDDHU Property Advisor";
+const pageDesc = "Official cadastral dataset for Tehsil Chichawatni: 16 Municipal Blocks, TMA approved schemes, private towns, commercial bazaars, and rural agricultural chaks with live Rakba converter.";
 
-const categories = [
-  "All",
-  "Residential Locality",
-  "Road & Highway",
-  "Government & Revenue Office",
-  "Emergency & Healthcare",
-  "Education & Landmark"
+// Helper to format plot sizes and property configuration display cleanly
+function formatRakbaDisplay(entry: any) {
+  if (entry.plotSizes) {
+    return {
+      primary: entry.plotSizes,
+      sub: entry.configSub || entry.streets || 'Verified Real-Estate Cut'
+    };
+  }
+  if (entry.rakba && entry.rakba.includes('(')) {
+    const parts = entry.rakba.split('(');
+    const primary = parts[0].trim();
+    const sub = parts[1].replace(')', '').trim();
+    return { primary, sub };
+  }
+  return {
+    primary: entry.rakba || '3, 5, 7 & 10 Marla Cuts',
+    sub: 'Verified Real-Estate Configuration'
+  };
+}
+
+// Helper to determine status badge display
+function getStatusBadgeInfo(catKey: string, statusBadge: string = '') {
+  const sb = statusBadge.toLowerCase();
+  if (catKey === 'tma' || sb.includes('tma') || sb.includes('phata')) {
+    return { label: 'TMA Approved', icon: 'fa-solid fa-circle-check', class: 'pill-tma' };
+  }
+  if (sb.includes('intiqal') || sb.includes('plra')) {
+    return { label: 'PLRA Intiqal', icon: 'fa-solid fa-file-contract', class: 'pill-intiqal' };
+  }
+  if (catKey === 'block' || sb.includes('municipal')) {
+    return { label: 'Municipal Block', icon: 'fa-solid fa-landmark', class: 'pill-block' };
+  }
+  if (catKey === 'village' || sb.includes('mouza') || sb.includes('chak') || sb.includes('zari')) {
+    return { label: 'Zari Village', icon: 'fa-solid fa-wheat-awn', class: 'pill-village' };
+  }
+  if (catKey === 'commercial' || sb.includes('commercial') || sb.includes('road') || sb.includes('bazaar')) {
+    return { label: 'Commercial Corridor', icon: 'fa-solid fa-road', class: 'pill-commercial' };
+  }
+  return { label: 'Private Scheme', icon: 'fa-solid fa-city', class: 'pill-private' };
+}
+
+// Combine Cadastral entries with verified localities
+const allEntries = [
+  ...cadastralDataset.map(c => {
+    const catKey = c.categoryGroup === 'City Block' ? 'block' :
+                   c.categoryGroup === 'TMA Colony' ? 'tma' :
+                   c.categoryGroup === 'Private Scheme' ? 'private' :
+                   c.categoryGroup === 'Zari Mouza' ? 'village' : 'commercial';
+
+    const catLabel = c.categoryGroup || c.category;
+    const badgeInfo = getStatusBadgeInfo(catKey, c.statusBadge);
+    const rakbaInfo = formatRakbaDisplay(c);
+
+    return {
+      id: c.id,
+      name: c.name,
+      categoryKey: catKey,
+      categoryLabel: catLabel,
+      statusBadge: badgeInfo.label,
+      statusClass: badgeInfo.class,
+      statusIcon: badgeInfo.icon,
+      rakbaPrimary: rakbaInfo.primary,
+      rakbaSub: rakbaInfo.sub,
+      rakbaRaw: c.rakba,
+      plotSizes: c.plotSizes,
+      configSub: c.configSub,
+      streets: c.streets || '20ft–30ft paved roads',
+      rate: c.rate || 'Competitive Market Rate',
+      canal: c.canal || (catKey === 'village' ? '12-L Lower Bari Doab Canal' : undefined),
+      water: c.water || 'Sweet Potable Tap Water (80-120ft)',
+      soil: catKey === 'village' ? 'Fertile Agricultural Loam (زرخیز میرا)' : 'Urban Compact Ground',
+      parentChak: c.parentChak || 'Tehsil Chichawatni',
+      lat: c.lat,
+      lng: c.lng,
+      description: c.description,
+      legalDetails: c.legalStatus,
+      highlights: c.highlights || []
+    };
+  }),
+  ...localities.map(l => {
+    const isTMA = l.statusBadge === 'TMA Approved' || l.subType === 'Registered Colony';
+    const isPrivate = l.category === 'Private Housing Scheme' || l.subType === 'Private Society';
+    const isVillage = l.category === 'Village & Chak' || l.subType === 'Revenue Village';
+    const isRoad = l.category === 'Road & Highway' || l.category === 'Commercial & Bazaar';
+
+    const catKey = isTMA ? 'tma' : isPrivate ? 'private' : isVillage ? 'village' : isRoad ? 'commercial' : 'tma';
+    const catLabel = isTMA ? 'TMA Colony' : isPrivate ? 'Private Scheme' : isVillage ? 'Zari Mouza' : isRoad ? 'Commercial Corridor' : 'Residential Scheme';
+    const badgeInfo = getStatusBadgeInfo(catKey, l.statusBadge);
+    const defaultCut = isRoad ? 'Commercial Shops & Frontage' : isVillage ? 'Zari Zameen & Abadi Deh' : '3, 5, 7 & 10 Marla Plots';
+    const rakbaInfo = formatRakbaDisplay({ plotSizes: defaultCut, configSub: l.subType || 'Verified Scheme' });
+
+    return {
+      id: l.id,
+      name: l.name,
+      categoryKey: catKey,
+      categoryLabel: catLabel,
+      statusBadge: badgeInfo.label,
+      statusClass: badgeInfo.class,
+      statusIcon: badgeInfo.icon,
+      rakbaPrimary: rakbaInfo.primary,
+      rakbaSub: rakbaInfo.sub,
+      rakbaRaw: defaultCut,
+      plotSizes: defaultCut,
+      configSub: l.subType || 'Verified Scheme',
+      streets: '20ft - 40ft Planned Streets',
+      rate: l.perMarlaRate || 'Competitive Market Value',
+      canal: isVillage ? 'Lower Bari Doab Canal (LBDC)' : undefined,
+      water: 'Sweet Potable Tap Water',
+      soil: isVillage ? 'Rich Alluvial Agricultural Soil' : 'Urban Development Ground',
+      parentChak: l.parentChak || 'Tehsil Chichawatni',
+      lat: l.lat,
+      lng: l.lng,
+      description: l.description,
+      legalDetails: l.legalStatus,
+      highlights: l.highlights || ['Sub-Registrar Registry', 'Verified Civic Hub']
+    };
+  })
+];
+
+const categoryTabs = [
+  { key: 'all', label: 'All Areas', icon: 'fa-solid fa-list-check', count: allEntries.length },
+  { key: 'tma', label: '🟢 TMA Approved Colonies', icon: 'fa-solid fa-circle-check', count: allEntries.filter(e => e.categoryKey === 'tma').length },
+  { key: 'private', label: '🔵 Private & Intiqal Towns', icon: 'fa-solid fa-city', count: allEntries.filter(e => e.categoryKey === 'private').length },
+  { key: 'block', label: '🧱 City Blocks (1–16)', icon: 'fa-solid fa-landmark', count: allEntries.filter(e => e.categoryKey === 'block').length },
+  { key: 'village', label: '🌾 Villages & Zari Chaks', icon: 'fa-solid fa-wheat-awn', count: allEntries.filter(e => e.categoryKey === 'village').length },
+  { key: 'commercial', label: '🛣️ Roads & Bazaars', icon: 'fa-solid fa-road', count: allEntries.filter(e => e.categoryKey === 'commercial').length }
 ];
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc}>
-  <div class="directory-page">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-badge">
-          <i class="fa-solid fa-book-atlas highlight-gold"></i>
-          <span>COMPREHENSIVE KNOWLEDGE BASE</span>
-        </span>
-        <h1>Chichawatni <span class="editorial-italic highlight-gold">Property Directory</span></h1>
-        <p>
-          Verified directory of residential colonies, roads, government offices, emergency healthcare, and land registration centers in Tehsil Chichawatni.
-        </p>
-      </div>
+  <div class="cadastral-directory-page">
+    
+    <!-- Top Hero Banner (Retained Deep Forest Emerald) -->
+    <header class="directory-hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge-pill">
+            <i class="fa-solid fa-stamp highlight-gold"></i>
+            <span>OFFICIAL TEHSIL CHICHAWATNI CADASTRAL ARCHIVE</span>
+          </div>
+          <h1>
+            Chichawatni <span class="editorial-italic highlight-gold">Land Records &amp; Rakba Directory</span>
+          </h1>
+          <p class="hero-subtitle">
+            Executive cadastral intelligence across all 16 Municipal Blocks, TMA Sanctioned Housing Schemes, Private PLRA Intiqal Towns, Commercial Corridors, and Agricultural Mouzas (12-L, 11-L, 14-L &amp; 7-R Belts).
+          </p>
 
-      <!-- Search & Category Filters -->
-      <div class="directory-controls-bar glass-panel">
-        <div class="search-input-wrap">
-          <i class="fa-solid fa-magnifying-glass search-icon highlight-gold"></i>
-          <input
-            type="text"
-            id="directorySearch"
-            placeholder="Search colony, road, hospital, or revenue office..."
-            class="dir-search-input"
-            oninput="window.filterDirectory(this.value);"
-          />
+          <div class="hero-stats-strip">
+            <div class="h-stat-card">
+              <span class="h-stat-num">16</span>
+              <span class="h-stat-label">Municipal Blocks</span>
+            </div>
+            <div class="h-stat-card">
+              <span class="h-stat-num">35+</span>
+              <span class="h-stat-label">Towns &amp; Schemes</span>
+            </div>
+            <div class="h-stat-card">
+              <span class="h-stat-num">3 to 20M</span>
+              <span class="h-stat-label">Standard Plot Cuts</span>
+            </div>
+            <div class="h-stat-card">
+              <span class="h-stat-num">100%</span>
+              <span class="h-stat-label">PLRA &amp; TMA Cross-Checked</span>
+            </div>
+          </div>
         </div>
+      </div>
+    </header>
 
-        <div class="dir-category-filters">
-          {categories.map((cat, idx) => (
+    <!-- Main Content Wrap: Clean Bright Light SaaS Background (#F8FAFC) -->
+    <main class="directory-main-section">
+      <div class="container">
+        
+        <!-- Punjab Land Rakba Calculator (Clean Light White Theme with Dark Bold Values) -->
+        <section class="rakba-calculator-card" id="rakbaCalculator">
+          <div class="calc-header">
+            <div class="calc-title-wrap">
+              <div class="calc-badge-icon">
+                <i class="fa-solid fa-calculator highlight-emerald"></i>
+              </div>
+              <div>
+                <h3>Punjab Standard Rakba &amp; Land Measurement Converter</h3>
+                <p>Instant two-way conversion for agricultural &amp; urban property across Chichawatni (1 Murabba = 25 Acres = 200 Kanals = 4,000 Marlas).</p>
+              </div>
+            </div>
+            <button type="button" class="btn-calc-reset" onclick="window.resetRakbaCalc();">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+          </div>
+
+          <div class="calculator-inputs-grid">
+            <!-- Murabba -->
+            <div class="calc-box">
+              <label for="calcMurabba">
+                <span class="calc-label-title">Murabba (مربع)</span>
+                <span class="calc-label-sub">= 25 Acres / قلعہ</span>
+              </label>
+              <div class="calc-input-wrap">
+                <input type="number" id="calcMurabba" placeholder="0" min="0" step="0.1" oninput="window.convertRakba('murabba', this.value);" />
+                <span class="calc-unit-pill">Murabba</span>
+              </div>
+            </div>
+
+            <!-- Acre -->
+            <div class="calc-box">
+              <label for="calcAcre">
+                <span class="calc-label-title">Acre / Qila (ایکڑ)</span>
+                <span class="calc-label-sub">= 8 Kanals / کنال</span>
+              </label>
+              <div class="calc-input-wrap">
+                <input type="number" id="calcAcre" placeholder="0" min="0" step="0.25" oninput="window.convertRakba('acre', this.value);" />
+                <span class="calc-unit-pill">Acre</span>
+              </div>
+            </div>
+
+            <!-- Kanal -->
+            <div class="calc-box">
+              <label for="calcKanal">
+                <span class="calc-label-title">Kanal (کنال)</span>
+                <span class="calc-label-sub">= 20 Marlas / مرلہ</span>
+              </label>
+              <div class="calc-input-wrap">
+                <input type="number" id="calcKanal" placeholder="0" min="0" step="1" oninput="window.convertRakba('kanal', this.value);" />
+                <span class="calc-unit-pill">Kanal</span>
+              </div>
+            </div>
+
+            <!-- Marla -->
+            <div class="calc-box">
+              <label for="calcMarla">
+                <span class="calc-label-title">Marla (مرلہ)</span>
+                <span class="calc-label-sub">= 272.25 Sq Ft / فٹ</span>
+              </label>
+              <div class="calc-input-wrap">
+                <input type="number" id="calcMarla" placeholder="0" min="0" step="1" oninput="window.convertRakba('marla', this.value);" />
+                <span class="calc-unit-pill">Marla</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calculated Foot & Yard Breakdown -->
+          <div class="calc-results-row">
+            <div class="calc-pill">
+              <i class="fa-solid fa-ruler-combined" style="color: #F59E0B !important;"></i>
+              <span>Revenue Sq Ft (272.25/M): <strong id="resSqFt">0</strong> sq ft</span>
+            </div>
+            <div class="calc-pill">
+              <i class="fa-solid fa-layer-group" style="color: #3B82F6 !important;"></i>
+              <span>Urban Standard (225/M): <strong id="resSqFtUrban">0</strong> sq ft</span>
+            </div>
+            <div class="calc-pill">
+              <i class="fa-solid fa-vector-square" style="color: #10B981 !important;"></i>
+              <span>Sq Yards (Gazz): <strong id="resSqYards">0</strong> yards</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs-container" id="categoryTabsContainer">
+          {categoryTabs.map((tab, idx) => (
             <button
-              class:list={['dir-cat-pill', { active: idx === 0 }]}
-              data-cat={cat}
-              onclick="window.selectDirCategory(this.getAttribute('data-cat'), this);"
+              type="button"
+              class:list={['cat-tab-btn', { active: idx === 0 }]}
+              data-cat={tab.key}
+              onclick="window.selectCadastralCategory(this.getAttribute('data-cat'), this);"
             >
-              {cat}
+              <i class={tab.icon}></i>
+              <span>{tab.label}</span>
+              <span class="tab-count-badge">{tab.count}</span>
             </button>
           ))}
         </div>
-      </div>
 
-      <!-- Directory Cards Grid -->
-      <div class="directory-cards-grid" id="directoryCardsGrid">
-        {localities.map(loc => (
-          <div class="dir-item-card v4-card" data-category={loc.category} data-name={loc.name}>
-            <div class="dir-card-top">
-              <span class:list={['dir-status-tag', { 'verified': loc.statusBadge === 'Verified' }]}>
-                {loc.statusBadge}
-              </span>
-              <span class="dir-chak-tag">{loc.parentChak || 'Tehsil Chichawatni'}</span>
+        <!-- Directory Controls: Search & View Switcher -->
+        <div class="directory-toolbar-card" id="directoryToolbar">
+          <div class="toolbar-search-col">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input
+              type="text"
+              id="cadastralSearchInput"
+              placeholder="Search by area name, Chak (e.g. 39/12-L), block, or road..."
+              autocomplete="off"
+              spellcheck="false"
+              oninput="window.handleCadastralSearch(this.value);"
+            />
+            <button type="button" id="dirSearchClearBtn" class="dir-clear-btn" style="display: none;" onclick="window.clearCadastralSearch();">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="toolbar-actions-col">
+            <!-- View Mode Switcher -->
+            <div class="view-mode-toggle">
+              <button type="button" class="view-btn active" id="btnViewCards" onclick="window.switchDirectoryView('cards');" title="Grid Card View">
+                <i class="fa-solid fa-grip"></i>
+                <span>Cards</span>
+              </button>
+              <button type="button" class="view-btn" id="btnViewTable" onclick="window.switchDirectoryView('table');" title="Simple Comparison Table">
+                <i class="fa-solid fa-table-list"></i>
+                <span>Table</span>
+              </button>
             </div>
 
-            <h3 class="dir-item-title">{loc.name}</h3>
-            <span class="dir-item-cat"><i class="fa-solid fa-layer-group highlight-gold"></i> {loc.category}</span>
+            <!-- Map Link -->
+            <a href="/#areas" class="btn-toolbar-map" title="View Full Interactive Map">
+              <i class="fa-solid fa-map-location-dot"></i>
+              <span class="hide-mobile">Map View</span>
+            </a>
+          </div>
+        </div>
 
-            <p class="dir-item-desc">{loc.description}</p>
+        <!-- Showing Meta Summary Strip -->
+        <div class="results-meta-strip">
+          <span class="results-count-text">
+            Showing <strong id="visibleCountLabel">{allEntries.length}</strong> of {allEntries.length} verified records
+          </span>
+          <span class="pagination-subtext" id="paginationSummaryText">
+            (Page 1 of {Math.ceil(allEntries.length / 12)})
+          </span>
+        </div>
 
-            <div class="dir-legal-snippet">
-              <strong>Status:</strong> {loc.legalStatus}
+        <!-- VIEW 1: Clean Minimalist 3-Part Cards Grid -->
+        <div class="cadastral-cards-grid" id="cadastralCardsContainer">
+          {allEntries.map(entry => {
+            const searchData = `${entry.name} ${entry.statusBadge} ${entry.categoryLabel} ${entry.parentChak} ${entry.rakbaPrimary} ${entry.streets}`.toLowerCase();
+
+            return (
+              <article
+                class="cad-card"
+                data-id={entry.id}
+                data-category={entry.categoryKey}
+                data-search={searchData}
+              >
+                <!-- 1. TOP: Area Name (Big & Bold) + 1 Clear Status Badge -->
+                <div class="card-top-row">
+                  <div class="card-title-group">
+                    <h3 class="card-area-name">{entry.name}</h3>
+                    <span class="card-parent-tag">{entry.parentChak}</span>
+                  </div>
+                  <span class:list={['status-pill', entry.statusClass]}>
+                    <i class={entry.statusIcon}></i>
+                    <span>{entry.statusBadge}</span>
+                  </span>
+                </div>
+
+                <!-- 2. MIDDLE: 2 Clean Boxes Side-by-Side (Total Rakba & 2026 Market Rate) -->
+                <div class="card-boxes-grid">
+                  <!-- Box 1: Plot Sizes & Configuration -->
+                  <div class="mini-spec-box rakba-box">
+                    <span class="box-label">PLOT SIZES &amp; CONFIG</span>
+                    <strong class="box-val">{entry.rakbaPrimary}</strong>
+                    <span class="box-sub">{entry.rakbaSub}</span>
+                  </div>
+
+                  <!-- Box 2: 2026 Market Rate -->
+                  <div class="mini-spec-box rate-box">
+                    <span class="box-label">2026 MARKET RATE</span>
+                    <strong class="box-val text-emerald">{entry.rate}</strong>
+                    <span class="box-sub text-emerald">Verified Valuation</span>
+                  </div>
+                </div>
+
+                <!-- 3. BOTTOM: 1 Simple Summary Line + "View Full Details & Map →" Button -->
+                <div class="card-bottom-row">
+                  <div class="card-summary-line">
+                    <i class="fa-solid fa-road icon-gray"></i>
+                    <span>{entry.streets}</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    class="btn-card-details"
+                    onclick={`window.openAreaModal('${entry.id}')`}
+                  >
+                    <span>View Full Details &amp; Map</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <!-- VIEW 2: Clean Simple Table View (Toggleable) -->
+        <div class="cadastral-table-card" id="cadastralTableContainer" style="display: none;">
+          <div class="table-responsive">
+            <table class="cadastral-table">
+              <thead>
+                <tr>
+                  <th>Area / Scheme Name</th>
+                  <th>Category</th>
+                  <th>Legal Status</th>
+                  <th>Plot Sizes &amp; Cuts</th>
+                  <th>2026 Market Rate</th>
+                  <th>Streets / Access</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="cadastralTableBody">
+                {allEntries.map(entry => {
+                  const searchData = `${entry.name} ${entry.statusBadge} ${entry.categoryLabel} ${entry.parentChak} ${entry.rakbaPrimary} ${entry.streets}`.toLowerCase();
+
+                  return (
+                    <tr
+                      class="table-entry-row"
+                      data-id={entry.id}
+                      data-category={entry.categoryKey}
+                      data-search={searchData}
+                    >
+                      <td class="col-name">
+                        <strong class="table-area-title">{entry.name}</strong>
+                        <span class="table-area-sub">{entry.parentChak}</span>
+                      </td>
+                      <td>
+                        <span class="table-cat-badge">{entry.categoryLabel}</span>
+                      </td>
+                      <td>
+                        <span class:list={['status-pill-sm', entry.statusClass]}>
+                          <i class={entry.statusIcon}></i>
+                          <span>{entry.statusBadge}</span>
+                        </span>
+                      </td>
+                      <td class="col-rakba">
+                        <strong class="table-rakba-val">{entry.rakbaPrimary}</strong>
+                        <span class="table-rakba-sub">{entry.rakbaSub}</span>
+                      </td>
+                      <td class="col-rate text-emerald">
+                        <strong>{entry.rate}</strong>
+                      </td>
+                      <td class="col-streets">
+                        <span>{entry.streets}</span>
+                      </td>
+                      <td class="col-action">
+                        <button
+                          type="button"
+                          class="btn-table-details"
+                          onclick={`window.openAreaModal('${entry.id}')`}
+                        >
+                          <span>Details</span>
+                          <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Clean Pagination Bar (12 Cards / Rows Per Page) -->
+        <div class="pagination-bar" id="paginationBar">
+          <div class="pagination-info">
+            Showing <strong id="pageRangeStart">1</strong>–<strong id="pageRangeEnd">12</strong> of <strong id="totalMatchingCount">{allEntries.length}</strong> records
+          </div>
+          <div class="pagination-controls">
+            <button type="button" class="btn-page-nav" id="btnPrevPage" onclick="window.changePage(-1);" disabled>
+              <i class="fa-solid fa-chevron-left"></i> Previous
+            </button>
+            <div class="page-numbers-wrap" id="pageNumbersWrap">
+              <!-- Dynamically populated via JS -->
             </div>
+            <button type="button" class="btn-page-nav" id="btnNextPage" onclick="window.changePage(1);">
+              Next <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
 
-            <div class="dir-card-footer">
-              <span class="dir-coord-hint">
-                <i class="fa-solid fa-location-crosshairs highlight-teal"></i> {loc.lat.toFixed(4)}, {loc.lng.toFixed(4)}
-              </span>
-              <a href="tel:+923063996764" class="btn-outline" style="padding: 6px 14px; font-size: 0.8rem;">
-                <i class="fa-solid fa-phone"></i> Inquire
+        <!-- Empty State -->
+        <div id="dirEmptyState" class="dir-empty-state" style="display: none;">
+          <div class="empty-icon-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <h3>No Records Found Matching Filter</h3>
+          <p>We couldn't find any colony, block, or village matching your search criteria. Try resetting the filter to explore all areas.</p>
+          <button type="button" class="btn-empty-reset" onclick="window.clearCadastralSearch();">
+            Reset All Filters &amp; View All Areas
+          </button>
+        </div>
+
+        <!-- Executive Consultation Banner at Bottom -->
+        <section class="cadastral-consult-banner">
+          <div class="banner-body">
+            <div class="banner-icon-side">
+              <i class="fa-solid fa-file-shield"></i>
+            </div>
+            <div class="banner-text-side">
+              <h3>Need Official Revenue Fard or Mutation (Intiqal) Verification?</h3>
+              <p>
+                Naeem Siddhu provides direct, on-ground verification through Sub-Registrar Office, Punjab Land Records Authority (PLRA Arazi Record Center Chichawatni), and TMA Sanction archives. Protect your family's life savings before paying token money.
+              </p>
+            </div>
+            <div class="banner-cta-side">
+              <a
+                href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab%2C%20I%20need%20on-ground%20Fard%20and%20Registry%20verification%20for%20a%20property%20in%20Chichawatni."
+                target="_blank"
+                rel="noopener"
+                class="btn-banner-wa"
+              >
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>Consult Naeem Siddhu</span>
               </a>
+              <span class="office-hint"><i class="fa-solid fa-location-dot" style="color: #EF4444 !important;"></i> Street 08, Tower Road Side, Hayat Abad</span>
             </div>
           </div>
-        ))}
+        </section>
+
+      </div>
+    </main>
+
+    <!-- CLEAN MODAL / SIDE DRAWER POPUP FOR DEEPER DETAILS -->
+    <div class="area-modal-backdrop" id="areaModalBackdrop" style="display: none;" onclick="if(event.target === this) window.closeAreaModal();">
+      <div class="area-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalAreaTitle">
+        
+        <!-- Close Button -->
+        <button type="button" class="modal-close-btn" onclick="window.closeAreaModal();" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- Header -->
+        <div class="modal-header">
+          <div class="modal-badges-strip">
+            <span id="modalStatusBadge" class="status-pill pill-tma">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Status</span>
+            </span>
+            <span id="modalCategoryTag" class="modal-cat-tag">Category</span>
+          </div>
+          <h2 id="modalAreaTitle" class="modal-title">Area Name</h2>
+          <p id="modalAreaSub" class="modal-sub">Parent Chak • Geographic Hub</p>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body">
+          
+          <!-- Key Metrics Grid -->
+          <div class="modal-specs-grid">
+            <!-- Plot Sizes & Config -->
+            <div class="m-spec-card">
+              <span class="m-spec-label"><i class="fa-solid fa-shapes" style="color: #F59E0B !important;"></i> Plot Sizes &amp; Configuration</span>
+              <strong id="modalRakbaVal" class="m-spec-value">Standard Plot Cuts</strong>
+              <span id="modalRakbaSub" class="m-spec-sub">Verified Real-Estate Configuration</span>
+            </div>
+
+            <!-- 2026 Rate -->
+            <div class="m-spec-card">
+              <span class="m-spec-label"><i class="fa-solid fa-tag" style="color: #10B981 !important;"></i> 2026 Market Rate</span>
+              <strong id="modalRateVal" class="m-spec-value text-emerald">Market Rate</strong>
+              <span class="m-spec-sub text-emerald">Verified On-Ground Valuation</span>
+            </div>
+
+            <!-- Streets -->
+            <div class="m-spec-card">
+              <span class="m-spec-label"><i class="fa-solid fa-road" style="color: #64748B !important;"></i> Street / Road Width</span>
+              <strong id="modalStreetsVal" class="m-spec-value">30ft Roads</strong>
+              <span class="m-spec-sub">Paved Internal Streets</span>
+            </div>
+
+            <!-- Canal -->
+            <div class="m-spec-card">
+              <span class="m-spec-label"><i class="fa-solid fa-water" style="color: #06B6D4 !important;"></i> Irrigation / Canal</span>
+              <strong id="modalCanalVal" class="m-spec-value">Nehri Source</strong>
+              <span class="m-spec-sub">Canal Command Belt</span>
+            </div>
+
+            <!-- Water -->
+            <div class="m-spec-card">
+              <span class="m-spec-label"><i class="fa-solid fa-faucet-drip" style="color: #3B82F6 !important;"></i> Ground Water Quality</span>
+              <strong id="modalWaterVal" class="m-spec-value">Sweet Tap Water</strong>
+              <span class="m-spec-sub">Depth 80–120ft Potable</span>
+            </div>
+
+            <!-- Soil -->
+            <div class="m-spec-card">
+              <span class="m-spec-label"><i class="fa-solid fa-seedling" style="color: #D97706 !important;"></i> Soil &amp; Land Type</span>
+              <strong id="modalSoilVal" class="m-spec-value">Fertile Loam</strong>
+              <span class="m-spec-sub">Topography Standard</span>
+            </div>
+          </div>
+
+          <!-- Legal & Due Diligence -->
+          <div class="modal-legal-card">
+            <div class="legal-card-header">
+              <i class="fa-solid fa-shield-halved" style="color: #0284C7 !important;"></i>
+              <h4>Revenue Record &amp; Legal Sanction</h4>
+            </div>
+            <p id="modalLegalText">Legal details...</p>
+          </div>
+
+          <!-- Overview & Description -->
+          <div class="modal-desc-box">
+            <h4>Location Character &amp; Overview</h4>
+            <p id="modalDescText">Description...</p>
+            <div id="modalHighlightsWrap" class="modal-highlights-chips">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <!-- GPS Coordinates Bar -->
+          <div class="modal-gps-strip">
+            <div class="gps-text">
+              <i class="fa-solid fa-location-crosshairs" style="color: #EF4444 !important;"></i>
+              <span>GPS Coordinates: <strong id="modalCoordsText">30.5285°N, 72.6840°E</strong></span>
+            </div>
+            <a id="modalMapsLink" href="#" target="_blank" rel="noopener" class="btn-modal-maps">
+              <i class="fa-solid fa-diamond-turn-right"></i>
+              <span>Directions on Google Maps</span>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="modal-footer">
+          <a id="modalWaBtn" href="#" target="_blank" rel="noopener" class="btn-modal-wa">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>WhatsApp Naeem Siddhu</span>
+          </a>
+          <a href="tel:+923063996764" class="btn-modal-call">
+            <i class="fa-solid fa-phone"></i>
+            <span>Call: 0306 3996764</span>
+          </a>
+          <a href="/#areas" class="btn-modal-maplink" title="Locate on Homepage Interactive Map">
+            <i class="fa-solid fa-map-location-dot"></i>
+          </a>
+        </div>
+
       </div>
     </div>
+
   </div>
 </BaseLayout>
 
+<!-- Serialize complete dataset for client JS -->
+<script is:inline define:vars={{ serializedEntries: allEntries }}>
+  window.directoryDataset = serializedEntries;
+</script>
+
 <script is:inline>
-  let activeDirCat = 'All';
+  // Global State
+  let activeCategory = 'all';
+  let activeSearchTerm = '';
+  let activeViewMode = 'cards';
+  let currentPage = 1;
+  const pageSize = 12;
 
-  window.selectDirCategory = function(cat, btn) {
-    activeDirCat = cat;
-    document.querySelectorAll('.dir-cat-pill').forEach(b => b.classList.remove('active'));
-    btn?.classList.add('active');
-    applyDirFilters();
+  // 1. Punjab Land Rakba Calculator Mechanics
+  window.convertRakba = function(sourceUnit, value) {
+    const val = parseFloat(value);
+    if (isNaN(val) || val <= 0) {
+      if (value === '' || val === 0) {
+        document.getElementById('resSqFt').textContent = '0';
+        document.getElementById('resSqFtUrban').textContent = '0';
+        document.getElementById('resSqYards').textContent = '0';
+      }
+      return;
+    }
+
+    let murabbas = 0;
+    let acres = 0;
+    let kanals = 0;
+    let marlas = 0;
+
+    // Base unit conversion (Revenue standard: 1 Murabba = 25 Acres = 200 Kanals = 4,000 Marlas)
+    if (sourceUnit === 'murabba') {
+      murabbas = val;
+      acres = murabbas * 25;
+      kanals = acres * 8;
+      marlas = kanals * 20;
+    } else if (sourceUnit === 'acre') {
+      acres = val;
+      murabbas = acres / 25;
+      kanals = acres * 8;
+      marlas = kanals * 20;
+    } else if (sourceUnit === 'kanal') {
+      kanals = val;
+      marlas = kanals * 20;
+      acres = kanals / 8;
+      murabbas = acres / 25;
+    } else if (sourceUnit === 'marla') {
+      marlas = val;
+      kanals = marlas / 20;
+      acres = kanals / 8;
+      murabbas = acres / 25;
+    }
+
+    // Update input boxes (except active input)
+    if (sourceUnit !== 'murabba') {
+      const el = document.getElementById('calcMurabba');
+      if (el) el.value = murabbas ? (murabbas < 0.01 ? murabbas.toFixed(4) : murabbas.toFixed(2)) : '';
+    }
+    if (sourceUnit !== 'acre') {
+      const el = document.getElementById('calcAcre');
+      if (el) el.value = acres ? (acres < 0.1 ? acres.toFixed(3) : acres.toFixed(2)) : '';
+    }
+    if (sourceUnit !== 'kanal') {
+      const el = document.getElementById('calcKanal');
+      if (el) el.value = kanals ? kanals.toFixed(2) : '';
+    }
+    if (sourceUnit !== 'marla') {
+      const el = document.getElementById('calcMarla');
+      if (el) el.value = marlas ? marlas.toFixed(1) : '';
+    }
+
+    // Revenue standard: 272.25 sq ft / marla, Urban standard: 225 sq ft / marla
+    const sqFtRev = marlas * 272.25;
+    const sqFtUrban = marlas * 225.0;
+    const sqYards = sqFtRev / 9.0;
+
+    document.getElementById('resSqFt').textContent = Math.round(sqFtRev).toLocaleString();
+    document.getElementById('resSqFtUrban').textContent = Math.round(sqFtUrban).toLocaleString();
+    document.getElementById('resSqYards').textContent = Math.round(sqYards).toLocaleString();
   };
 
-  window.filterDirectory = function() {
-    applyDirFilters();
+  window.resetRakbaCalc = function() {
+    ['calcMurabba', 'calcAcre', 'calcKanal', 'calcMarla'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('resSqFt').textContent = '0';
+    document.getElementById('resSqFtUrban').textContent = '0';
+    document.getElementById('resSqYards').textContent = '0';
   };
 
-  function applyDirFilters() {
-    const searchVal = document.getElementById('directorySearch')?.value.toLowerCase().trim() || '';
-    const cards = document.querySelectorAll('#directoryCardsGrid .dir-item-card');
+  // 2. Filter & Pagination Engine
+  function applyFiltersAndPagination(shouldScroll = false) {
+    const cards = Array.from(document.querySelectorAll('#cadastralCardsContainer .cad-card'));
+    const rows = Array.from(document.querySelectorAll('#cadastralTableBody .table-entry-row'));
 
-    cards.forEach(card => {
+    // Filter matching
+    const matchingCards = [];
+    const matchingRows = [];
+
+    cards.forEach((card, index) => {
       const cat = card.getAttribute('data-category') || '';
-      const name = card.getAttribute('data-name')?.toLowerCase() || '';
+      const search = card.getAttribute('data-search') || '';
 
-      const matchCat = (activeDirCat === 'All') || (cat === activeDirCat);
-      const matchSearch = !searchVal || name.includes(searchVal);
+      const matchCat = activeCategory === 'all' || cat === activeCategory;
+      const matchSearch = !activeSearchTerm || search.includes(activeSearchTerm);
 
       if (matchCat && matchSearch) {
+        matchingCards.push(card);
+        if (rows[index]) matchingRows.push(rows[index]);
+      } else {
+        card.style.display = 'none';
+        if (rows[index]) rows[index].style.display = 'none';
+      }
+    });
+
+    const totalMatching = matchingCards.length;
+    const totalPages = Math.ceil(totalMatching / pageSize) || 1;
+
+    // Clamp current page
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    // Slice to current 12 items
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    matchingCards.forEach((card, i) => {
+      if (i >= startIndex && i < endIndex) {
         card.style.display = 'flex';
       } else {
         card.style.display = 'none';
       }
     });
+
+    matchingRows.forEach((row, i) => {
+      if (i >= startIndex && i < endIndex) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    // Update Counts & Meta
+    const countLabel = document.getElementById('visibleCountLabel');
+    if (countLabel) countLabel.textContent = totalMatching;
+
+    const pageSummaryText = document.getElementById('paginationSummaryText');
+    if (pageSummaryText) pageSummaryText.textContent = `(Page ${currentPage} of ${totalPages})`;
+
+    const rangeStart = totalMatching === 0 ? 0 : startIndex + 1;
+    const rangeEnd = Math.min(endIndex, totalMatching);
+    const rangeStartEl = document.getElementById('pageRangeStart');
+    const rangeEndEl = document.getElementById('pageRangeEnd');
+    const totalMatchingCountEl = document.getElementById('totalMatchingCount');
+
+    if (rangeStartEl) rangeStartEl.textContent = rangeStart;
+    if (rangeEndEl) rangeEndEl.textContent = rangeEnd;
+    if (totalMatchingCountEl) totalMatchingCountEl.textContent = totalMatching;
+
+    // Prev / Next button states
+    const btnPrev = document.getElementById('btnPrevPage');
+    const btnNext = document.getElementById('btnNextPage');
+    if (btnPrev) btnPrev.disabled = currentPage <= 1;
+    if (btnNext) btnNext.disabled = currentPage >= totalPages;
+
+    // Build Page Number Buttons
+    renderPageNumbers(totalPages);
+
+    // Empty state
+    const emptyState = document.getElementById('dirEmptyState');
+    const paginationBar = document.getElementById('paginationBar');
+    if (emptyState) emptyState.style.display = totalMatching === 0 ? 'flex' : 'none';
+    if (paginationBar) paginationBar.style.display = totalMatching === 0 ? 'none' : 'flex';
+
+    if (shouldScroll) {
+      const target = document.getElementById('directoryToolbar');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
   }
+
+  function renderPageNumbers(totalPages) {
+    const wrap = document.getElementById('pageNumbersWrap');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+
+    if (totalPages <= 1) return;
+
+    for (let p = 1; p <= totalPages; p++) {
+      // In large page counts, collapse middle pages
+      if (totalPages > 6) {
+        if (p > 2 && p < totalPages - 1 && Math.abs(p - currentPage) > 1) {
+          if (p === 3 || p === totalPages - 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'page-ellipsis';
+            ellipsis.textContent = '...';
+            wrap.appendChild(ellipsis);
+          }
+          continue;
+        }
+      }
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `page-num-btn ${p === currentPage ? 'active' : ''}`;
+      btn.textContent = p;
+      btn.onclick = () => window.goToPage(p);
+      wrap.appendChild(btn);
+    }
+  }
+
+  // 3. User Controls
+  window.changePage = function(delta) {
+    currentPage += delta;
+    applyFiltersAndPagination(true);
+  };
+
+  window.goToPage = function(page) {
+    currentPage = page;
+    applyFiltersAndPagination(true);
+  };
+
+  window.selectCadastralCategory = function(cat, btn) {
+    activeCategory = cat;
+    currentPage = 1;
+    document.querySelectorAll('.cat-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    applyFiltersAndPagination(false);
+  };
+
+  window.handleCadastralSearch = function(val) {
+    activeSearchTerm = (val || '').toLowerCase().trim();
+    currentPage = 1;
+    const clearBtn = document.getElementById('dirSearchClearBtn');
+    if (clearBtn) clearBtn.style.display = activeSearchTerm ? 'flex' : 'none';
+    applyFiltersAndPagination(false);
+  };
+
+  window.clearCadastralSearch = function() {
+    activeSearchTerm = '';
+    activeCategory = 'all';
+    currentPage = 1;
+    const input = document.getElementById('cadastralSearchInput');
+    if (input) input.value = '';
+    const clearBtn = document.getElementById('dirSearchClearBtn');
+    if (clearBtn) clearBtn.style.display = 'none';
+
+    document.querySelectorAll('.cat-tab-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-cat') === 'all');
+    });
+
+    applyFiltersAndPagination(false);
+  };
+
+  window.switchDirectoryView = function(mode) {
+    activeViewMode = mode;
+    const cardsEl = document.getElementById('cadastralCardsContainer');
+    const tableEl = document.getElementById('cadastralTableContainer');
+    const btnCards = document.getElementById('btnViewCards');
+    const btnTable = document.getElementById('btnViewTable');
+
+    if (mode === 'table') {
+      if (cardsEl) cardsEl.style.display = 'none';
+      if (tableEl) tableEl.style.display = 'block';
+      btnCards?.classList.remove('active');
+      btnTable?.classList.add('active');
+    } else {
+      if (cardsEl) cardsEl.style.display = 'grid';
+      if (tableEl) tableEl.style.display = 'none';
+      btnTable?.classList.remove('active');
+      btnCards?.classList.add('active');
+    }
+    applyFiltersAndPagination(false);
+  };
+
+  // 4. Modal / Side Drawer Details Engine
+  window.openAreaModal = function(id) {
+    const dataset = window.directoryDataset || [];
+    const entry = dataset.find(e => e.id === id);
+    if (!entry) return;
+
+    // Populate Fields
+    document.getElementById('modalAreaTitle').textContent = entry.name;
+    document.getElementById('modalAreaSub').textContent = `${entry.parentChak} • Tehsil Chichawatni`;
+
+    const statusBadgeEl = document.getElementById('modalStatusBadge');
+    if (statusBadgeEl) {
+      statusBadgeEl.className = `status-pill ${entry.statusClass}`;
+      statusBadgeEl.innerHTML = `<i class="${entry.statusIcon}"></i> <span>${entry.statusBadge}</span>`;
+    }
+
+    document.getElementById('modalCategoryTag').textContent = entry.categoryLabel;
+    document.getElementById('modalRakbaVal').textContent = entry.rakbaPrimary;
+    document.getElementById('modalRakbaSub').textContent = entry.rakbaSub;
+    document.getElementById('modalRateVal').textContent = entry.rate;
+    document.getElementById('modalStreetsVal').textContent = entry.streets;
+    document.getElementById('modalCanalVal').textContent = entry.canal || 'Municipal / Sub-Surface Belt';
+    document.getElementById('modalWaterVal').textContent = entry.water;
+    document.getElementById('modalSoilVal').textContent = entry.soil;
+    document.getElementById('modalLegalText').textContent = entry.legalDetails || 'Verified PLRA & TMA Municipal records on file.';
+    document.getElementById('modalDescText').textContent = entry.description;
+
+    // Highlights
+    const hlWrap = document.getElementById('modalHighlightsWrap');
+    if (hlWrap) {
+      hlWrap.innerHTML = '';
+      if (entry.highlights && entry.highlights.length > 0) {
+        entry.highlights.forEach(h => {
+          const chip = document.createElement('span');
+          chip.className = 'm-chip';
+          chip.innerHTML = `<i class="fa-solid fa-check" style="color: #10B981 !important;"></i> ${h}`;
+          hlWrap.appendChild(chip);
+        });
+      }
+    }
+
+    // GPS & Links
+    const coordsText = `${entry.lat.toFixed(4)}°N, ${entry.lng.toFixed(4)}°E`;
+    document.getElementById('modalCoordsText').textContent = coordsText;
+
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${entry.lat},${entry.lng}`;
+    document.getElementById('modalMapsLink').setAttribute('href', mapsUrl);
+
+    const waMsg = encodeURIComponent(`Assalam-o-Alaikum Naeem Sahab, I am viewing the cadastral record for "${entry.name}" (${entry.statusBadge}) on SIDDHU Property Advisor. Please share available plots, registry status, and 2026 valuation details.`);
+    const waUrl = `https://wa.me/923063996764?text=${waMsg}`;
+    document.getElementById('modalWaBtn').setAttribute('href', waUrl);
+
+    // Show Modal
+    const backdrop = document.getElementById('areaModalBackdrop');
+    if (backdrop) {
+      backdrop.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  window.closeAreaModal = function() {
+    const backdrop = document.getElementById('areaModalBackdrop');
+    if (backdrop) {
+      backdrop.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  };
+
+  // Keyboard accessibility
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closeAreaModal();
+    }
+  });
+
+  // Initialize on load
+  document.addEventListener('DOMContentLoaded', () => {
+    applyFiltersAndPagination(false);
+  });
+  // Instant fallback for Astro view transitions
+  applyFiltersAndPagination(false);
 </script>
 
 <style>
-  .directory-page {
-    padding: 40px 0 90px;
-    background: var(--bg-main);
+  /* ========================================================
+     1. GLOBAL PAGE ARCHITECTURE
+     ======================================================== */
+  .cadastral-directory-page {
+    min-height: 100vh;
+    background: #F8FAFC; /* Clean Light SaaS Background */
+    color: #0F172A;
   }
 
-  .directory-controls-bar {
-    padding: 24px;
-    margin-bottom: 36px;
+  /* ========================================================
+     2. TOP HERO BANNER (RETAINED DEEP FOREST EMERALD)
+     ======================================================== */
+  .directory-hero {
+    background: radial-gradient(circle at 50% 0%, #1A3A2B 0%, #132A1F 65%, #0B1912 100%);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    padding: 60px 0 45px;
+    color: #FFFFFF;
+  }
+
+  .hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    color: #FDE68A;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  .directory-hero h1 {
+    font-size: 2.35rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1.25;
+    margin: 0 0 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .editorial-italic {
+    font-family: Georgia, serif;
+    font-style: italic;
+  }
+
+  .highlight-gold {
+    color: #D4AF37 !important;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #CBD5E1;
+    margin: 0 auto 28px;
+    max-width: 760px;
+  }
+
+  .hero-stats-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .h-stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 14px 10px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    border: 1px solid var(--border-card);
+    align-items: center;
   }
 
-  .search-input-wrap {
+  .h-stat-num {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #FDE68A;
+    line-height: 1.1;
+  }
+
+  .h-stat-label {
+    font-size: 0.72rem;
+    color: #CBD5E1;
+    font-weight: 600;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  /* ========================================================
+     3. MAIN LIGHT SAAS SECTION (#F8FAFC)
+     ======================================================== */
+  .directory-main-section {
+    padding: 36px 0 80px;
+    background: #F8FAFC;
+  }
+
+  /* ========================================================
+     4. LAND RAKBA CONVERTER (CLEAN LIGHT CARD & DARK BOLD TEXT)
+     ======================================================== */
+  .rakba-calculator-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 26px 28px;
+    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+    margin-bottom: 28px;
+  }
+
+  .calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .calc-title-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .calc-badge-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #059669;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+
+  .calc-title-wrap h3 {
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .calc-title-wrap p {
+    font-size: 0.86rem;
+    color: #475569;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .btn-calc-reset {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    color: #334155;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .btn-calc-reset:hover {
+    background: #E2E8F0;
+    color: #0F172A;
+  }
+
+  /* 4 Input Boxes Grid */
+  .calculator-inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  .calc-box {
+    background: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 14px;
+    transition: border-color 0.2s ease;
+  }
+
+  .calc-box:focus-within {
+    border-color: #10B981;
+    background: #FFFFFF;
+  }
+
+  .calc-box label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .calc-label-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #0F172A;
+  }
+
+  .calc-label-sub {
+    font-size: 0.74rem;
+    color: #64748B;
+    font-weight: 600;
+  }
+
+  .calc-input-wrap {
     position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .calc-input-wrap input {
     width: 100%;
+    height: 48px;
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 0 75px 0 14px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0F172A !important;
+    transition: all 0.2s ease;
+    -moz-appearance: textfield;
+  }
+
+  .calc-input-wrap input::-webkit-outer-spin-button,
+  .calc-input-wrap input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .calc-input-wrap input:focus {
+    border-color: #059669;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
+    outline: none;
+  }
+
+  .calc-unit-pill {
+    position: absolute;
+    right: 10px;
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    color: #334155;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    pointer-events: none;
+  }
+
+  /* Result Breakdown Row */
+  .calc-results-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .calc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 0.8rem;
+    color: #475569;
+  }
+
+  .calc-pill strong {
+    color: #0F172A;
+    font-weight: 800;
+  }
+
+  /* ========================================================
+     5. CATEGORY TABS (LIGHT SAAS DESIGN)
+     ======================================================== */
+  .category-tabs-container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    scrollbar-width: thin;
+  }
+
+  .cat-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    color: #475569;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+  }
+
+  .cat-tab-btn:hover {
+    border-color: #CBD5E1;
+    color: #0F172A;
+    background: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  .cat-tab-btn.active {
+    background: #0F172A;
+    border-color: #0F172A;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  }
+
+  .tab-count-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    background: #F1F5F9;
+    color: #334155;
+    padding: 2px 8px;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+  }
+
+  .cat-tab-btn.active .tab-count-badge {
+    background: rgba(255, 255, 255, 0.22);
+    color: #FFFFFF;
+  }
+
+  /* ========================================================
+     6. TOOLBAR (SEARCH + VIEW SWITCHER)
+     ======================================================== */
+  .directory-toolbar-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 14px 18px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .toolbar-search-col {
+    position: relative;
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
   }
 
   .search-icon {
     position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .dir-search-input {
-    width: 100%;
-    background: #0D1723;
-    border: 1px solid var(--border-glass);
-    color: var(--text-primary);
-    padding: 14px 16px 14px 44px;
-    border-radius: var(--radius-control);
+    left: 14px;
     font-size: 0.95rem;
-    font-family: inherit;
+    color: #059669;
+    pointer-events: none;
   }
 
-  .dir-search-input:focus {
+  .toolbar-search-col input {
+    width: 100%;
+    height: 44px;
+    background: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 0 40px 0 42px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #0F172A;
+    transition: all 0.2s ease;
+  }
+
+  .toolbar-search-col input:focus {
+    background: #FFFFFF;
+    border-color: #059669;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
     outline: none;
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 0 3px rgba(184, 138, 59, 0.15);
   }
 
-  .dir-category-filters {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-
-  .dir-cat-pill {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-glass);
-    color: var(--text-secondary);
-    padding: 6px 16px;
-    border-radius: var(--radius-full);
-    font-size: 0.82rem;
+  .dir-clear-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #94A3B8;
+    font-size: 0.95rem;
     cursor: pointer;
-    white-space: nowrap;
-    transition: var(--transition);
-  }
-
-  .dir-cat-pill:hover, .dir-cat-pill.active {
-    background: var(--accent-gold);
-    color: #0D1723;
-    border-color: var(--accent-gold);
-    font-weight: 600;
-  }
-
-  .directory-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .dir-item-card {
-    padding: 24px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+  }
+
+  .dir-clear-btn:hover {
+    color: #0F172A;
+  }
+
+  .toolbar-actions-col {
+    display: flex;
+    align-items: center;
     gap: 12px;
   }
 
-  .dir-card-top {
+  .view-mode-toggle {
+    display: inline-flex;
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: #64748B;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .view-btn.active {
+    background: #0F172A;
+    color: #FFFFFF;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+  }
+
+  .btn-toolbar-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    color: #1E293B;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-toolbar-map:hover {
+    background: #0F172A;
+    color: #FFFFFF;
+    border-color: #0F172A;
+  }
+
+  /* Results Meta Summary */
+  .results-meta-strip {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 0.85rem;
+    color: #64748B;
+    margin-bottom: 20px;
+    padding: 0 4px;
   }
 
-  .dir-status-tag {
-    font-size: 0.72rem;
-    padding: 3px 8px;
-    border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--text-muted);
+  .results-meta-strip strong {
+    color: #0F172A;
   }
 
-  .dir-status-tag.verified {
-    background: rgba(90, 148, 141, 0.2);
-    color: var(--accent-teal-light);
+  /* ========================================================
+     7. ULTRA-CLEAN 3-PART SAAS CARD (MAX 12 AT A TIME)
+     ======================================================== */
+  .cadastral-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .cad-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 22px 20px 18px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+  }
+
+  .cad-card:hover {
+    transform: translateY(-3px);
+    border-color: #CBD5E1;
+    box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08);
+  }
+
+  /* 1. TOP: Name + 1 Clear Status Badge */
+  .card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .card-title-group {
+    flex: 1;
+  }
+
+  .card-area-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.3;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .card-parent-tag {
+    font-size: 0.74rem;
+    color: #64748B;
     font-weight: 600;
   }
 
-  .dir-chak-tag {
-    font-size: 0.75rem;
-    color: var(--accent-gold);
+  /* Status Badges */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
-  .dir-item-title {
-    font-size: 1.3rem;
-    color: var(--text-primary);
+  .pill-tma {
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
   }
 
-  .dir-item-cat {
+  .pill-intiqal {
+    background: #EFF6FF;
+    color: #1E40AF;
+    border: 1px solid #BFDBFE;
+  }
+
+  .pill-private {
+    background: #FDF4FF;
+    color: #86198F;
+    border: 1px solid #F5D0FE;
+  }
+
+  .pill-village {
+    background: #FEFCE8;
+    color: #854D0E;
+    border: 1px solid #FEF08A;
+  }
+
+  .pill-block {
+    background: #FFFBEB;
+    color: #92400E;
+    border: 1px solid #FDE68A;
+  }
+
+  .pill-commercial {
+    background: #F8FAFC;
+    color: #334155;
+    border: 1px solid #E2E8F0;
+  }
+
+  /* 2. MIDDLE: 2 Clean Boxes Side-by-Side */
+  .card-boxes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .mini-spec-box {
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rakba-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+  }
+
+  .rate-box {
+    background: rgba(16, 185, 129, 0.06);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+  }
+
+  .box-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748B;
+    margin-bottom: 4px;
+  }
+
+  .rate-box .box-label {
+    color: #059669;
+  }
+
+  .box-val {
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.25;
+  }
+
+  .text-emerald {
+    color: #059669 !important;
+  }
+
+  .box-sub {
+    font-size: 0.72rem;
+    color: #64748B;
+    font-weight: 500;
+    margin-top: 3px;
+    line-height: 1.25;
+  }
+
+  .rate-box .box-sub {
+    color: #059669;
+    font-weight: 600;
+  }
+
+  /* 3. BOTTOM: Summary Line + Prominent Button */
+  .card-bottom-row {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .card-summary-line {
+    font-size: 0.8rem;
+    color: #64748B;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .icon-gray {
+    color: #94A3B8;
+    font-size: 0.85rem;
+  }
+
+  .btn-card-details {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #F8FAFC;
+    border: 1.5px solid #CBD5E1;
+    color: #0F172A;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-card-details:hover {
+    background: #0F172A;
+    color: #FFFFFF;
+    border-color: #0F172A;
+  }
+
+  .btn-card-details:hover i {
+    transform: translateX(3px);
+  }
+
+  .btn-card-details i {
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+  }
+
+  /* ========================================================
+     8. SIMPLE COMPARISON TABLE VIEW
+     ======================================================== */
+  .cadastral-table-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .cadastral-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.88rem;
+  }
+
+  .cadastral-table th {
+    background: #F8FAFC;
+    color: #475569;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 14px 18px;
+    border-bottom: 2px solid #E2E8F0;
+  }
+
+  .cadastral-table td {
+    padding: 16px 18px;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: middle;
+  }
+
+  .cadastral-table tr:hover td {
+    background: #F8FAFC;
+  }
+
+  .table-area-title {
+    display: block;
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  .table-area-sub {
+    font-size: 0.74rem;
+    color: #64748B;
+  }
+
+  .table-cat-badge {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #334155;
+    background: #F1F5F9;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .status-pill-sm {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .table-rakba-val {
+    display: block;
+    color: #0F172A;
+  }
+
+  .table-rakba-sub {
+    font-size: 0.72rem;
+    color: #64748B;
+  }
+
+  .btn-table-details {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    color: #0F172A;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-table-details:hover {
+    background: #0F172A;
+    color: #FFFFFF;
+    border-color: #0F172A;
+  }
+
+  /* ========================================================
+     9. CLEAN SAAS PAGINATION BAR
+     ======================================================== */
+  .pagination-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 14px 20px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+    margin-bottom: 36px;
+  }
+
+  .pagination-info {
+    font-size: 0.85rem;
+    color: #475569;
+  }
+
+  .pagination-info strong {
+    color: #0F172A;
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-page-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: #F8FAFC;
+    border: 1.5px solid #CBD5E1;
+    color: #0F172A;
     font-size: 0.82rem;
-    color: var(--text-muted);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-page-nav:hover:not(:disabled) {
+    background: #0F172A;
+    color: #FFFFFF;
+    border-color: #0F172A;
+  }
+
+  .btn-page-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: #E2E8F0;
+  }
+
+  .page-numbers-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  :global(.page-num-btn) {
+    min-width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  :global(.page-num-btn:hover) {
+    border-color: #CBD5E1;
+    background: #F8FAFC;
+  }
+
+  :global(.page-num-btn.active) {
+    background: #0F172A;
+    border-color: #0F172A;
+    color: #FFFFFF;
+  }
+
+  :global(.page-ellipsis) {
+    padding: 0 4px;
+    color: #94A3B8;
+    font-size: 0.85rem;
+  }
+
+  /* Empty State */
+  .dir-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border: 1px dashed #CBD5E1;
+    border-radius: 16px;
+    padding: 50px 24px;
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .empty-icon-box {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #F1F5F9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #94A3B8;
+    margin-bottom: 16px;
+  }
+
+  .dir-empty-state h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 8px;
+  }
+
+  .dir-empty-state p {
+    font-size: 0.9rem;
+    color: #64748B;
+    max-width: 480px;
+    margin: 0 0 20px;
+    line-height: 1.5;
+  }
+
+  .btn-empty-reset {
+    background: #0F172A;
+    color: #FFFFFF;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-empty-reset:hover {
+    background: #1E293B;
+  }
+
+  /* ========================================================
+     10. BOTTOM CONSULTATION BANNER
+     ======================================================== */
+  .cadastral-consult-banner {
+    background: #132A1F;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 20px;
+    padding: 34px 38px;
+    color: #FFFFFF;
+    box-shadow: 0 10px 30px -5px rgba(19, 42, 31, 0.35);
+  }
+
+  .banner-body {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .banner-icon-side {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #FDE68A;
+  }
+
+  .banner-text-side h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 8px;
+  }
+
+  .banner-text-side p {
+    font-size: 0.9rem;
+    color: #CBD5E1;
+    margin: 0;
+    line-height: 1.55;
+    max-width: 620px;
+  }
+
+  .banner-cta-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .btn-banner-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #25D366;
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+    transition: all 0.2s ease;
+  }
+
+  .btn-banner-wa:hover {
+    background: #1EBE5D;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+  }
+
+  .office-hint {
+    font-size: 0.74rem;
+    color: #94A3B8;
+  }
+
+  /* ========================================================
+     11. MODAL / SIDE DRAWER POPUP FOR DEEPER DETAILS
+     ======================================================== */
+  .area-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeInModal 0.2s ease-out;
+  }
+
+  @keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .area-modal-dialog {
+    background: #FFFFFF;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 640px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+    overflow: hidden;
+    animation: slideUpModal 0.25s ease-out;
+  }
+
+  @keyframes slideUpModal {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-close-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #F1F5F9;
+    border: none;
+    color: #475569;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+  }
+
+  .modal-close-btn:hover {
+    background: #0F172A;
+    color: #FFFFFF;
+  }
+
+  .modal-header {
+    padding: 26px 28px 18px;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .modal-badges-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .modal-cat-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #475569;
+    background: #F1F5F9;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 4px;
+    line-height: 1.25;
+  }
+
+  .modal-sub {
+    font-size: 0.84rem;
+    color: #64748B;
+    margin: 0;
+  }
+
+  .modal-body {
+    padding: 22px 28px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* Modal Specs Grid */
+  .modal-specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .m-spec-card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .m-spec-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
-  .dir-item-desc {
-    font-size: 0.88rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    flex-grow: 1;
+  .m-spec-value {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.3;
   }
 
-  .dir-legal-snippet {
-    background: rgba(13, 23, 35, 0.5);
-    border-left: 2px solid var(--accent-gold);
-    padding: 8px 12px;
-    font-size: 0.78rem;
-    color: var(--text-muted);
+  .m-spec-sub {
+    font-size: 0.72rem;
+    color: #64748B;
+    margin-top: 3px;
+  }
+
+  /* Legal Card */
+  .modal-legal-card {
+    background: #F0F9FF;
+    border: 1px solid #BAE6FD;
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .legal-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .legal-card-header h4 {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #0369A1;
+    margin: 0;
+  }
+
+  .modal-legal-card p {
+    font-size: 0.82rem;
+    color: #0C4A6E;
+    margin: 0;
     line-height: 1.45;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
 
-  .dir-card-footer {
+  /* Description & Highlights */
+  .modal-desc-box h4 {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 6px;
+  }
+
+  .modal-desc-box p {
+    font-size: 0.86rem;
+    color: #475569;
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+
+  .modal-highlights-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .m-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    color: #334155;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  /* GPS Strip */
+  .modal-gps-strip {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 12px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 12px;
-    border-top: 1px solid var(--border-subtle);
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
-  .dir-coord-hint {
-    font-size: 0.76rem;
-    color: var(--text-muted);
+  .gps-text {
+    font-size: 0.82rem;
+    color: #475569;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
   }
 
-  @media (max-width: 1024px) {
-    .directory-cards-grid {
-      grid-template-columns: 1fr 1fr;
+  .gps-text strong {
+    color: #0F172A;
+  }
+
+  .text-coral {
+    color: #EF4444 !important;
+  }
+
+  .btn-modal-maps {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    color: #0F172A;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-modal-maps:hover {
+    background: #0F172A;
+    color: #FFFFFF;
+    border-color: #0F172A;
+  }
+
+  /* Modal Footer */
+  .modal-footer {
+    padding: 16px 28px;
+    border-top: 1px solid #F1F5F9;
+    background: #F8FAFC;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-modal-wa {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #25D366;
+    color: #FFFFFF;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 11px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .btn-modal-wa:hover {
+    background: #1EBE5D;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  .btn-modal-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    color: #0F172A;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-modal-call:hover {
+    background: #0F172A;
+    color: #FFFFFF;
+    border-color: #0F172A;
+  }
+
+  .btn-modal-maplink {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    color: #D4AF37;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn-modal-maplink:hover {
+    background: #0F172A;
+    color: #D4AF37;
+    border-color: #0F172A;
+  }
+
+  /* ========================================================
+     12. RESPONSIVE DESIGN
+     ======================================================== */
+  @media (max-width: 960px) {
+    .calculator-inputs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-stats-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .banner-body {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .banner-icon-side {
+      margin: 0 auto;
+    }
+
+    .banner-cta-side {
+      align-items: center;
     }
   }
 
   @media (max-width: 640px) {
-    .directory-cards-grid {
+    .calculator-inputs-grid {
       grid-template-columns: 1fr;
+    }
+
+    .directory-hero h1 {
+      font-size: 1.85rem;
+    }
+
+    .directory-toolbar-card {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .toolbar-actions-col {
+      justify-content: space-between;
+    }
+
+    .cadastral-cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hide-mobile {
+      display: none;
+    }
+
+    .pagination-bar {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .modal-specs-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .modal-footer {
+      flex-direction: column;
+    }
+
+    .btn-modal-wa,
+    .btn-modal-call {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>

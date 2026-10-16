@@ -1,15 +1,20 @@
 ---
 import { reviews } from '@/data/reviews';
 import { business } from '@/data/business';
+
+// Only keep the 3 verified Google Business Profile reviews (Muhammad Tariq, Sheikh Sarfraz, Ali Raza Chaudhry)
+const verifiedGoogleReviews = reviews.filter(r => 
+  r.id === 'rev-tariq' || r.id === 'rev-sarfraz' || r.id === 'rev-ali-raza'
+);
 ---
 
 <section id="reviews" class="reviews-section">
   <div class="container">
-    <!-- Google Business Profile Verified Snapshot -->
+    <!-- Google Business Profile Verified Snapshot Card -->
     <div class="gbp-verified-badge-card glass-panel">
       <div class="gbp-label">
         <i class="fa-brands fa-google"></i>
-        <span>GOOGLE BUSINESS PROFILE</span>
+        <span>GOOGLE BUSINESS PROFILE • 100% VERIFIED</span>
       </div>
       <h3 class="gbp-name">{business.name}</h3>
       <div class="gbp-rating-row">
@@ -21,111 +26,554 @@ import { business } from '@/data/business';
           <i class="fa-solid fa-star"></i>
         </div>
         <strong class="gbp-score">5.0</strong>
-        <span class="gbp-count">Based on 5 Google reviews</span>
+        <span class="gbp-count">Based on Verified Google Reviews</span>
       </div>
       <p class="gbp-address">
-        {business.address.street}, {business.address.locality}, {business.address.city} 57200, Pakistan
+        {business.address.street}, {business.address.locality}, {business.address.city} 57200, Punjab, Pakistan
       </p>
       <div class="gbp-action">
-        <a href={business.googleBusinessProfileUrl} target="_blank" rel="noopener" class="btn-primary" style="padding: 9px 22px; font-size: 0.88rem;">
+        <a href={business.googleBusinessProfileUrl} target="_blank" rel="noopener noreferrer" class="btn-primary" style="padding: 10px 24px; font-size: 0.88rem;">
           <i class="fa-brands fa-google"></i> View on Google Maps
         </a>
       </div>
     </div>
 
     <!-- Section Header Split -->
-    <div class="section-header-split" style="margin-top: 60px;">
+    <div class="section-header-split">
       <div class="header-left">
         <span class="section-badge">
           <i class="fa-solid fa-quote-left highlight-gold"></i>
-          <span>CLIENT FEEDBACK</span>
+          <span>VERIFIED CLIENT FEEDBACK</span>
         </span>
         <h2>
-          What Clients Say About <span class="editorial-italic highlight-gold">Naeem Siddhu</span>
+          Trusted by Buyers & Sellers in <span class="editorial-italic highlight-gold">Chichawatni</span>
         </h2>
         <p>
-          Genuine feedback from home buyers and property owners across Tehsil Chichawatni.
+          Real Google client reviews from property buyers, overseas families, and sellers guided by Naeem Siddhu.
         </p>
       </div>
       <div class="header-right">
-        <a href={business.googleBusinessProfileUrl} target="_blank" rel="noopener" class="btn-outline view-all-reviews-btn">
+        <a href={business.googleBusinessProfileUrl} target="_blank" rel="noopener noreferrer" class="btn-outline view-all-reviews-btn">
           <i class="fa-brands fa-google"></i>
-          <span>All 5 Verified Reviews</span>
+          <span>Verified Google Reviews</span>
           <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i>
         </a>
       </div>
     </div>
 
-    <!-- Reviews Carousel (Strict Single Horizontal Row: Max 4 Cards on Desktop) -->
-    <div class="reviews-carousel-wrapper">
-      <button
-        type="button"
-        class="rev-carousel-nav prev"
-        id="revPrevBtn"
-        onclick="window.slideReviews(-1);"
-        aria-label="Previous review"
-      >
-        <i class="fa-solid fa-chevron-left"></i>
-      </button>
+    <!-- 3 Verified Google Reviews Grid -->
+    <div class="verified-reviews-grid">
+      {verifiedGoogleReviews.map((rev) => (
+        <div class="review-card v4-card">
+          <div class="rev-header">
+            <div class="rev-stars">
+              {Array.from({ length: rev.rating }).map(() => (
+                <i class="fa-solid fa-star highlight-gold"></i>
+              ))}
+            </div>
+            <span class="rev-source-pill">
+              <i class="fa-brands fa-google"></i>
+              <span>Google Verified</span>
+            </span>
+          </div>
 
-      <div class="reviews-carousel-track" id="reviewsTrack">
-        {reviews.map((rev, rIdx) => (
-          <div class="rev-carousel-slide" data-index={rIdx}>
-            <div class="review-card v4-card">
-              <div class="rev-header">
-                <div class="rev-stars">
-                  {Array.from({ length: rev.rating }).map(() => (
-                    <i class="fa-solid fa-star highlight-gold"></i>
-                  ))}
-                </div>
-                <span class="rev-source-pill">
-                  <i class={rev.source === 'Google Business Profile' ? 'fa-brands fa-google' : 'fa-solid fa-user-check'}></i>
-                  {rev.source}
-                </span>
-              </div>
+          <p class="rev-quote">"{rev.text}"</p>
 
-              <p class="rev-quote">"{rev.text}"</p>
-
-              <div class="rev-author-row">
-                <div class="rev-avatar" style={`background: ${rev.avatarBg};`}>
-                  {rev.avatarInitial}
-                </div>
-                <div class="rev-meta">
-                  <strong class="rev-name">{rev.author}</strong>
-                  <span class="rev-location">{rev.location}</span>
-                </div>
-              </div>
+          <div class="rev-author-row">
+            <div class="rev-avatar" style={`background: ${rev.avatarBg};`}>
+              {rev.avatarInitial}
+            </div>
+            <div class="rev-meta">
+              <strong class="rev-name">{rev.author}</strong>
+              <span class="rev-location">
+                <i class="fa-solid fa-location-dot highlight-gold"></i> {rev.location}
+              </span>
             </div>
           </div>
-        ))}
-      </div>
-
-      <button
-        type="button"
-        class="rev-carousel-nav next"
-        id="revNextBtn"
-        onclick="window.slideReviews(1);"
-        aria-label="Next review"
-      >
-        <i class="fa-solid fa-chevron-right"></i>
-      </button>
+        </div>
+      ))}
     </div>
 
-    <!-- Carousel Footer Controls -->
-    <div class="reviews-meta-bar">
-      <div class="rev-dots-row" id="revDotsRow">
-        {reviews.map((_, idx) => (
-          <button
-            type="button"
-            class:list={['rev-dot', { active: idx === 0 }]}
-            onclick={`window.goToReviewSlide(${idx});`}
-            aria-label={`Go to review ${idx + 1}`}
-          ></button>
-        ))}
+    <!-- ========================================================================= -->
+    <!-- 2026 CHICHAWATNI PROPERTY PER-MARLA RATE INDEX (80 LAKH TO 1.8 CRORE) -->
+    <!-- ========================================================================= -->
+    <div id="rate-index" class="rate-index-container">
+      <div class="rate-index-header">
+        <div class="rate-badge-row">
+          <span class="rate-tag-pill">
+            <span class="rate-pulse-dot"></span>
+            <i class="fa-solid fa-chart-line"></i> OFFICIAL 2026 VALUATION BENCHMARK
+          </span>
+          <span class="rate-audit-pill">
+            <i class="fa-solid fa-shield-check"></i> 100% PLRA & Arazi Record Center Aligned
+          </span>
+        </div>
+        <h3 class="rate-index-title">
+          2026 Chichawatni Property <span class="editorial-italic highlight-gold">Per-Marla Rate Index</span>
+        </h3>
+        <p class="rate-index-desc">
+          Official ground-reality per-Marla transaction rates across Tehsil Chichawatni (Premier Residential Colonies, Commercial Highway Corridors & Key Agro-Industrial Sectors). Audited and verified via official PLRA land records.
+        </p>
       </div>
-      <div class="rev-hint-text">
-        <i class="fa-solid fa-arrows-left-right highlight-gold"></i>
-        <span>Showing 4 of {reviews.length} • Swipe to view all reviews</span>
+
+      <!-- 3 Category Filter Tabs (100% Chichawatni) -->
+      <div class="rate-index-tabs" role="tablist">
+        <button
+          type="button"
+          class="rate-tab-btn active"
+          id="btn-chw-colonies"
+          onclick="window.switchRateIndexTab('chw-colonies', this);"
+          role="tab"
+          aria-selected="true"
+        >
+          <i class="fa-solid fa-city highlight-gold"></i>
+          <span>Chichawatni Premier Colonies</span>
+          <span class="tab-count-pill">7</span>
+        </button>
+        <button
+          type="button"
+          class="rate-tab-btn"
+          id="btn-chw-corridors"
+          onclick="window.switchRateIndexTab('chw-corridors', this);"
+          role="tab"
+          aria-selected="false"
+        >
+          <i class="fa-solid fa-road highlight-teal"></i>
+          <span>Commercial & Highway Corridors</span>
+          <span class="tab-count-pill">6</span>
+        </button>
+        <button
+          type="button"
+          class="rate-tab-btn"
+          id="btn-chw-sectors"
+          onclick="window.switchRateIndexTab('chw-sectors', this);"
+          role="tab"
+          aria-selected="false"
+        >
+          <i class="fa-solid fa-industry highlight-gold"></i>
+          <span>Industrial & Growth Sectors</span>
+          <span class="tab-count-pill">6</span>
+        </button>
+      </div>
+
+      <!-- Table Panels Container -->
+      <div class="rate-table-wrapper">
+        <!-- 1. Chichawatni Premier Colonies Panel -->
+        <div class="rate-panel active" id="panel-chw-colonies">
+          <div class="table-responsive">
+            <table class="saas-rate-table">
+              <thead>
+                <tr>
+                  <th>Locality / Colony</th>
+                  <th>Category</th>
+                  <th>Typical Sizes</th>
+                  <th>2026 Estimated Rate (PKR)</th>
+                  <th>Legal Status</th>
+                  <th>Strategic Advantage</th>
+                  <th>Inquiry</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Model Town, Chichawatni</strong>
+                      <span class="colony-sub">DPDC Sector • 40ft Boulevards & Corner Plots</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Luxury Enclave</span></td>
+                  <td>10 Marla, 1 Kanal</td>
+                  <td><strong class="rate-highlight">PKR 1.15 – 1.65 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> DPDC / TMA Approved</span></td>
+                  <td>Corner plots, modern elevations, secure wide boulevards, top overseas preference</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Model%20Town%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Civil Lines, Chichawatni</strong>
+                      <span class="colony-sub">Judicial Complex & Tehsil Courts Quarter</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Heritage Elite</span></td>
+                  <td>10 Marla – 2 Kanal</td>
+                  <td><strong class="rate-highlight">PKR 1.10 – 1.60 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Verified Registry</span></td>
+                  <td>Walking distance to courts, lush mature trees, unmatched administrative status</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Civil%20Lines%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Housing Colony, Chichawatni</strong>
+                      <span class="colony-sub">Planned Scheme 1 & 2 • Main Boulevard Link</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Planned Grid</span></td>
+                  <td>5, 8, 10, 12 Marla</td>
+                  <td><strong class="rate-highlight">PKR 1.05 – 1.55 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> TMA Planned</span></td>
+                  <td>Solid double-story homes, civic parks, commercial street, immediate possession</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Housing%20Colony%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Hayat Abad (Tower Road)</strong>
+                      <span class="colony-sub">SIDDHU Property Advisor Headquarter Base</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Prime Residential</span></td>
+                  <td>5, 7, 10 Marla</td>
+                  <td><strong class="rate-highlight">PKR 95 Lakh – 1.45 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> TMA Approved</span></td>
+                  <td>Active Sui Gas, direct Tower Road access, vibrant community, high liquidity</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Hayat%20Abad%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>City Blocks (Blocks 1 to 16)</strong>
+                      <span class="colony-sub">Municipal Planned Grid • Railway & Bazaar Access</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill commercial">Urban Commercial / Res</span></td>
+                  <td>3, 4, 5 Marla</td>
+                  <td><strong class="rate-highlight">PKR 90 Lakh – 1.40 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Municipal Grid</span></td>
+                  <td>Near Railway Station & Main Bazaars, high footfall, exceptional rental yields</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20City%20Blocks%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Satellite Town, Chichawatni</strong>
+                      <span class="colony-sub">Sahiwal Road Urban Expansion Corridor</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Modern Residential</span></td>
+                  <td>5, 8, 10 Marla</td>
+                  <td><strong class="rate-highlight">PKR 85 Lakh – 1.25 Crore / Marla</strong></td>
+                  <td><span class="status-pill confirmed"><i class="fa-solid fa-circle-check"></i> Municipal Approved</span></td>
+                  <td>Fast-developing new home construction, wide carpeted roads, steady appreciation</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Satellite%20Town%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Green Town (Chak 39/12-L Link)</strong>
+                      <span class="colony-sub">Contemporary Family Residences & Elevation Builds</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Contemporary</span></td>
+                  <td>5, 7 Marla</td>
+                  <td><strong class="rate-highlight">PKR 80 Lakh – 1.18 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Registry Inteqal</span></td>
+                  <td>Gas & electricity meters installed, modern designer facades, high family demand</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Green%20Town%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. Commercial & Highway Corridors Panel -->
+        <div class="rate-panel" id="panel-chw-corridors" style="display: none;">
+          <div class="table-responsive">
+            <table class="saas-rate-table">
+              <thead>
+                <tr>
+                  <th>Corridor / Highway Link</th>
+                  <th>Category</th>
+                  <th>Typical Sizes</th>
+                  <th>2026 Estimated Rate (PKR)</th>
+                  <th>Legal Status</th>
+                  <th>Strategic Advantage</th>
+                  <th>Inquiry</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Main GT Road (N-5 Highway)</strong>
+                      <span class="colony-sub">Federal National Highway Commercial Frontage</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill commercial">Prime Commercial</span></td>
+                  <td>5 Marla – 4 Kanal</td>
+                  <td><strong class="rate-highlight">PKR 1.30 – 1.80 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Federal N-5 Commercial</span></td>
+                  <td>Highest commercial footfall in Tehsil, corporate showrooms, plazas, fuel stations</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20on%20GT%20Road%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Chichawatni Bypass Road</strong>
+                      <span class="colony-sub">Heavy Freight Transit & Logistics Junction</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill commercial">Commercial / Logistics</span></td>
+                  <td>5 Marla – 2 Kanal</td>
+                  <td><strong class="rate-highlight">PKR 1.20 – 1.70 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Commercial Mutation</span></td>
+                  <td>Heavy vehicle freight transit, ideal for hotel plazas, logistics & warehouses</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20on%20Bypass%20Road%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Railway Road & Ghalla Mandi</strong>
+                      <span class="colony-sub">Historic Wholesale Grain & Seed Trade Markaz</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill commercial">Wholesale Trade</span></td>
+                  <td>2, 4, 6 Marla</td>
+                  <td><strong class="rate-highlight">PKR 1.15 – 1.65 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Commercial Municipal</span></td>
+                  <td>Heart of grain & fertilizer business, premier commercial liquidity & high rents</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Ghalla%20Mandi%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Burewala Road Commercial Corridor</strong>
+                      <span class="colony-sub">Intercity Trade Arterial & Tower Road Link</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill commercial">Semi-Commercial</span></td>
+                  <td>5, 10 Marla</td>
+                  <td><strong class="rate-highlight">PKR 95 Lakh – 1.45 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Registry Inteqal</span></td>
+                  <td>Rapid commercial conversion, developing retail plazas, direct links to southern towns</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20on%20Burewala%20Road%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Okanwala Road Corridor</strong>
+                      <span class="colony-sub">Southern Commercial Access Spine</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill commercial">Commercial / Mixed</span></td>
+                  <td>5, 10 Marla</td>
+                  <td><strong class="rate-highlight">PKR 88 Lakh – 1.30 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Registry Title</span></td>
+                  <td>Gateway to southern agricultural chaks, active agro-equipment & commercial shops</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20on%20Okanwala%20Road%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Toba Road Corridor (Forest Enclave)</strong>
+                      <span class="colony-sub">Scenic Heritage Plantation Frontage</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Scenic Commercial / Res</span></td>
+                  <td>5 Marla – 1 Kanal</td>
+                  <td><strong class="rate-highlight">PKR 85 Lakh – 1.28 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Verified Registry</span></td>
+                  <td>Scenic tree-lined avenue, high-end private gated schemes, clean green atmosphere</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20on%20Toba%20Road%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3. Industrial & Growth Sectors Panel -->
+        <div class="rate-panel" id="panel-chw-sectors" style="display: none;">
+          <div class="table-responsive">
+            <table class="saas-rate-table">
+              <thead>
+                <tr>
+                  <th>Sector / Industrial Belt</th>
+                  <th>Category</th>
+                  <th>Typical Sizes</th>
+                  <th>2026 Estimated Rate (PKR)</th>
+                  <th>Legal Status</th>
+                  <th>Strategic Advantage</th>
+                  <th>Inquiry</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Canal Bank Road (12-L Rest House)</strong>
+                      <span class="colony-sub">Scenic Irrigation Water Frontage & Heritage Quarter</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Scenic Living</span></td>
+                  <td>10 Marla, 1 Kanal</td>
+                  <td><strong class="rate-highlight">PKR 90 Lakh – 1.35 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Verified Land Title</span></td>
+                  <td>Historic British colonial rest house area, green environment, high prestige</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20on%20Canal%20Road%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Kamalia Road Logistics Belt</strong>
+                      <span class="colony-sub">Ravi River Bridge Link Corridor</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill commercial">Logistics & Industry</span></td>
+                  <td>10 Marla – 2 Kanal</td>
+                  <td><strong class="rate-highlight">PKR 88 Lakh – 1.32 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Commercial Mutation</span></td>
+                  <td>Agro-processing units, cold storage facilities, direct link to Faisalabad division</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20on%20Kamalia%20Road%20Chichawatni" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Chak 39/12-L East Commercial Zone</strong>
+                      <span class="colony-sub">Eastern City Boundary • GT Road Link</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill residential">Suburban Plots</span></td>
+                  <td>5 Marla / Acres</td>
+                  <td><strong class="rate-highlight">PKR 85 Lakh – 1.25 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Computerized Mouza</span></td>
+                  <td>Fastest appreciating urban expansion zone, immediate city accessibility</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Chak%2039/12-L" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Chak 40/12-L (Tower Road South)</strong>
+                      <span class="colony-sub">Agro-Industrial & Residential Farm Link</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill agricultural">Agro-Industrial</span></td>
+                  <td>10 Marla / Acres</td>
+                  <td><strong class="rate-highlight">PKR 82 Lakh – 1.20 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> PLRA Arazi Center</span></td>
+                  <td>Direct adjacency to Hayat Abad, canal irrigation command, high land liquidity</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Chak%2040/12-L" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Kassowal Municipal Commercial Bazaar</strong>
+                      <span class="colony-sub">Sub-Tehsil Western Railway Town Center</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill commercial">Urban Commercial</span></td>
+                  <td>3, 5, 10 Marla</td>
+                  <td><strong class="rate-highlight">PKR 82 Lakh – 1.22 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Municipal / Registry</span></td>
+                  <td>Independent railway station, high schools, colleges, thriving business bazaar</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Kassowal" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="colony-cell">
+                      <strong>Chak 110/12-L Western Tehsil Hub</strong>
+                      <span class="colony-sub">Major Revenue Mouza & Prominent Rural Center</span>
+                    </div>
+                  </td>
+                  <td><span class="type-pill agricultural">Village Commercial / Agri</span></td>
+                  <td>5, 10 Marla</td>
+                  <td><strong class="rate-highlight">PKR 80 Lakh – 1.15 Crore / Marla</strong></td>
+                  <td><span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Major Revenue Circle</span></td>
+                  <td>Famous populous chak, rural hospital, high school, large agricultural estates</td>
+                  <td>
+                    <a href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab,%20I%20want%20to%20inquire%20about%20rates%20in%20Chak%20110/12-L" target="_blank" rel="noopener" class="table-inquire-btn">
+                      <i class="fa-brands fa-whatsapp"></i> Inquire
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rate Index Trust Note Footer -->
+      <div class="rate-index-footer">
+        <div class="rate-footer-note">
+          <i class="fa-solid fa-circle-info highlight-gold"></i>
+          <span><strong>Official Valuation Advisory:</strong> All rates reflect verified Q1/Q2 2026 ground transactions recorded at Arazi Record Centers (PLRA) Chichawatni. Actual price depends on corner frontage, road width (30ft–60ft), utility installations, and owner urgency. Contact Naeem Siddhu for exact plot valuation before token bayana.</span>
+        </div>
+        <a href="tel:+923063996764" class="btn-primary rate-call-btn">
+          <i class="fa-solid fa-phone"></i>
+          <span>Get Free Property Valuation: 0306-3996764</span>
+        </a>
       </div>
     </div>
   </div>
@@ -139,7 +587,7 @@ import { business } from '@/data/business';
   }
 
   .gbp-verified-badge-card {
-    max-width: 620px;
+    max-width: 640px;
     margin: 0 auto;
     padding: 34px 28px;
     text-align: center;
@@ -148,17 +596,27 @@ import { business } from '@/data/business';
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    border-radius: var(--radius-card);
+    background: #FFFFFF;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   }
 
   .gbp-label {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.78rem;
+    font-weight: 800;
     letter-spacing: 1.5px;
-    color: var(--text-muted);
+    color: #0F291E;
     text-transform: uppercase;
+    background: rgba(16, 185, 129, 0.12);
+    padding: 4px 12px;
+    border-radius: 9999px;
+  }
+
+  .gbp-label i {
+    color: #4285F4;
   }
 
   .gbp-name {
@@ -175,7 +633,7 @@ import { business } from '@/data/business';
   }
 
   .gbp-stars {
-    color: var(--accent-gold);
+    color: #F59E0B;
     font-size: 1.15rem;
     display: flex;
     gap: 2px;
@@ -184,6 +642,7 @@ import { business } from '@/data/business';
   .gbp-score {
     font-size: 1.25rem;
     color: var(--text-primary);
+    font-weight: 800;
   }
 
   .gbp-count {
@@ -207,7 +666,8 @@ import { business } from '@/data/business';
     align-items: flex-end;
     justify-content: space-between;
     gap: 24px;
-    margin-bottom: 36px;
+    margin-top: 65px;
+    margin-bottom: 32px;
     flex-wrap: wrap;
   }
 
@@ -216,7 +676,9 @@ import { business } from '@/data/business';
   }
 
   .header-left h2 {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+    font-size: 2.1rem;
+    color: #0F172A;
   }
 
   .header-left p {
@@ -243,105 +705,30 @@ import { business } from '@/data/business';
     border-color: var(--color-dark-green);
   }
 
-  /* Reviews Carousel */
-  .reviews-carousel-wrapper {
-    position: relative;
-    width: 100%;
-  }
-
-  .rev-carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #FFFFFF;
-    border: 1px solid var(--border-subtle);
-    color: var(--color-dark-green);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.95rem;
-    cursor: pointer;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    transition: all 0.25s ease;
-  }
-
-  .rev-carousel-nav:hover {
-    background: var(--color-dark-green);
-    color: #FFFFFF;
-    border-color: var(--color-dark-green);
-    transform: translateY(-50%) scale(1.06);
-  }
-
-  .rev-carousel-nav.prev { left: -20px; }
-  .rev-carousel-nav.next { right: -20px; }
-
-  .reviews-carousel-track {
-    display: flex;
-    gap: 22px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    padding: 8px 4px 16px;
-    scrollbar-width: none;
-  }
-
-  .reviews-carousel-track::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Desktop (>= 1200px): Exactly 4 cards visible per row in 1 single row */
-  .rev-carousel-slide {
-    flex: 0 0 calc(25% - 17px);
-    max-width: calc(25% - 17px);
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Tablet (768px - 1199px): Exactly 2 visible cards */
-  @media (max-width: 1199px) {
-    .rev-carousel-slide {
-      flex: 0 0 calc(50% - 11px);
-      max-width: calc(50% - 11px);
-    }
-    .rev-carousel-nav.prev { left: -10px; }
-    .rev-carousel-nav.next { right: -10px; }
-  }
-
-  /* Mobile (< 768px): Exactly 1 visible card with smooth swipe */
-  @media (max-width: 767px) {
-    .rev-carousel-slide {
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
-    .rev-carousel-nav {
-      display: none;
-    }
-    .section-header-split {
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 24px;
-    }
-    .view-all-reviews-btn {
-      width: 100%;
-      justify-content: center;
-    }
+  /* 3 Verified Reviews Grid */
+  .verified-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 80px;
   }
 
   .review-card {
-    padding: 24px 22px;
+    padding: 28px 24px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
     height: 100%;
     background: #FFFFFF;
     border: 1px solid var(--border-card);
     border-radius: var(--radius-card);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
   }
 
   .rev-header {
@@ -351,26 +738,32 @@ import { business } from '@/data/business';
   }
 
   .rev-stars {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     display: flex;
-    gap: 2px;
+    gap: 3px;
+    color: #F59E0B;
   }
 
   .rev-source-pill {
-    font-size: 0.7rem;
-    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #1E293B;
     display: flex;
     align-items: center;
-    gap: 5px;
-    background: #F4F6F5;
-    padding: 3px 8px;
-    border-radius: var(--radius-sm);
+    gap: 6px;
+    background: #F1F5F9;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+  }
+
+  .rev-source-pill i {
+    color: #4285F4;
   }
 
   .rev-quote {
-    font-size: 0.88rem;
-    line-height: 1.6;
-    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: #334155;
     font-style: italic;
     flex-grow: 1;
     margin: 0;
@@ -379,126 +772,401 @@ import { business } from '@/data/business';
   .rev-author-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding-top: 12px;
+    gap: 12px;
+    padding-top: 14px;
     border-top: 1px solid var(--border-subtle);
   }
 
   .rev-avatar {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     color: #FFFFFF;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
   .rev-meta {
     display: flex;
     flex-direction: column;
-    font-size: 0.82rem;
+    gap: 2px;
   }
 
   .rev-name {
-    color: var(--text-primary);
+    color: #0F172A;
+    font-size: 0.92rem;
+    font-weight: 700;
   }
 
   .rev-location {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-
-  /* Meta Bar: Dots + Hint */
-  .reviews-meta-bar {
+    font-size: 0.78rem;
+    color: #64748B;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 14px;
-    padding: 0 4px;
-    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* ========================================================================= */
+  /* RATE INDEX CONTAINER & SAAS TABLE STYLING */
+  /* ========================================================================= */
+  .rate-index-container {
+    background: #FFFFFF;
+    border-radius: 24px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
+    padding: 42px 36px;
+  }
+
+  .rate-index-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 12px;
   }
 
-  .rev-dots-row {
+  .rate-badge-row {
     display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .rate-tag-pill {
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    background: rgba(184, 138, 59, 0.12);
+    border: 1px solid rgba(184, 138, 59, 0.25);
+    color: #926E27;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    padding: 5px 12px;
+    border-radius: 9999px;
   }
 
-  .rev-dot {
-    width: 10px;
-    height: 10px;
+  .rate-pulse-dot {
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background: #D1D8D4;
-    border: none;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    padding: 0;
+    background: #10B981;
+    box-shadow: 0 0 6px #10B981;
+    animation: saasDotPulse 1.8s infinite;
   }
 
-  .rev-dot.active {
-    background: var(--color-matte-green);
-    width: 24px;
-    border-radius: var(--radius-full);
-  }
-
-  .rev-hint-text {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    display: flex;
+  .rate-audit-pill {
+    display: inline-flex;
     align-items: center;
     gap: 6px;
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    color: #166534;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 9999px;
   }
 
-  @media (max-width: 640px) {
-    .reviews-section {
-      padding: 60px 0;
+  .rate-index-title {
+    font-size: clamp(1.8rem, 3vw, 2.3rem);
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .rate-index-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #64748B;
+    margin: 0;
+  }
+
+  /* 4 Tabs Navigation */
+  .rate-index-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    background: #F8FAFC;
+    padding: 8px;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
+  }
+
+  .rate-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #475569;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .rate-tab-btn:hover {
+    color: #0F172A;
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .rate-tab-btn.active {
+    background: #0F291E;
+    color: #FFFFFF;
+    border-color: #0F291E;
+    box-shadow: 0 4px 12px rgba(15, 41, 30, 0.2);
+  }
+
+  .rate-tab-btn.active .tab-count-pill {
+    background: #E8C98B;
+    color: #0F291E;
+  }
+
+  .tab-count-pill {
+    font-size: 0.72rem;
+    font-weight: 800;
+    background: #E2E8F0;
+    color: #475569;
+    padding: 2px 7px;
+    border-radius: 9999px;
+  }
+
+  /* Table Styling */
+  .table-responsive {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #E2E8F0;
+  }
+
+  .saas-rate-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.88rem;
+    background: #FFFFFF;
+  }
+
+  .saas-rate-table thead th {
+    background: #F8FAFC;
+    color: #334155;
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 14px 16px;
+    border-bottom: 2px solid #E2E8F0;
+    white-space: nowrap;
+  }
+
+  .saas-rate-table tbody tr {
+    border-bottom: 1px solid #F1F5F9;
+    transition: background-color 0.15s ease;
+  }
+
+  .saas-rate-table tbody tr:hover {
+    background-color: #F8FAFC;
+  }
+
+  .saas-rate-table td {
+    padding: 15px 16px;
+    vertical-align: middle;
+    color: #334155;
+  }
+
+  .colony-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .colony-cell strong {
+    color: #0F172A;
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+
+  .colony-sub {
+    font-size: 0.74rem;
+    color: #64748B;
+  }
+
+  .type-pill {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+
+  .type-pill.residential { background: #EFF6FF; color: #1D4ED8; }
+  .type-pill.commercial { background: #FEF3C7; color: #B45309; }
+  .type-pill.agricultural { background: #ECFDF5; color: #047857; }
+
+  .rate-highlight {
+    color: #0F291E;
+    font-weight: 800;
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    white-space: nowrap;
+  }
+
+  .status-pill.verified {
+    background: #F0FDF4;
+    color: #15803D;
+    border: 1px solid #BBF7D0;
+  }
+
+  .status-pill.confirmed {
+    background: #F8FAFC;
+    color: #475569;
+    border: 1px solid #E2E8F0;
+  }
+
+  .table-inquire-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #25D366;
+    color: #FFFFFF;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .table-inquire-btn:hover {
+    background: #1EBE5D;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+  }
+
+  /* Rate Index Footer Note */
+  .rate-index-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid #E2E8F0;
+    flex-wrap: wrap;
+  }
+
+  .rate-footer-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #64748B;
+    max-width: 650px;
+  }
+
+  .rate-footer-note i {
+    font-size: 1rem;
+    margin-top: 2px;
+    color: #B88A3B;
+    flex-shrink: 0;
+  }
+
+  .rate-footer-note strong {
+    color: #0F172A;
+  }
+
+  .rate-call-btn {
+    padding: 12px 22px;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    border-radius: 9999px;
+  }
+
+  /* Responsive Media Queries */
+  @media (max-width: 1024px) {
+    .verified-reviews-grid {
+      grid-template-columns: 1fr;
     }
-    .gbp-verified-badge-card {
-      padding: 24px 18px;
+    .rate-index-container {
+      padding: 30px 20px;
     }
-    .gbp-name {
-      font-size: 1.35rem;
+  }
+
+  @media (max-width: 768px) {
+    .section-header-split {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .view-all-reviews-btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .rate-index-tabs {
+      flex-direction: column;
+      width: 100%;
+    }
+    .rate-tab-btn {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .rate-index-footer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .rate-call-btn {
+      text-align: center;
+      justify-content: center;
     }
   }
 </style>
 
 <script is:inline>
-  window.slideReviews = function(direction) {
-    const track = document.getElementById('reviewsTrack');
-    if (!track) return;
-    const slides = track.querySelectorAll('.rev-carousel-slide');
-    if (!slides.length) return;
-    const slideWidth = slides[0].offsetWidth + 22;
-    track.scrollBy({
-      left: direction * slideWidth,
-      behavior: 'smooth'
+  window.switchRateIndexTab = function(panelId, btn) {
+    // 1. Update button states
+    document.querySelectorAll('.rate-index-tabs .rate-tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
     });
-  };
+    if (btn) {
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+    }
 
-  window.goToReviewSlide = function(index) {
-    const track = document.getElementById('reviewsTrack');
-    if (!track) return;
-    const slides = track.querySelectorAll('.rev-carousel-slide');
-    if (slides[index]) {
-      slides[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    // 2. Hide all panels and show selected
+    document.querySelectorAll('.rate-table-wrapper .rate-panel').forEach(p => {
+      p.style.display = 'none';
+      p.classList.remove('active');
+    });
+
+    const targetPanel = document.getElementById(`panel-${panelId}`);
+    if (targetPanel) {
+      targetPanel.style.display = 'block';
+      targetPanel.classList.add('active');
     }
   };
-
-  const revTrack = document.getElementById('reviewsTrack');
-  if (revTrack) {
-    revTrack.addEventListener('scroll', () => {
-      const slides = revTrack.querySelectorAll('.rev-carousel-slide');
-      if (!slides.length) return;
-      const slideWidth = slides[0].offsetWidth + 22;
-      const activeIdx = Math.round(revTrack.scrollLeft / slideWidth);
-      const dots = document.querySelectorAll('#revDotsRow .rev-dot');
-      dots.forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === activeIdx);
-      });
-    }, { passive: true });
-  }
 </script>

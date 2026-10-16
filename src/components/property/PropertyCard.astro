@@ -9,22 +9,36 @@ interface Props {
 const { property } = Astro.props;
 ---
 
-<article class="property-card v4-card" data-id={property.id} data-area={property.area} data-type={property.type} data-size={property.sizeMarla}>
+<article class="property-card v4-card" data-id={property.id} data-area={property.area} data-type={property.type} data-size={property.sizeMarla} data-city={property.cityHub || 'Chichawatni'}>
   <!-- Card Image Container -->
   <div class="card-media">
     <img
       src={property.image}
       alt={property.title}
+      width="400"
+      height="260"
       loading="lazy"
+      decoding="async"
       class="card-img"
     />
     <div class="card-badges">
-      <span class="badge-tag">{property.badge}</span>
+      {property.statusTag ? (
+        <span class="badge-status-tag">
+          <i class="fa-solid fa-bolt"></i> {property.statusTag}
+        </span>
+      ) : (
+        <span class="badge-tag">{property.badge}</span>
+      )}
       {property.verified && (
         <span class="badge-verified">
-          <i class="fa-solid fa-circle-check"></i> Verified
+          <i class="fa-solid fa-circle-check"></i> PLRA Verified
         </span>
       )}
+    </div>
+    <!-- Hub Pill -->
+    <div class="card-hub-badge">
+      <span class="hub-indicator-dot"></span>
+      <span>{property.cityHub === 'Sahiwal' ? 'Sahiwal Hub' : 'Chichawatni Hub'}</span>
     </div>
     <!-- Compare Checkbox -->
     <label class="compare-toggle-label" title="Select to compare">
@@ -35,15 +49,39 @@ const { property } = Astro.props;
 
   <!-- Card Body -->
   <div class="card-body">
-    <div class="card-location">
-      <i class="fa-solid fa-location-dot highlight-gold"></i>
-      <span class="blurred-address-text" title="Exact Address Confidential for Owner Privacy">{property.locationLabel}</span>
-      <span class="confidential-badge" title="Exact street address protected. Available on direct inquiry.">
-        <i class="fa-solid fa-lock"></i> Protected
-      </span>
+    <!-- Pricing Header Block -->
+    <div class="card-pricing-header">
+      <div class="price-demand-row">
+        <span class="price-pkr-demand">{property.pricePkr}</span>
+        {property.perMarlaRate && (
+          <span class="per-marla-pill" title="Estimated Per Marla Asking Rate">
+            {property.perMarlaRate}
+          </span>
+        )}
+      </div>
+      {property.priceBreakdown && (
+        <div class="price-breakdown-row">
+          <span class="price-breakdown-text">{property.priceBreakdown}</span>
+        </div>
+      )}
     </div>
 
+    <!-- Title -->
     <h3 class="card-title">{property.title}</h3>
+
+    <!-- Location & Privacy Masked Address Block -->
+    <div class="card-location-wrapper">
+      <div class="card-main-colony">
+        <i class="fa-solid fa-location-dot highlight-gold"></i>
+        <span class="colony-title">{property.locationLabel}</span>
+      </div>
+      <!-- Intentional Privacy Masked Address with Tooltip -->
+      <div class="masked-address-pill" title="🔒 Exact House Pin Shared on Site Visit with Naeem Siddhu">
+        <i class="fa-solid fa-shield-halved lock-icon"></i>
+        <span class="masked-text">{property.maskedAddress || 'Street ••, Plot #••• (Verified Location)'}</span>
+        <span class="privacy-tooltip">🔒 Exact House Pin Shared on Site Visit</span>
+      </div>
+    </div>
 
     <!-- Specs Pill Grid -->
     <div class="card-specs">
@@ -71,7 +109,7 @@ const { property } = Astro.props;
       )}
     </div>
 
-    <!-- Facilities tags (Clean presentation with icons, no clipped words) -->
+    <!-- Facilities tags (Clean presentation with icons) -->
     <div class="facilities-tags">
       {property.facilities.slice(0, 2).map(f => (
         <span class="facility-pill">
@@ -98,7 +136,7 @@ const { property } = Astro.props;
         <span>Call Naeem</span>
       </a>
       <a
-        href={`https://wa.me/923063996764?text=${encodeURIComponent(`Hello Naeem Siddhu, I am inquiring about: ${property.title} in ${property.locationLabel}`)}`}
+        href={`https://wa.me/923063996764?text=${encodeURIComponent(`Hello Naeem Siddhu, I am inquiring about: ${property.title} in ${property.locationLabel} (${property.pricePkr})`)}`}
         target="_blank"
         rel="noopener"
         class="btn-card-whatsapp card-action-btn"
@@ -170,6 +208,26 @@ const { property } = Astro.props;
     border-radius: 6px;
   }
 
+  .badge-status-tag {
+    background: linear-gradient(135deg, #B45309, #D97706);
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
+    text-transform: uppercase;
+  }
+
+  .badge-status-tag i {
+    color: #FEF3C7;
+    font-size: 0.68rem;
+  }
+
   .badge-verified {
     background: #059669;
     color: #FFFFFF;
@@ -183,11 +241,38 @@ const { property } = Astro.props;
     box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
   }
 
+  .card-hub-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #E2E8F0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 2;
+    letter-spacing: 0.3px;
+  }
+
+  .hub-indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 8px #10B981;
+  }
+
   .compare-toggle-label {
     position: absolute;
-    top: 12px;
+    bottom: 10px;
     right: 12px;
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.88);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #FFFFFF;
@@ -223,45 +308,56 @@ const { property } = Astro.props;
     justify-content: space-between;
   }
 
-  .card-location {
-    font-size: 0.78rem;
-    color: #64748B;
+  /* Pricing Header Block */
+  .card-pricing-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .price-demand-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .price-pkr-demand {
+    font-size: 1.32rem;
+    font-weight: 800;
+    font-family: var(--font-heading, inherit);
+    color: #0F291E;
+    letter-spacing: -0.3px;
+    line-height: 1.1;
+  }
+
+  .per-marla-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: #ECFDF5;
+    color: #047857;
+    border: 1px solid rgba(5, 150, 105, 0.25);
+    padding: 2px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .price-breakdown-row {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-weight: 500;
   }
 
-  .blurred-address-text {
-    filter: blur(4.5px);
-    user-select: none;
-    opacity: 0.82;
-    transition: filter 0.3s ease;
-  }
-
-  .property-card:hover .blurred-address-text {
-    filter: blur(2.5px);
-    opacity: 0.95;
-  }
-
-  .confidential-badge {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: #FEF3C7;
-    color: #B45309;
-    border: 1px solid #FDE68A;
+  .price-breakdown-text {
+    font-size: 0.74rem;
+    color: #64748B;
+    font-weight: 600;
   }
 
   .card-title {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     line-height: 1.35;
     color: #0F172A;
     font-weight: 700;
@@ -271,6 +367,106 @@ const { property } = Astro.props;
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin: 0;
+  }
+
+  /* Location & Intentional Privacy-Masked Address */
+  .card-location-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .card-main-colony {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #1E293B;
+    font-weight: 600;
+  }
+
+  .card-main-colony i {
+    color: #C8A96B;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .colony-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .masked-address-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    background: #F8FAFC;
+    border: 1px dashed #CBD5E1;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    color: #475569;
+    cursor: help;
+    transition: all 0.2s ease;
+  }
+
+  .masked-address-pill:hover {
+    background: #FFFBEB;
+    border-color: #F59E0B;
+  }
+
+  .lock-icon {
+    color: #D97706;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .masked-text {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #334155;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .privacy-tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: #0F172A;
+    color: #F8FAFC;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 15;
+  }
+
+  .privacy-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px;
+    border-style: solid;
+    border-color: #0F172A transparent transparent transparent;
+  }
+
+  .masked-address-pill:hover .privacy-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
   }
 
   /* Specs Tray */
@@ -297,9 +493,20 @@ const { property } = Astro.props;
   }
 
   .spec-item i {
-    color: #059669;
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     flex-shrink: 0;
+  }
+  .spec-item i.fa-bed {
+    color: #3B82F6 !important;
+  }
+  .spec-item i.fa-bath {
+    color: #06B6D4 !important;
+  }
+  .spec-item i.fa-ruler-combined {
+    color: #F59E0B !important;
+  }
+  .spec-item i.fa-road {
+    color: #64748B !important;
   }
 
   /* Facilities Tags */

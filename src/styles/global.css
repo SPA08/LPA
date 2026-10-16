@@ -1,5 +1,4 @@
 @import './tokens.css';
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 /* ==========================================================================
    SIDDHU PROPERTY OS V4 - GLOBAL STYLES (APPROVED V4 SPEC)
@@ -103,27 +102,28 @@ img {
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-  width: 78px;
-  height: 44px;
+  width: 66px;
+  height: 38px;
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin: 0 8px;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
-  border: 3px solid #FFFFFF;
-  transform: translateY(-3px);
+  margin: 0;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+  border: 2.5px solid #FFFFFF;
+  transform: translateY(-2px);
+  flex-shrink: 0;
 }
 
 .headline-pill-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 @media (max-width: 640px) {
   .headline-pill-img {
-    width: 56px;
-    height: 32px;
-    margin: 0 4px;
+    width: 50px;
+    height: 29px;
     border-width: 2px;
   }
 }
@@ -380,13 +380,168 @@ i.fa-instagram,
   color: #E4405F !important;
 }
 
-/* Ensure inside filled buttons the icon stays clean white */
+/* ==========================================================================
+   GLOBAL SAAS REAL-COLOR ICON ENGINE
+   Ensures every icon across the entire site renders in its distinct, authentic
+   SaaS category color rather than generic muted gray/green.
+   ========================================================================== */
+
+/* 1. Location, Navigation & Pins (Vivid Coral / Red / Gold) */
+i.fa-location-dot,
+i.fa-map-pin,
+i.fa-location-crosshairs,
+.text-location-coral {
+  color: #EF4444 !important;
+}
+
+i.fa-route,
+i.fa-diamond-turn-right,
+i.fa-compass,
+i.fa-map-location-dot {
+  color: #D4AF37 !important;
+}
+
+/* 2. Education & Academic (Royal Indigo / Sapphire Blue) */
+i.fa-graduation-cap,
+i.fa-school,
+i.fa-book-atlas {
+  color: #4F46E5 !important;
+}
+
+/* 3. Healthcare, Emergency & Medical (Vibrant Medical Ruby) */
+i.fa-hospital,
+i.fa-heart-pulse,
+i.fa-stethoscope {
+  color: #EF4444 !important;
+}
+
+/* 4. Government, Legal & Civic Columns (Imperial Amber / Gold) */
+i.fa-building-columns,
+i.fa-landmark-dome,
+i.fa-stamp,
+i.fa-scale-balanced {
+  color: #D97706 !important;
+}
+
+/* 5. Finance, Banking, ATMs & Currency (Financial Emerald) */
+i.fa-money-bill-transfer,
+i.fa-money-bill,
+i.fa-money-bill-wave,
+i.fa-wallet,
+i.fa-credit-card,
+i.fa-coins {
+  color: #059669 !important;
+}
+
+/* 6. Safety, Shield & Security (Protective Cobalt / Sky) */
+i.fa-shield-halved,
+i.fa-shield-check,
+i.fa-shield {
+  color: #0284C7 !important;
+}
+
+/* 7. Property Specs (Beds, Baths, Rakba, Dimensions) */
+i.fa-bed {
+  color: #3B82F6 !important;
+}
+
+i.fa-bath,
+i.fa-shower {
+  color: #06B6D4 !important;
+}
+
+i.fa-ruler-combined,
+i.fa-vector-square {
+  color: #F59E0B !important;
+}
+
+i.fa-house-chimney,
+i.fa-house {
+  color: #10B981 !important;
+}
+
+i.fa-landmark {
+  color: #8B5CF6 !important;
+}
+
+/* 8. Status, Verification & Highlights */
+i.fa-circle-check,
+i.fa-check {
+  color: #10B981 !important;
+}
+
+i.fa-bolt {
+  color: #F59E0B !important;
+}
+
+i.fa-star {
+  color: #FBBF24 !important;
+}
+
+i.fa-tag,
+i.fa-tags {
+  color: #8B5CF6 !important;
+}
+
+i.fa-water {
+  color: #0284C7 !important;
+}
+
+i.fa-tree {
+  color: #10B981 !important;
+}
+
+i.fa-road {
+  color: #64748B !important;
+}
+
+i.fa-phone {
+  color: #2563EB !important;
+}
+
+i.fa-calculator {
+  color: #8B5CF6 !important;
+}
+
+i.fa-plane-departure {
+  color: #0EA5E9 !important;
+}
+
+i.fa-file-shield,
+i.fa-file-signature {
+  color: #D97706 !important;
+}
+
+/* High Contrast Overrides: Ensure inside filled buttons or badges icon stays contrasting */
 .btn-whatsapp i,
 .btn-whatsapp .fa-brands,
 .btn-whatsapp .fa-whatsapp,
-.btn-primary i.fa-whatsapp,
-.btn-primary .fa-brands.fa-whatsapp {
+.btn-primary i,
+.btn-banner-wa i,
+.btn-footer-wa i,
+.btn-table-wa i,
+.btn-pre-whatsapp i,
+.popup-wa-btn i,
+.popup-nav-btn i,
+.popup-call-btn i,
+.btn-calc-reset i,
+.btn-directory-cta i,
+.hub-toggle-btn.active i,
+.intel-tab-btn.active i,
+.btn-pre-call i,
+.social-link:hover i,
+.pin-card i,
+.pin-inner-icon i,
+.saas-pin-wrapper i,
+.saas-cluster-bubble i,
+.saas-pin-card i,
+.cat-summary-box:hover .cat-summary-icon i,
+.intel-card:hover .intel-icon-crest i {
   color: #FFFFFF !important;
+}
+
+.btn-directory-cta i {
+  color: #0F172A !important;
 }
 
 /* Animations & Motion */

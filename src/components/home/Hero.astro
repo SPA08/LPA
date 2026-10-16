@@ -14,34 +14,41 @@ import { localities } from '@/data/locations';
       <div class="hero-editorial-col">
         <!-- SaaS Live Authority & Verification Badge -->
         <div class="hero-authority-badge-row">
-          <span class="hero-saas-badge">
+          <div class="hero-unified-authority-pill">
             <span class="saas-pulse-dot"></span>
-            <i class="fa-solid fa-crown"></i>
-            <span>#1 in Chichawatni • Top 1 Property Advisor</span>
-          </span>
-          <span class="hero-live-indicator">
-            <i class="fa-solid fa-shield-halved"></i> 100% PLRA Verified
-          </span>
+            <span class="pill-segment gold-segment">
+              <span class="badge-emoji">🏆</span> No. 1 in Chichawatni — Top Property Advisor
+            </span>
+            <span class="pill-separator">✦</span>
+            <span class="pill-segment green-segment">
+              <span class="badge-emoji">🛡️</span> 100% PLRA & Registry Verified
+            </span>
+          </div>
         </div>
 
         <!-- Main Headline with Signature Clean SaaS Typography & Verified Micro-Pills -->
         <h1 class="hero-main-title">
-          Discover Best Buy & 
-          <span class="headline-pill-img">
-            <img src="/assets/images/house-10marla-corner.jpg" alt="Best Town Location in Chichawatni" width="78" height="44" />
+          <span class="headline-row">
+            <span>Discover Best Buy</span>
+            <span class="headline-pill-img" title="Verified Properties in Chichawatni">
+              <img id="shufflePill1" src="/assets/images/house-10marla-corner.jpg" alt="" width="68" height="38" />
+            </span>
           </span>
-          <br />
-          Sale Deals in Chichawatni
-          <br />
-          With Confidence 
-          <span class="headline-pill-img">
-            <img src="/assets/images/house-signature.jpg" alt="No. 1 Property Portal in Chichawatni" width="78" height="44" />
+          <span class="headline-row">
+            <span>Sale Deals in</span>
+            <span class="editorial-italic highlight-gold">Chichawatni</span>
+          </span>
+          <span class="headline-row">
+            <span>With Confidence</span>
+            <span class="headline-pill-img" title="No. 1 Property Portal in Chichawatni">
+              <img id="shufflePill2" src="/assets/images/house-signature.jpg" alt="" width="68" height="38" />
+            </span>
           </span>
         </h1>
 
-        <!-- Subtitle Paragraph with Hyper-local SEO Keyword Cluster -->
+        <!-- Subtitle Paragraph with Hyper-local SEO & Direct Proposition -->
         <p class="hero-subtitle">
-          Find genuine residential houses, commercial plots, and urgent sale properties in top locations — <strong>Hayat Abad</strong>, <strong>Model Town</strong>, <strong>Housing Colony</strong>, and along <strong>GT Road</strong> with direct guidance from <strong>{business.advisor}</strong>.
+          Verified residential houses, commercial plots & direct owner deals across <strong>Hayat Abad</strong>, <strong>Model Town</strong>, <strong>Housing Colony</strong> & <strong>GT Road</strong> — <em>Smarter Buying, Faster Selling</em>.
         </p>
 
         <!-- CTA Buttons Row -->
@@ -53,10 +60,6 @@ import { localities } from '@/data/locations';
           <a href="/sell-my-property/index.html" class="btn-outline hero-learn-pill-btn">
             <i class="fa-solid fa-tag highlight-gold"></i>
             <span>Sell My Property Fast</span>
-          </a>
-          <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp hero-wa-pill-btn" aria-label="WhatsApp Naeem Siddhu">
-            <i class="fa-brands fa-whatsapp"></i>
-            <span>WhatsApp Now</span>
           </a>
         </div>
 
@@ -92,13 +95,17 @@ import { localities } from '@/data/locations';
       <!-- Right Column: Visual Architectural Showcase with Floating Chips & Property Card -->
       <div class="hero-showcase-col">
         <div class="showcase-visual-wrapper">
-          <!-- Main Architectural Building Photo: 5 Marla Double Story House (Tower Road, Hayat Abad) -->
+          <!-- Main Architectural Building Photo with Interactive SaaS Shuffle -->
           <div class="showcase-img-frame">
             <img
+              id="heroShowcaseImg"
               src="/assets/images/house-5marla-brandnew.jpg"
-              alt="5 Marla Double Story House in Tower Road, Hayat Abad, Chichawatni"
+              alt="5 Marla Double Story House in Gulshan-e-Hurmat Town, Chichawatni"
               class="showcase-img"
+              width="560"
+              height="520"
               fetchpriority="high"
+              decoding="async"
             />
             <div class="showcase-fade-mask"></div>
           </div>
@@ -127,23 +134,28 @@ import { localities } from '@/data/locations';
             <span>Legal Support</span>
           </div>
 
-          <!-- Floating Property Preview Card (Bottom Right): Contemporary Family Home (Green Town / Sahiwal Road) -->
-          <a href="#properties" class="floating-preview-card" aria-label="View Contemporary Family Home">
+          <!-- Floating Property Preview Card (Bottom Right): Shuffles in Sync -->
+          <a href="#properties" class="floating-preview-card" aria-label="View Featured Property">
             <div class="preview-card-img-wrap">
               <img
+                id="heroPreviewImg"
                 src="/assets/images/house-contemporary.jpg"
-                alt="Contemporary Family Home in Green Town / Sahiwal Road"
+                alt="Contemporary Family Home in Green Town"
                 class="preview-card-img"
+                width="84"
+                height="84"
+                loading="lazy"
+                decoding="async"
               />
               <div class="preview-arrow-btn">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
               </div>
             </div>
             <div class="preview-card-text">
-              <h4 class="preview-card-title">Contemporary Family Home</h4>
+              <h4 id="heroPreviewTitle" class="preview-card-title">Contemporary Family Home</h4>
               <p class="preview-card-sub hero-location-blur">
                 <i class="fa-solid fa-location-dot highlight-gold"></i>
-                <span class="blurred-address-hero">Green Town / Sahiwal Road</span>
+                <span id="heroPreviewLoc" class="blurred-address-hero">Green Town / Sahiwal Road</span>
                 <span class="confidential-badge-mini"><i class="fa-solid fa-lock"></i> Protected</span>
               </p>
             </div>
@@ -157,8 +169,8 @@ import { localities } from '@/data/locations';
       <div class="trust-stat-item">
         <div class="trust-icon-box"><i class="fa-solid fa-location-dot highlight-gold"></i></div>
         <div class="trust-stat-text">
-          <strong>Local Chichawatni</strong>
-          <span>Street-level property expertise</span>
+          <strong>Local Chichawatni & Sahiwal</strong>
+          <span>Street-level 2-hub property expertise</span>
         </div>
       </div>
       <div class="trust-divider"></div>
@@ -187,6 +199,54 @@ import { localities } from '@/data/locations';
       </div>
     </div>
 
+    <!-- Live Regional Ticker Marquee with aria-hidden Duplicate Loop -->
+    <div class="hero-marquee-wrap" role="region" aria-label="Live Regional Property Ticker">
+      <div class="marquee-label">
+        <span class="ticker-pulse-dot"></span>
+        <span>MARKET PULSE:</span>
+      </div>
+      <div class="marquee-track-container">
+        <!-- Primary Accessible Track -->
+        <div class="marquee-track">
+          <span class="marquee-item"><i class="fa-solid fa-star text-gold"></i> #1 In Chichawatni: 10 Marla Corner House in Model Town • PKR 1.60 Cr</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-building text-teal"></i> Top Deal: 12 Marla Residence in Housing Colony • PKR 1.55 Cr</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-crown text-gold"></i> Sahiwal Elite: 10 Marla Luxury Villa in Farid Town • PKR 1.60 Cr</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-house text-emerald"></i> Modern Double Story: 5 Marla in Hayat Abad • PKR 1.05 Cr</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-shield-halved text-gold"></i> 100% PLRA Computerized Title Verified</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-map-location-dot text-teal"></i> Sahiwal Top 10: Royal Orchard, Jeewan City & Palm View Active</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-road text-gold"></i> Commercial Plots on Bypass & GT Road N-5 Corridors</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-wheat-awn text-emerald"></i> Outside Chaks: Farmland in Chak 39/12-L, 40/12-L & Kassowal</span>
+          <span class="marquee-divider">•</span>
+        </div>
+        <!-- Cloned Secondary Track for Seamless Infinite Scroll (Hidden from Screen Readers to Prevent Bloat) -->
+        <div class="marquee-track" aria-hidden="true">
+          <span class="marquee-item"><i class="fa-solid fa-star text-gold"></i> #1 In Chichawatni: 10 Marla Corner House in Model Town • PKR 1.60 Cr</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-building text-teal"></i> Top Deal: 12 Marla Residence in Housing Colony • PKR 1.55 Cr</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-crown text-gold"></i> Sahiwal Elite: 10 Marla Luxury Villa in Farid Town • PKR 1.60 Cr</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-house text-emerald"></i> Modern Double Story: 5 Marla in Hayat Abad • PKR 1.05 Cr</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-shield-halved text-gold"></i> 100% PLRA Computerized Title Verified</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-map-location-dot text-teal"></i> Sahiwal Top 10: Royal Orchard, Jeewan City & Palm View Active</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-road text-gold"></i> Commercial Plots on Bypass & GT Road N-5 Corridors</span>
+          <span class="marquee-divider">•</span>
+          <span class="marquee-item"><i class="fa-solid fa-wheat-awn text-emerald"></i> Outside Chaks: Farmland in Chak 39/12-L, 40/12-L & Kassowal</span>
+          <span class="marquee-divider">•</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Section 2C: Advanced Smart Property Finder (Floating SaaS Command Bar) -->
     <div class="search-finder-card saas-command-bar" id="propertyFinder">
       <div class="finder-header">
@@ -196,16 +256,16 @@ import { localities } from '@/data/locations';
               <i class="fa-solid fa-magnifying-glass"></i> PROPERTY COMMAND BAR
             </span>
             <span class="finder-status-tag">
-              <i class="fa-solid fa-circle-check"></i> Real-Time Inventory
+              <i class="fa-solid fa-circle-check"></i> Real-Time 2-Hub Inventory
             </span>
           </div>
-          <h3 class="finder-title">Best Buy & Fast Sale Property Finder in Chichawatni</h3>
+          <h3 class="finder-title">Best Buy & Fast Sale Property Finder (Chichawatni & Sahiwal)</h3>
         </div>
         
         <!-- Geographic Quick Tabs -->
         <div class="finder-quick-tabs">
           <button type="button" class="quick-tab-pill active" onclick="document.getElementById('filterLocation').value='all'; window.executePropertySearch();">
-            <span>All Chichawatni</span>
+            <span>All Hubs</span>
           </button>
           <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Hayat Abad'; window.executePropertySearch();">
             <i class="fa-solid fa-location-dot"></i> <span>Hayat Abad</span>
@@ -213,24 +273,34 @@ import { localities } from '@/data/locations';
           <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Model Town'; window.executePropertySearch();">
             <i class="fa-solid fa-location-dot"></i> <span>Model Town</span>
           </button>
-          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Housing Scheme'; window.executePropertySearch();">
+          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Housing Colony'; window.executePropertySearch();">
             <i class="fa-solid fa-location-dot"></i> <span>Housing Colony</span>
           </button>
-          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Civil Lines'; window.executePropertySearch();">
-            <i class="fa-solid fa-location-dot"></i> <span>Civil Lines</span>
+          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Farid Town, Sahiwal'; window.executePropertySearch();">
+            <i class="fa-solid fa-star"></i> <span>Farid Town (SWL)</span>
+          </button>
+          <button type="button" class="quick-tab-pill" onclick="document.getElementById('filterLocation').value='Royal Orchard, Sahiwal'; window.executePropertySearch();">
+            <i class="fa-solid fa-gem"></i> <span>Royal Orchard (SWL)</span>
           </button>
         </div>
       </div>
 
       <form id="finderForm" class="finder-grid" onsubmit="event.preventDefault(); window.executePropertySearch();">
-        <!-- Field 1: Location -->
+        <!-- Field 1: Location with 2-Hub Regional Optgroups -->
         <div class="finder-field">
-          <label for="filterLocation"><i class="fa-solid fa-location-dot highlight-gold"></i> Locality / Best Town</label>
+          <label for="filterLocation"><i class="fa-solid fa-location-dot highlight-gold"></i> Locality / Region</label>
           <select id="filterLocation" class="finder-select">
-            <option value="all">All Chichawatni Locations</option>
-            {localities.map(loc => (
-              <option value={loc.name}>{loc.name}</option>
-            ))}
+            <option value="all">All Locations (Chichawatni & Sahiwal)</option>
+            <optgroup label="📍 Tehsil Chichawatni (Core & Corridors)">
+              {localities.filter(l => l.districtHub !== 'Sahiwal').map(loc => (
+                <option value={loc.name}>{loc.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label="⭐ District Sahiwal (Top 10 Premier Towns)">
+              {localities.filter(l => l.districtHub === 'Sahiwal').map(loc => (
+                <option value={loc.name}>{loc.name}</option>
+              ))}
+            </optgroup>
           </select>
         </div>
 
@@ -241,7 +311,7 @@ import { localities } from '@/data/locations';
             <option value="all">All Types (Houses & Plots)</option>
             <option value="residential">Residential Houses for Sale</option>
             <option value="plot">Residential Plots for Sale</option>
-            <option value="commercial">Commercial Shops & Plazas</option>
+            <option value="commercial">Commercial Shops, Plazas & Land</option>
           </select>
         </div>
 
@@ -266,6 +336,7 @@ import { localities } from '@/data/locations';
             <option value="8">8 Marla</option>
             <option value="10">10 Marla Luxury</option>
             <option value="12">12 Marla & Above</option>
+            <option value="20">1 Kanal (20 Marla)</option>
           </select>
         </div>
 
@@ -275,7 +346,7 @@ import { localities } from '@/data/locations';
             <i class="fa-solid fa-magnifying-glass"></i>
             <span>Search Deals</span>
           </button>
-          <button type="button" id="resetFinderBtn" class="btn-outline finder-reset-btn" onclick="window.resetPropertySearch();" title="Reset Filters">
+          <button type="button" id="resetFinderBtn" class="btn-outline finder-reset-btn" onclick="window.resetPropertySearch();" title="Reset Filters" aria-label="Reset Filters">
             <i class="fa-solid fa-rotate-left"></i>
           </button>
         </div>
@@ -287,7 +358,7 @@ import { localities } from '@/data/locations';
 <style>
   .hero-section {
     position: relative;
-    padding: 40px 0 70px;
+    padding: 18px 0 55px;
     background: #FFFFFF;
     overflow: hidden;
   }
@@ -308,7 +379,7 @@ import { localities } from '@/data/locations';
     z-index: 1;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 32px;
   }
 
   /* 2-Column Split Grid */
@@ -317,7 +388,7 @@ import { localities } from '@/data/locations';
     grid-template-columns: 1.1fr 1fr;
     gap: 48px;
     align-items: center;
-    padding-top: 10px;
+    padding-top: 0;
   }
 
   /* Left Column */
@@ -337,33 +408,66 @@ import { localities } from '@/data/locations';
     margin-bottom: -6px;
   }
 
-  .hero-saas-badge {
+  .hero-unified-authority-pill {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: #F0FDF4;
-    border: 1px solid #BBF7D0;
-    color: #166534;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    padding: 6px 14px;
+    gap: 10px;
+    background: linear-gradient(135deg, #FFFDF5 0%, #F0FDF4 100%);
+    border: 1px solid rgba(202, 138, 4, 0.28);
+    padding: 7px 18px;
     border-radius: 9999px;
-    box-shadow: 0 1px 3px rgba(22, 101, 52, 0.08);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+    font-size: 0.83rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #0F172A;
+    flex-wrap: wrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .hero-saas-badge i {
+  .hero-unified-authority-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(184, 138, 59, 0.15);
+  }
+
+  .pill-segment {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .gold-segment {
+    color: #854D0E;
+    letter-spacing: 0.2px;
+  }
+
+  .green-segment {
+    color: #166534;
+    letter-spacing: 0.2px;
+  }
+
+  .pill-separator {
     color: #CA8A04;
-    font-size: 0.82rem;
+    font-size: 0.75rem;
+    opacity: 0.9;
+    user-select: none;
+  }
+
+  .badge-emoji {
+    font-size: 0.95rem;
+    line-height: 1;
+    display: inline-block;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
   }
 
   .saas-pulse-dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     background: #16A34A;
     border-radius: 50%;
     box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6);
     animation: saasDotPulse 2s infinite;
+    flex-shrink: 0;
   }
 
   @keyframes saasDotPulse {
@@ -372,29 +476,54 @@ import { localities } from '@/data/locations';
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
   }
 
-  .hero-live-indicator {
+  .hero-main-title {
+    font-size: clamp(1.95rem, 3.2vw, 3.1rem);
+    font-weight: 800;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    color: #0F172A;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+  }
+
+  .headline-row {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    color: #334155;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 6px 12px;
+    gap: 10px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .headline-pill-img {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    width: 66px;
+    height: 38px;
     border-radius: 9999px;
+    overflow: hidden;
+    margin: 0;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+    border: 2.5px solid #FFFFFF;
+    flex-shrink: 0;
+    transform: translateY(-2px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .hero-live-indicator i {
-    color: var(--color-matte-green);
+  .headline-pill-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.4s ease, transform 0.4s ease;
   }
 
-  .hero-main-title {
-    font-size: clamp(2.4rem, 4.4vw, 4.2rem);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    color: #0F172A;
+  .headline-pill-img:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
   }
 
   .hero-subtitle {
@@ -517,7 +646,7 @@ import { localities } from '@/data/locations';
     object-fit: cover;
     object-position: center;
     transform: scale(1.02);
-    transition: transform 0.6s ease;
+    transition: opacity 0.45s ease, transform 0.6s ease;
   }
 
   .showcase-visual-wrapper:hover .showcase-img {
@@ -720,6 +849,91 @@ import { localities } from '@/data/locations';
     display: none;
   }
 
+  /* Live Regional Ticker Marquee */
+  .hero-marquee-wrap {
+    display: flex;
+    align-items: center;
+    background: #0F291E;
+    border-radius: 12px;
+    padding: 10px 16px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(232, 201, 139, 0.2);
+    box-shadow: 0 4px 16px rgba(15, 41, 30, 0.2);
+    margin-top: -10px;
+    margin-bottom: -10px;
+  }
+
+  .marquee-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 14px;
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #E8C98B;
+    white-space: nowrap;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+
+  .ticker-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 8px #10B981;
+    animation: saasDotPulse 1.8s infinite;
+  }
+
+  .marquee-track-container {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+    width: 100%;
+  }
+
+  .marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    animation: marqueeContinuous 38s linear infinite;
+    padding-left: 20px;
+  }
+
+  .hero-marquee-wrap:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .marquee-divider {
+    color: rgba(232, 201, 139, 0.4);
+    font-size: 0.8rem;
+  }
+
+  .text-gold { color: #E8C98B !important; }
+  .text-teal { color: #5EEAD4 !important; }
+  .text-emerald { color: #34D399 !important; }
+
+  @keyframes marqueeContinuous {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+
   /* Smart Property Finder (SaaS Command Bar) */
   .search-finder-card.saas-command-bar {
     padding: 34px 38px;
@@ -901,6 +1115,13 @@ import { localities } from '@/data/locations';
       text-align: center;
       align-items: center;
     }
+    .hero-main-title {
+      align-items: center;
+      text-align: center;
+    }
+    .headline-row {
+      justify-content: center;
+    }
     .hero-subtitle {
       max-width: 600px;
     }
@@ -929,6 +1150,13 @@ import { localities } from '@/data/locations';
   @media (max-width: 768px) {
     .hero-section {
       padding: 30px 0 50px;
+    }
+    .hero-main-title {
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
+    }
+    .headline-pill-img {
+      width: 54px;
+      height: 32px;
     }
     .showcase-visual-wrapper {
       max-width: 100%;
@@ -969,7 +1197,14 @@ import { localities } from '@/data/locations';
 
   @media (max-width: 640px) {
     .hero-main-title {
-      font-size: 2.1rem;
+      font-size: clamp(1.55rem, 4.8vw, 1.95rem);
+    }
+    .headline-row {
+      gap: 7px;
+    }
+    .headline-pill-img {
+      width: 48px;
+      height: 28px;
     }
     .hero-cta-row {
       flex-direction: column;
@@ -999,6 +1234,16 @@ import { localities } from '@/data/locations';
   }
 
   @media (max-width: 480px) {
+    .hero-main-title {
+      font-size: 1.45rem;
+    }
+    .headline-row {
+      gap: 5px;
+    }
+    .headline-pill-img {
+      width: 42px;
+      height: 25px;
+    }
     .showcase-visual-wrapper {
       height: 360px;
     }
@@ -1024,3 +1269,100 @@ import { localities } from '@/data/locations';
     }
   }
 </style>
+
+<!-- SaaS Base Property Photo Shuffle Animation Script -->
+<script>
+  (function initHeroShuffle() {
+    const shuffleList = [
+      {
+        mainImg: "/assets/images/house-5marla-brandnew.jpg",
+        mainAlt: "5 Marla Luxury Double Story in Gulshan-e-Hurmat Town, Chichawatni",
+        pill1Img: "/assets/images/house-10marla-corner.jpg",
+        pill1Alt: "Model Town Corner Residence",
+        pill2Img: "/assets/images/house-signature.jpg",
+        pill2Alt: "Housing Colony Signature Home",
+        previewImg: "/assets/images/house-contemporary.jpg",
+        previewTitle: "Contemporary Family Home",
+        previewLoc: "Green Town / Sahiwal Road"
+      },
+      {
+        mainImg: "/assets/images/house-10marla-corner.jpg",
+        mainAlt: "10 Marla Brand New Corner House in Model Town, Chichawatni",
+        pill1Img: "/assets/images/house-signature.jpg",
+        pill1Alt: "12 Marla Signature Residence",
+        pill2Img: "/assets/images/house-5marla-brandnew.jpg",
+        pill2Alt: "5 Marla Double Story House",
+        previewImg: "/assets/images/house-signature.jpg",
+        previewTitle: "12 Marla Signature Residence",
+        previewLoc: "Housing Colony, Chichawatni"
+      },
+      {
+        mainImg: "/assets/images/house-signature.jpg",
+        mainAlt: "12 Marla Signature Family Residence in Housing Colony, Chichawatni",
+        pill1Img: "/assets/images/house-contemporary.jpg",
+        pill1Alt: "7 Marla Contemporary Home",
+        pill2Img: "/assets/images/house-10marla-corner.jpg",
+        pill2Alt: "10 Marla Luxury Corner House",
+        previewImg: "/assets/images/house-5marla-brandnew.jpg",
+        previewTitle: "5 Marla Modern Double Story",
+        previewLoc: "Gulshan-e-Hurmat Town"
+      },
+      {
+        mainImg: "/assets/images/house-contemporary.jpg",
+        mainAlt: "7 Marla Contemporary Family Home in Green Town, Sahiwal / Chichawatni Corridor",
+        pill1Img: "/assets/images/house-5marla-brandnew.jpg",
+        pill1Alt: "5 Marla Modern House",
+        pill2Img: "/assets/images/house-7marla-arched.jpg",
+        pill2Alt: "7 Marla Family Residence Block 4",
+        previewImg: "/assets/images/house-10marla-corner.jpg",
+        previewTitle: "10 Marla Corner Residence",
+        previewLoc: "Model Town, Chichawatni"
+      }
+    ];
+
+    let idx = 0;
+    const mainEl = document.getElementById('heroShowcaseImg');
+    const p1El = document.getElementById('shufflePill1');
+    const p2El = document.getElementById('shufflePill2');
+    const prevEl = document.getElementById('heroPreviewImg');
+    const titleEl = document.getElementById('heroPreviewTitle');
+    const locEl = document.getElementById('heroPreviewLoc');
+
+    if (!mainEl || !p1El || !p2El) return;
+
+    setInterval(() => {
+      idx = (idx + 1) % shuffleList.length;
+      const item = shuffleList[idx];
+
+      // Smooth subtle fade out
+      if (mainEl) mainEl.style.opacity = '0.35';
+      if (p1El) p1El.style.opacity = '0.3';
+      if (p2El) p2El.style.opacity = '0.3';
+      if (prevEl) prevEl.style.opacity = '0.35';
+
+      setTimeout(() => {
+        if (mainEl) {
+          mainEl.src = item.mainImg;
+          mainEl.alt = item.mainAlt;
+          mainEl.style.opacity = '1';
+        }
+        if (p1El) {
+          p1El.src = item.pill1Img;
+          p1El.alt = item.pill1Alt;
+          p1El.style.opacity = '1';
+        }
+        if (p2El) {
+          p2El.src = item.pill2Img;
+          p2El.alt = item.pill2Alt;
+          p2El.style.opacity = '1';
+        }
+        if (prevEl) {
+          prevEl.src = item.previewImg;
+          prevEl.style.opacity = '1';
+        }
+        if (titleEl) titleEl.textContent = item.previewTitle;
+        if (locEl) locEl.textContent = item.previewLoc;
+      }, 350);
+    }, 4000);
+  })();
+</script>

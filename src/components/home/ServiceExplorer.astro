@@ -1,149 +1,612 @@
 ---
 import { services } from '@/data/services';
 
-// Show only first 6 services
+// Show first 6 core enterprise services
 const displayServices = services.slice(0, 6);
 ---
 
 <section id="services" class="services-section">
   <div class="container">
-    <div class="section-header">
-      <span class="section-badge">
-        <i class="fa-solid fa-compass highlight-gold"></i>
-        <span>PROFESSIONAL FACILITATION</span>
-      </span>
-      <h2>
-        Advisory & <span class="editorial-italic highlight-gold">Client Services</span>
-      </h2>
-      <p>
-        From your very first market query to the final computerized registry and key handover, Naeem Siddhu personally guides every step.
-      </p>
+    <!-- SaaS Section Header Split -->
+    <div class="section-header-split">
+      <div class="header-left">
+        <span class="section-badge-saas">
+          <span class="saas-live-dot"></span>
+          <i class="fa-solid fa-compass highlight-gold"></i>
+          <span>ENTERPRISE ADVISORY SUITE • CHICHAWATNI</span>
+        </span>
+        <h2 class="services-main-title">
+          Advisory & <span class="editorial-italic highlight-gold">Client Services</span>
+        </h2>
+        <p class="services-main-desc">
+          Structured, transparent real estate facilitation engineered for complete legal certainty—from computerized PLRA title due diligence to on-site inspections, contract execution, and overseas POA representation.
+        </p>
+      </div>
+
+      <div class="header-right-meta">
+        <!-- Interactive Category Quick Switcher -->
+        <div class="svc-filter-tabs" role="tablist">
+          <button type="button" class="svc-tab-btn active" data-filter="all" onclick="window.filterServices('all', this);" role="tab" aria-selected="true">
+            <span>All Services ({displayServices.length})</span>
+          </button>
+          <button type="button" class="svc-tab-btn" data-filter="buyer" onclick="window.filterServices('buyer', this);" role="tab" aria-selected="false">
+            <i class="fa-solid fa-house-chimney"></i>
+            <span>Buyers</span>
+          </button>
+          <button type="button" class="svc-tab-btn" data-filter="seller" onclick="window.filterServices('seller', this);" role="tab" aria-selected="false">
+            <i class="fa-solid fa-tag"></i>
+            <span>Sellers</span>
+          </button>
+          <button type="button" class="svc-tab-btn" data-filter="legal" onclick="window.filterServices('legal', this);" role="tab" aria-selected="false">
+            <i class="fa-solid fa-file-shield"></i>
+            <span>PLRA Legal</span>
+          </button>
+          <button type="button" class="svc-tab-btn" data-filter="overseas" onclick="window.filterServices('overseas', this);" role="tab" aria-selected="false">
+            <i class="fa-solid fa-globe"></i>
+            <span>Overseas</span>
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="services-grid">
-      {displayServices.map(svc => (
-        <a href={`/services/${svc.slug}.html`} class="service-card v4-card">
-          <div class="svc-icon-box">
-            <i class={svc.icon}></i>
+    <!-- 6-Card SaaS Bento Grid -->
+    <div class="services-grid" id="servicesGrid">
+      {displayServices.map((svc, index) => {
+        // Derive category group for filtering
+        const catGroup = svc.id === 'buy-home' ? 'buyer' :
+                         svc.id === 'sell-property' ? 'seller' :
+                         svc.id === 'plra-fard' || svc.id === 'transfer-guidance' ? 'legal' :
+                         svc.id === 'overseas-support' ? 'overseas' : 'buyer';
+        const formattedIndex = String(index + 1).padStart(2, '0');
+
+        return (
+          <div class="service-saas-card" data-category={catGroup}>
+            <!-- Card Top Bar: Icon, Category Badge & Index Watermark -->
+            <div class="card-top-bar">
+              <div class="svc-icon-wrapper">
+                <i class={svc.icon}></i>
+              </div>
+              <div class="svc-badge-cluster">
+                <span class="svc-category-pill">{svc.badge}</span>
+                <span class="svc-step-watermark">{formattedIndex}</span>
+              </div>
+            </div>
+
+            <!-- Service Title & Value Prop -->
+            <div class="card-body-content">
+              <h3 class="svc-card-title">
+                <a href={`/services/${svc.slug}.html`} class="svc-title-link">
+                  {svc.title}
+                </a>
+              </h3>
+              <p class="svc-card-summary">
+                {svc.summary}
+              </p>
+
+              <!-- SaaS Deliverables Checklist (Top 3 Value Deliverables) -->
+              <div class="svc-deliverables-box">
+                <span class="deliverables-heading">Core Scope & Deliverables:</span>
+                <ul class="deliverables-list">
+                  {svc.deliverables.slice(0, 3).map(item => (
+                    <li>
+                      <i class="fa-solid fa-circle-check text-emerald"></i>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <!-- Card Bottom Actions: Read Guide & Direct WhatsApp Consultation -->
+            <div class="card-action-footer">
+              <a href={`/services/${svc.slug}.html`} class="svc-action-primary">
+                <span>Explore Full Guide</span>
+                <i class="fa-solid fa-arrow-right arrow-icon"></i>
+              </a>
+              <a
+                href={`https://wa.me/923063996764?text=${encodeURIComponent(`Assalam-o-Alaikum Naeem Sahab, I want to inquire about your service: ${svc.title}`)}`}
+                target="_blank"
+                rel="noopener"
+                class="svc-action-whatsapp"
+                title={`WhatsApp Inquiry for ${svc.title}`}
+              >
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>Inquire</span>
+              </a>
+            </div>
           </div>
-          <span class="svc-badge">{svc.badge}</span>
-          <h3 class="svc-title">{svc.title}</h3>
-          <div class="svc-footer">
-            <span class="svc-link">
-              <span>Read Guide</span>
-              <i class="fa-solid fa-arrow-right"></i>
-            </span>
-          </div>
-        </a>
-      ))}
+        );
+      })}
+    </div>
+
+    <!-- Bottom SaaS Assurance Bar: 3 Pillars of Professional Stewardship -->
+    <div class="services-sla-bar">
+      <div class="sla-pillar-item">
+        <div class="sla-icon-box">
+          <i class="fa-solid fa-shield-halved highlight-gold"></i>
+        </div>
+        <div class="sla-text-content">
+          <h4>100% Computerized Fard Verification</h4>
+          <p>Zero financial token commitments permitted prior to Arazi Record Center (PLRA) title confirmation.</p>
+        </div>
+      </div>
+
+      <div class="sla-divider"></div>
+
+      <div class="sla-pillar-item">
+        <div class="sla-icon-box">
+          <i class="fa-solid fa-handshake-simple highlight-teal"></i>
+        </div>
+        <div class="sla-text-content">
+          <h4>Direct Buyer-to-Owner Meetings</h4>
+          <p>Transparent deal structuring with zero artificial markups, phantom layers, or unrecorded commissions.</p>
+        </div>
+      </div>
+
+      <div class="sla-divider"></div>
+
+      <div class="sla-pillar-item">
+        <div class="sla-icon-box">
+          <i class="fa-solid fa-plane-departure highlight-gold"></i>
+        </div>
+        <div class="sla-text-content">
+          <h4>Dedicated Overseas Investor Desk</h4>
+          <p>Live HD WhatsApp video walk-throughs, boundary dimension checks, and embassy Power of Attorney (POA) guidance.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
+<script is:inline>
+  window.filterServices = function(category, btn) {
+    // 1. Update tab active states
+    document.querySelectorAll('.svc-filter-tabs .svc-tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    if (btn) {
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+    }
+
+    // 2. Filter service cards with smooth fade
+    const cards = document.querySelectorAll('#servicesGrid .service-saas-card');
+    cards.forEach(card => {
+      const cat = card.getAttribute('data-category');
+      if (category === 'all' || cat === category) {
+        card.style.display = 'flex';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      } else {
+        card.style.display = 'none';
+        card.style.opacity = '0';
+      }
+    });
+  };
+</script>
+
 <style>
   .services-section {
-    padding: 90px 0;
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .service-card {
-    padding: 22px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    padding: 85px 0 95px;
+    background: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
     position: relative;
-    text-decoration: none;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    cursor: pointer;
   }
 
-  .service-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  /* Section Header Split */
+  .section-header-split {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
   }
 
-  .service-card:hover .svc-link {
-    color: #FFFFFF;
+  .header-left {
+    max-width: 680px;
   }
 
-  .service-card:hover .svc-link i {
-    transform: translateX(4px);
+  .section-badge-saas {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    color: #166534;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    padding: 5px 14px;
+    border-radius: 9999px;
+    margin-bottom: 14px;
   }
 
-  .svc-icon-box {
-    width: 42px;
-    height: 42px;
-    border-radius: var(--radius-control);
-    background: rgba(184, 138, 59, 0.12);
-    border: 1px solid rgba(184, 138, 59, 0.3);
-    color: var(--accent-gold-light);
+  .saas-live-dot {
+    width: 7px;
+    height: 7px;
+    background: #16A34A;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6);
+    animation: saasDotPulse 2s infinite;
+  }
+
+  @keyframes saasDotPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+  }
+
+  .services-main-title {
+    font-size: clamp(2rem, 3.2vw, 2.6rem);
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+
+  .services-main-desc {
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: #64748B;
+    margin: 0;
+  }
+
+  /* Filter Tabs */
+  .svc-filter-tabs {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.15rem;
+    gap: 8px;
+    background: #FFFFFF;
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    flex-wrap: wrap;
   }
 
-  .svc-badge {
-    font-size: 0.68rem;
-    color: var(--accent-teal-light);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .svc-title {
-    font-size: 1.05rem;
-    color: var(--text-primary);
-    line-height: 1.3;
-  }
-
-  .svc-footer {
-    padding-top: 10px;
-    border-top: 1px solid var(--border-subtle);
-    margin-top: auto;
-  }
-
-  .svc-link {
-    font-size: 0.8rem;
-    color: var(--accent-gold-light);
+  .svc-tab-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-weight: 600;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #475569;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .svc-tab-btn:hover {
+    color: #0F172A;
+    background: #F1F5F9;
+  }
+
+  .svc-tab-btn.active {
+    background: #0F291E;
+    color: #FFFFFF;
+    border-color: #0F291E;
+    box-shadow: 0 4px 10px rgba(15, 41, 30, 0.2);
+  }
+
+  /* 6-Card Services Grid */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 45px;
+  }
+
+  /* SaaS Service Card */
+  .service-saas-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 28px 24px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+    position: relative;
+  }
+
+  .service-saas-card:hover {
+    transform: translateY(-5px);
+    border-color: #B88A3B;
+    box-shadow: 0 20px 35px -8px rgba(15, 23, 42, 0.09);
+  }
+
+  /* Top Bar */
+  .card-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .svc-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(184, 138, 59, 0.12) 0%, rgba(13, 148, 136, 0.12) 100%);
+    border: 1px solid rgba(184, 138, 59, 0.25);
+    color: #B88A3B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: transform 0.25s ease;
+  }
+
+  .service-saas-card:hover .svc-icon-wrapper {
+    transform: scale(1.08) rotate(3deg);
+    background: #0F291E;
+    color: #E8C98B;
+    border-color: #0F291E;
+  }
+
+  .svc-badge-cluster {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .svc-category-pill {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #0D9488;
+    background: #F0FDFA;
+    border: 1px solid #CCFBF1;
+    padding: 3px 9px;
+    border-radius: 9999px;
+  }
+
+  .svc-step-watermark {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #CBD5E1;
+    font-family: var(--font-heading, monospace);
+  }
+
+  /* Card Body */
+  .card-body-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+    margin-bottom: 20px;
+  }
+
+  .svc-card-title {
+    font-size: 1.18rem;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #0F172A;
+    margin: 0;
+  }
+
+  .svc-title-link {
+    color: inherit;
+    text-decoration: none;
     transition: color 0.2s ease;
   }
 
-  .svc-link i {
+  .svc-title-link:hover {
+    color: #B88A3B;
+  }
+
+  .svc-card-summary {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #64748B;
+    margin: 0;
+  }
+
+  /* Deliverables Scope Checklist */
+  .svc-deliverables-box {
+    background: #F8FAFC;
+    border: 1px solid #F1F5F9;
+    border-radius: 12px;
+    padding: 14px 14px 12px;
+    margin-top: 6px;
+  }
+
+  .deliverables-heading {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #475569;
+    margin-bottom: 10px;
+  }
+
+  .deliverables-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .deliverables-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #334155;
+  }
+
+  .deliverables-list li i {
+    font-size: 0.85rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .text-emerald {
+    color: #10B981;
+  }
+
+  /* Card Action Footer (Dual CTA) */
+  .card-action-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .svc-action-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #0F291E;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .arrow-icon {
+    font-size: 0.78rem;
     transition: transform 0.2s ease;
+    color: #B88A3B;
   }
 
-  @media (max-width: 1199px) and (min-width: 768px) {
+  .svc-action-primary:hover {
+    color: #B88A3B;
+  }
+
+  .svc-action-primary:hover .arrow-icon {
+    transform: translateX(4px);
+  }
+
+  .svc-action-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #25D366;
+    color: #FFFFFF;
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .svc-action-whatsapp:hover {
+    background: #1EBE5D;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+  }
+
+  /* Bottom SaaS SLA Bar */
+  .services-sla-bar {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.05);
+  }
+
+  .sla-pillar-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+  }
+
+  .sla-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .sla-text-content h4 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 4px;
+  }
+
+  .sla-text-content p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #64748B;
+    margin: 0;
+  }
+
+  .sla-divider {
+    width: 1px;
+    height: 50px;
+    background: #E2E8F0;
+    flex-shrink: 0;
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 1100px) {
     .services-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+    }
+    .services-sla-bar {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 24px;
+    }
+    .sla-divider {
+      width: 100%;
+      height: 1px;
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     .services-section {
-      padding: 60px 0;
+      padding: 60px 0 70px;
+    }
+    .section-header-split {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .svc-filter-tabs {
+      width: 100%;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      padding: 4px;
+    }
+    .svc-tab-btn {
+      white-space: nowrap;
     }
     .services-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
-    .service-card {
-      padding: 18px 16px;
-    }
-    .svc-title {
-      font-size: 0.95rem;
+    .service-saas-card {
+      padding: 22px 18px 18px;
     }
   }
 </style>

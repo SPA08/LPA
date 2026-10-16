@@ -8,109 +8,153 @@ interface Props {
 const { currentPath = '/' } = Astro.props;
 ---
 
+<!-- Top Announcement & Telemetry Micro-Bar -->
+<div class="telemetry-bar">
+  <div class="container telemetry-container">
+    <div class="telemetry-left">
+      <span class="live-status-indicator">
+        <span class="live-dot-pulse"></span>
+        <span>Live PLRA & Market Index: Chichawatni & Sahiwal Division</span>
+      </span>
+    </div>
+    <div class="telemetry-center">
+      <span class="telemetry-highlight">
+        <i class="fa-solid fa-award highlight-gold"></i>
+        <span>#1 Verified Buy & Sale Real Estate Advisory</span>
+      </span>
+    </div>
+    <div class="telemetry-right">
+      <span class="currency-toggle-pill" title="Valuation Currency Format">
+        <i class="fa-solid fa-coins"></i>
+        <span>PKR Crore / Lakh</span>
+      </span>
+      <span class="telemetry-divider">•</span>
+      <span class="telemetry-timing">
+        <i class="fa-regular fa-clock"></i>
+        <span>Mon–Sat: 9AM–8PM</span>
+      </span>
+      <span class="telemetry-divider">•</span>
+      <a href={`tel:${business.phone}`} class="telemetry-phone">
+        <i class="fa-solid fa-phone"></i>
+        <span>{business.phoneFormatted}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Main Sticky Glassmorphic Header -->
 <header id="siteHeader" class="site-header">
   <div class="container header-container">
-    <!-- Brand Logo Lockup -->
+    
+    <!-- Brand Logo Lockup with PRO OS Badge -->
     <a href="/" class="header-logo" aria-label="SIDDHU Property Advisor Home">
       <div class="logo-crest">
-        <img src="/assets/images/siddhu-logo-new.jpg" alt="SIDDHU Logo" width="38" height="38" />
+        <img src="/assets/images/siddhu-logo-new.jpg" alt="SIDDHU Logo" width="38" height="38" decoding="async" />
       </div>
       <div class="logo-text">
-        <span class="logo-brand">SIDDHU <span class="highlight-gold">PROPERTY</span></span>
-        <span class="logo-sub">REAL ESTATE ADVISOR</span>
+        <div class="logo-title-row">
+          <span class="logo-brand">SIDDHU <span class="highlight-gold">PROPERTY</span></span>
+        </div>
+        <span class="logo-sub">REAL ESTATE ADVISOR • CHICHAWATNI</span>
       </div>
     </a>
 
     <!-- Desktop Navigation Links -->
     <nav class="desktop-nav" aria-label="Main Navigation">
       <ul class="nav-list">
-        <li>
-          <a href="/" class:list={['nav-link', { active: currentPath === '/' }]}>
-            <span>Home</span>
-          </a>
-        </li>
-        <li>
-          <a href="/#properties" class="nav-link">
-            <span>Properties</span>
-          </a>
-        </li>
-        <li>
-          <a href="/#areas" class="nav-link">
-            <span>Market Map</span>
-          </a>
-        </li>
-
-        <!-- City & Guides 2-Column Mega Dropdown -->
+        <!-- Properties Mega-Menu -->
         <li class="nav-dropdown-wrapper">
-          <a href="/chichawatni-city-guide.html" class="nav-link dropdown-trigger">
-            <span>City & Guides</span>
+          <a href="/#properties" class="nav-link dropdown-trigger">
+            <span>Properties</span>
             <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
           </a>
-          <div class="dropdown-menu mega-dropdown">
+          <div class="dropdown-menu mega-dropdown properties-mega">
             <div class="mega-header">
-              <span class="mega-title"><i class="fa-solid fa-book-atlas highlight-gold"></i> Chichawatni Civic & Property Knowledge</span>
+              <span class="mega-title">
+                <i class="fa-solid fa-house-chimney highlight-gold"></i> Verified Inventory Matrix
+              </span>
+              <a href="/properties.html" class="mega-header-link">View All Listings &rarr;</a>
             </div>
             <div class="mega-columns">
               <div class="mega-col">
-                <span class="mega-col-label">Essential Guides</span>
+                <span class="mega-col-label">Chichawatni Residential</span>
                 <ul class="mega-sublist">
-                  <li><a href="/chichawatni-city-guide.html"><i class="fa-solid fa-city highlight-gold"></i> City Overview</a></li>
-                  <li><a href="/chichawatni-residential-colonies-guide.html"><i class="fa-solid fa-house-chimney highlight-teal"></i> Residential Colonies</a></li>
-                  <li><a href="/chichawatni-land-records-plra-guide.html"><i class="fa-solid fa-file-signature highlight-gold"></i> PLRA & Land Records</a></li>
-                  <li><a href="/fbr-property-valuation-chichawatni.html"><i class="fa-solid fa-calculator highlight-teal"></i> FBR Property Valuation</a></li>
-                  <li><a href="/property-buying-guide.html"><i class="fa-solid fa-shield-halved highlight-gold"></i> Buying Roadmap</a></li>
-                  <li><a href="/chichawatni-overseas-investor-guide.html"><i class="fa-solid fa-plane-departure highlight-teal"></i> Overseas Investor Guide</a></li>
-                  <li><a href="/chichawatni-commercial-property-guide.html"><i class="fa-solid fa-building highlight-gold"></i> Commercial Property</a></li>
+                  <li><a href="/areas/hayat-abad-chichawatni.html"><i class="fa-solid fa-house-user highlight-gold"></i> Hayat Abad (Tower Road)</a></li>
+                  <li><a href="/areas/model-town-chichawatni.html"><i class="fa-solid fa-house-circle-check highlight-teal"></i> Model Town (40ft Roads)</a></li>
+                  <li><a href="/areas/housing-scheme-chichawatni.html"><i class="fa-solid fa-building-user highlight-gold"></i> Housing Colony Scheme 1 & 2</a></li>
+                  <li><a href="/areas/civil-lines-chichawatni.html"><i class="fa-solid fa-tree-city highlight-teal"></i> Civil Lines & Canal Corridor</a></li>
+                  <li><a href="/#properties"><i class="fa-solid fa-diamond highlight-gold"></i> 10 Marla Corner Residences</a></li>
                 </ul>
               </div>
               <div class="mega-col">
-                <span class="mega-col-label">Civic & Community</span>
+                <span class="mega-col-label">Sahiwal Top 10 Towns</span>
                 <ul class="mega-sublist">
-                  <li><a href="/chichawatni-history-heritage.html"><i class="fa-solid fa-landmark highlight-teal"></i> 1913 Forest & History</a></li>
-                  <li><a href="/chichawatni-hospitals-guide.html"><i class="fa-solid fa-hospital highlight-gold"></i> Hospitals & Clinics</a></li>
-                  <li><a href="/chichawatni-schools-guide.html"><i class="fa-solid fa-graduation-cap highlight-teal"></i> Schools & Colleges</a></li>
-                  <li><a href="/chichawatni-markets-guide.html"><i class="fa-solid fa-store highlight-gold"></i> Markets & Bazaars</a></li>
-                  <li><a href="/chichawatni-roads-guide.html"><i class="fa-solid fa-road highlight-teal"></i> Roads & Corridors</a></li>
-                  <li><a href="/chichawatni-public-offices.html"><i class="fa-solid fa-building-columns highlight-gold"></i> Government Offices</a></li>
-                  <li><a href="/chichawatni-city-facts.html"><i class="fa-solid fa-book-open highlight-teal"></i> City Encyclopedia</a></li>
+                  <li><a href="/#properties"><i class="fa-solid fa-city highlight-gold"></i> Farid Town, Sahiwal (Premier)</a></li>
+                  <li><a href="/#properties"><i class="fa-solid fa-building-flag highlight-teal"></i> Tariq Bin Ziyad (TBZ) Colony</a></li>
+                  <li><a href="/#properties"><i class="fa-solid fa-tree highlight-gold"></i> Shadman & Green Town, Sahiwal</a></li>
+                  <li><a href="/#properties"><i class="fa-solid fa-shield-halved highlight-teal"></i> Royal Orchard & Palm View</a></li>
+                  <li><a href="/#properties"><i class="fa-solid fa-road highlight-gold"></i> Main GT Road & Bypass Commercial</a></li>
                 </ul>
               </div>
             </div>
           </div>
         </li>
 
-        <!-- Property Blog Dropdown -->
-        <li class="nav-dropdown-wrapper">
-          <a href="/blog/index.html" class="nav-link dropdown-trigger">
-            <span>Property Blog</span>
-            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+        <!-- Interactive Map with LIVE GPS Badge -->
+        <li>
+          <a href="/#areas" class="nav-link map-nav-link">
+            <span>Interactive Map</span>
+            <span class="live-gps-badge">LIVE GPS</span>
           </a>
-          <ul class="dropdown-menu compact-dropdown">
-            <li><a href="/blog/index.html"><i class="fa-solid fa-newspaper highlight-gold"></i> All Articles</a></li>
-            <li><a href="/blog/index.html?category=buying"><i class="fa-solid fa-house-circle-check highlight-teal"></i> Buying Guides</a></li>
-            <li><a href="/blog/index.html?category=selling"><i class="fa-solid fa-tags highlight-gold"></i> Selling Advice</a></li>
-            <li><a href="/blog/index.html?category=records"><i class="fa-solid fa-file-shield highlight-teal"></i> Land Record Advice</a></li>
-          </ul>
         </li>
 
-        <li>
-          <a href="/#contact" class="nav-link">
-            <span>Contact</span>
+        <!-- City & Guides 2-Column Bento Mega Dropdown -->
+        <li class="nav-dropdown-wrapper">
+          <a href="/chichawatni-city-guide.html" class="nav-link dropdown-trigger">
+            <span>Guides & Verification</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
           </a>
+          <div class="dropdown-menu mega-dropdown guides-mega">
+            <div class="mega-header">
+              <span class="mega-title">
+                <i class="fa-solid fa-book-atlas highlight-gold"></i> Chichawatni & Sahiwal Knowledge Hub
+              </span>
+            </div>
+            <div class="mega-columns">
+              <div class="mega-col">
+                <span class="mega-col-label">Due Diligence & Valuation</span>
+                <ul class="mega-sublist">
+                  <li><a href="/chichawatni-land-records-plra-guide.html"><i class="fa-solid fa-file-signature highlight-gold"></i> PLRA Computerized Fard Guide</a></li>
+                  <li><a href="/fbr-property-valuation-chichawatni.html"><i class="fa-solid fa-calculator highlight-teal"></i> FBR Property Valuation 2026</a></li>
+                  <li><a href="/property-buying-guide.html"><i class="fa-solid fa-shield-halved highlight-gold"></i> 5-Step Safe Buying Checklist</a></li>
+                  <li><a href="/chichawatni-overseas-investor-guide.html"><i class="fa-solid fa-plane-departure highlight-teal"></i> Overseas Pakistani Investor Portal</a></li>
+                  <li><a href="/chichawatni-commercial-property-guide.html"><i class="fa-solid fa-building highlight-gold"></i> Commercial Property Guide</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <span class="mega-col-label">City Infrastructure & Heritage</span>
+                <ul class="mega-sublist">
+                  <li><a href="/chichawatni-property-directory/index.html"><i class="fa-solid fa-map-location-dot highlight-gold"></i> Complete Chichawatni Rakba &amp; Area Directory</a></li>
+                  <li><a href="/chichawatni-residential-colonies-guide.html"><i class="fa-solid fa-tree-city highlight-teal"></i> All Chichawatni Colonies</a></li>
+                  <li><a href="/chichawatni-history-heritage.html"><i class="fa-solid fa-landmark highlight-gold"></i> 1913 Forest & History</a></li>
+                  <li><a href="/chichawatni-hospitals-guide.html"><i class="fa-solid fa-hospital highlight-teal"></i> Hospitals & Health Centers</a></li>
+                  <li><a href="/chichawatni-schools-guide.html"><i class="fa-solid fa-graduation-cap highlight-gold"></i> Schools & Colleges</a></li>
+                  <li><a href="/chichawatni-roads-guide.html"><i class="fa-solid fa-road highlight-teal"></i> GT Road & Bypass Corridors</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </li>
       </ul>
     </nav>
 
-    <!-- Header Actions -->
+    <!-- Header Actions Cluster -->
     <div class="header-actions">
-      <a href="tel:+923063996764" class="header-call-btn" aria-label="Call consultation">
-        <i class="fa-solid fa-phone"></i>
-        <span class="call-text">{business.phoneFormatted}</span>
-      </a>
-
+      <!-- Primary Gold CTA Button -->
       <a href="/sell-my-property/index.html" class="btn-primary list-property-btn">
         <i class="fa-solid fa-plus"></i>
         <span>List Property</span>
+        <i class="fa-solid fa-arrow-right btn-arrow"></i>
       </a>
 
       <!-- Mobile Hamburger Button -->
@@ -127,7 +171,9 @@ const { currentPath = '/' } = Astro.props;
     <div class="drawer-inner container">
       <div class="mobile-drawer-brand">
         <div class="logo-text">
-          <span class="logo-brand">SIDDHU <span class="highlight-gold">PROPERTY</span></span>
+          <div class="logo-title-row">
+            <span class="logo-brand">SIDDHU <span class="highlight-gold">PROPERTY</span></span>
+          </div>
           <span class="logo-sub">REAL ESTATE ADVISOR • CHICHAWATNI</span>
         </div>
       </div>
@@ -135,9 +181,11 @@ const { currentPath = '/' } = Astro.props;
       <ul class="mobile-nav-list">
         <li><a href="/" class="mobile-nav-link"><i class="fa-solid fa-house highlight-gold"></i> Home</a></li>
         <li><a href="/#properties" class="mobile-nav-link"><i class="fa-solid fa-house-chimney highlight-teal"></i> Verified Properties</a></li>
-        <li><a href="/#areas" class="mobile-nav-link"><i class="fa-solid fa-map-location-dot highlight-gold"></i> Interactive Map</a></li>
+        <li><a href="/#areas" class="mobile-nav-link"><i class="fa-solid fa-map-location-dot highlight-gold"></i> Interactive Map (Live GPS)</a></li>
+        <li><a href="/#rate-index" class="mobile-nav-link"><i class="fa-solid fa-chart-line highlight-gold"></i> 2026 Per-Marla Rate Index</a></li>
         
         <li class="mobile-section-divider">City & Legal Knowledge</li>
+        <li><a href="/chichawatni-property-directory/index.html" class="mobile-nav-link"><i class="fa-solid fa-book-atlas highlight-gold"></i> Complete Rakba &amp; Area Directory</a></li>
         <li><a href="/chichawatni-city-guide.html" class="mobile-nav-link"><i class="fa-solid fa-city highlight-gold"></i> City Overview</a></li>
         <li><a href="/chichawatni-residential-colonies-guide.html" class="mobile-nav-link"><i class="fa-solid fa-tree-city highlight-teal"></i> Residential Colonies</a></li>
         <li><a href="/chichawatni-land-records-plra-guide.html" class="mobile-nav-link"><i class="fa-solid fa-file-shield highlight-gold"></i> PLRA Land Records</a></li>
@@ -152,35 +200,225 @@ const { currentPath = '/' } = Astro.props;
         <a href="/sell-my-property/index.html" class="btn-primary" style="width: 100%; margin-bottom: 10px; justify-content: center;">
           <i class="fa-solid fa-plus"></i> List Your Property Free
         </a>
-        <a href="tel:+923063996764" class="btn-whatsapp" style="width: 100%; justify-content: center;">
-          <i class="fa-solid fa-phone"></i> Call Advisor: {business.phoneFormatted}
+        <a href="https://wa.me/923063996764" target="_blank" rel="noopener noreferrer" class="btn-whatsapp" style="width: 100%; justify-content: center; margin-bottom: 8px;">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp Consultation
+        </a>
+        <a href={`tel:${business.phone}`} class="header-call-btn" style="width: 100%; justify-content: center;">
+          <i class="fa-solid fa-phone"></i> Call Naeem Siddhu: {business.phoneFormatted}
         </a>
       </div>
     </div>
   </div>
 </header>
 
+<!-- Global Command Palette Search Modal (⌘K) -->
+<div id="cmdPaletteOverlay" class="cmd-palette-overlay" style="display: none;" onclick="window.closeCmdPalette(event);">
+  <div class="cmd-palette-modal" onclick="event.stopPropagation();">
+    <div class="cmd-input-row">
+      <i class="fa-solid fa-magnifying-glass cmd-input-icon"></i>
+      <input
+        type="text"
+        id="cmdPaletteInput"
+        aria-label="Search properties, towns, colonies, or guides"
+        placeholder="Search any town, plot, colony, or guide (e.g. Model Town, Farid Town, Fard)..."
+        autocomplete="off"
+        spellcheck="false"
+        oninput="window.handleCmdSearch(this.value);"
+      />
+      <kbd class="cmd-modal-esc" onclick="window.closeCmdPalette();">ESC</kbd>
+    </div>
+
+    <div class="cmd-results-list" id="cmdResultsList">
+      <!-- Quick Shortcuts default -->
+      <div class="cmd-group-label">POPULAR DESTINATIONS & REGIONS</div>
+      
+      <a href="/#properties" class="cmd-item" onclick="window.closeCmdPalette();">
+        <div class="cmd-item-icon green"><i class="fa-solid fa-house-chimney"></i></div>
+        <div class="cmd-item-info">
+          <span class="cmd-item-title">Selected Residential Homes</span>
+          <span class="cmd-item-desc">Verified 5, 7, 10 & 12 Marla homes with demand prices</span>
+        </div>
+        <span class="cmd-item-badge">Properties</span>
+      </a>
+
+      <a href="/areas/hayat-abad-chichawatni.html" class="cmd-item" onclick="window.closeCmdPalette();">
+        <div class="cmd-item-icon gold"><i class="fa-solid fa-location-dot"></i></div>
+        <div class="cmd-item-info">
+          <span class="cmd-item-title">Hayat Abad, Chichawatni</span>
+          <span class="cmd-item-desc">Premier colony on Tower Road • 22–32 Lakh/Marla</span>
+        </div>
+        <span class="cmd-item-badge">Town</span>
+      </a>
+
+      <a href="/areas/model-town-chichawatni.html" class="cmd-item" onclick="window.closeCmdPalette();">
+        <div class="cmd-item-icon gold"><i class="fa-solid fa-location-dot"></i></div>
+        <div class="cmd-item-info">
+          <span class="cmd-item-title">Model Town, Chichawatni</span>
+          <span class="cmd-item-desc">TMA Approved 40ft roads • 20–30 Lakh/Marla</span>
+        </div>
+        <span class="cmd-item-badge">Town</span>
+      </a>
+
+      <a href="/#areas" class="cmd-item" onclick="window.closeCmdPalette(); window.switchMapHub('Sahiwal');">
+        <div class="cmd-item-icon teal"><i class="fa-solid fa-city"></i></div>
+        <div class="cmd-item-info">
+          <span class="cmd-item-title">Farid Town & Top 10 Sahiwal Schemes</span>
+          <span class="cmd-item-desc">TBZ Colony, Shadman, Royal Orchard, Jeewan City</span>
+        </div>
+        <span class="cmd-item-badge">Sahiwal Hub</span>
+      </a>
+
+      <a href="/#rate-index" class="cmd-item" onclick="window.closeCmdPalette();">
+        <div class="cmd-item-icon purple"><i class="fa-solid fa-chart-line"></i></div>
+        <div class="cmd-item-info">
+          <span class="cmd-item-title">2026 Per-Marla Rate Index</span>
+          <span class="cmd-item-desc">Compare current asking rates across Chichawatni & Sahiwal</span>
+        </div>
+        <span class="cmd-item-badge">Rate Table</span>
+      </a>
+
+      <a href="/chichawatni-land-records-plra-guide.html" class="cmd-item" onclick="window.closeCmdPalette();">
+        <div class="cmd-item-icon blue"><i class="fa-solid fa-file-shield"></i></div>
+        <div class="cmd-item-info">
+          <span class="cmd-item-title">PLRA Computerized Fard & Title Verification</span>
+          <span class="cmd-item-desc">Step-by-step land record registry due diligence</span>
+        </div>
+        <span class="cmd-item-badge">Legal Guide</span>
+      </a>
+    </div>
+
+    <div class="cmd-modal-footer">
+      <span>Use <kbd>&uarr;</kbd> <kbd>&darr;</kbd> to navigate</span>
+      <span>Press <kbd>ESC</kbd> to close</span>
+    </div>
+  </div>
+</div>
+
 <style>
+  /* Telemetry Micro-Bar */
+  .telemetry-bar {
+    background: #0F291E;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.72rem;
+    color: #CBD5E1;
+    padding: 6px 0;
+    position: relative;
+    z-index: 1001;
+  }
+
+  .telemetry-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .live-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 600;
+    color: #E2ECE7;
+  }
+
+  .live-dot-pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 8px #10B981;
+    animation: livePulse 2s infinite ease-in-out;
+  }
+
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  .telemetry-center {
+    font-weight: 600;
+    color: #F8FAFC;
+    letter-spacing: 0.2px;
+  }
+
+  .telemetry-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .telemetry-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+  }
+
+  .currency-toggle-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 2px 8px;
+    border-radius: 9999px;
+    color: #C8A96B;
+    font-weight: 700;
+    font-size: 0.68rem;
+  }
+
+  .telemetry-divider {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .telemetry-phone {
+    color: #F8FAFC;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s ease;
+  }
+
+  .telemetry-phone:hover {
+    color: #C8A96B;
+  }
+
+  @media (max-width: 900px) {
+    .telemetry-center {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .telemetry-timing, .telemetry-divider {
+      display: none;
+    }
+  }
+
+  /* Main Sticky Header */
   .site-header {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(41, 71, 61, 0.96);
+    background: rgba(19, 42, 31, 0.95);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(200, 169, 107, 0.28);
-    transition: transform 0.35s ease, background 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease;
-    padding: 16px 0;
-    box-shadow: 0 4px 20px -2px rgba(27, 47, 40, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 14px 0;
+    box-shadow: 0 4px 20px -2px rgba(15, 30, 24, 0.35);
   }
 
   .site-header.header-shrunk {
-    padding: 11px 0;
-    background: rgba(31, 54, 46, 0.98);
-    box-shadow: 0 10px 25px -5px rgba(15, 30, 24, 0.35);
-    border-bottom-color: rgba(200, 169, 107, 0.4);
+    padding: 10px 0;
+    background: rgba(15, 33, 24, 0.98);
+    box-shadow: 0 10px 25px -5px rgba(10, 24, 18, 0.5);
+    border-bottom-color: rgba(200, 169, 107, 0.35);
   }
 
   .site-header.header-hidden {
@@ -191,10 +429,10 @@ const { currentPath = '/' } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 16px;
   }
 
-  /* Logo */
+  /* Logo with PRO OS Badge */
   .header-logo {
     display: flex;
     align-items: center;
@@ -204,9 +442,9 @@ const { currentPath = '/' } = Astro.props;
   }
 
   .logo-crest {
-    width: 40px;
-    height: 40px;
-    border-radius: 9px;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
     overflow: hidden;
     border: 1px solid rgba(200, 169, 107, 0.5);
     background: #000;
@@ -227,6 +465,12 @@ const { currentPath = '/' } = Astro.props;
     flex-direction: column;
   }
 
+  .logo-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   .logo-brand {
     font-size: 1.15rem;
     font-weight: 800;
@@ -234,9 +478,20 @@ const { currentPath = '/' } = Astro.props;
     color: #FFFFFF;
   }
 
-  .logo-sub {
+  .pro-os-badge {
+    background: linear-gradient(135deg, #059669, #10B981);
+    color: #FFFFFF;
     font-size: 0.62rem;
-    letter-spacing: 1.8px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.8px;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+  }
+
+  .logo-sub {
+    font-size: 0.58rem;
+    letter-spacing: 1.4px;
     color: var(--color-gold);
     font-weight: 700;
     text-transform: uppercase;
@@ -251,12 +506,12 @@ const { currentPath = '/' } = Astro.props;
   .nav-list {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 22px;
     list-style: none;
   }
 
   .nav-link {
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     font-weight: 500;
     color: #E2ECE7;
     position: relative;
@@ -266,6 +521,7 @@ const { currentPath = '/' } = Astro.props;
     gap: 6px;
     text-decoration: none;
     transition: color 0.2s ease;
+    white-space: nowrap;
   }
 
   .nav-link:hover, .nav-link.active {
@@ -288,13 +544,35 @@ const { currentPath = '/' } = Astro.props;
     width: 100%;
   }
 
+  /* Live GPS badge in nav */
+  .live-gps-badge {
+    font-size: 0.62rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 9999px;
+    background: #059669;
+    color: #FFFFFF;
+    letter-spacing: 0.4px;
+    animation: gpsGlow 2.5s infinite;
+  }
+
+  @keyframes gpsGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.6); }
+    50% { box-shadow: 0 0 0 5px rgba(5, 150, 105, 0); }
+  }
+
+  .nav-micro-icon {
+    color: var(--color-gold);
+    font-size: 0.82rem;
+  }
+
   /* Dropdown Menus */
   .nav-dropdown-wrapper {
     position: relative;
   }
 
   .dropdown-arrow {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     color: var(--color-gold);
     transition: transform 0.3s ease;
   }
@@ -325,39 +603,19 @@ const { currentPath = '/' } = Astro.props;
     transform: translateX(-50%) translateY(0);
   }
 
-  /* Compact Dropdown (Blog) */
-  .compact-dropdown {
-    min-width: 240px;
-    padding: 10px 0;
-  }
-
-  .compact-dropdown li a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
-    font-size: 0.88rem;
-    color: #2D3D36;
-    text-decoration: none;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .compact-dropdown li a:hover {
-    background: #F3F7F5;
-    color: var(--color-dark-green);
-    font-weight: 600;
-  }
-
-  /* 2-Column Mega Dropdown (City & Guides) */
+  /* Mega Dropdown */
   .mega-dropdown {
-    min-width: 540px;
+    min-width: 560px;
     padding: 16px 20px 20px;
   }
 
   .mega-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding-bottom: 12px;
     margin-bottom: 14px;
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: 1px solid #E2E8F0;
   }
 
   .mega-title {
@@ -365,10 +623,21 @@ const { currentPath = '/' } = Astro.props;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: var(--color-dark-green);
+    color: #0F291E;
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  .mega-header-link {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #059669;
+    text-decoration: none;
+  }
+
+  .mega-header-link:hover {
+    text-decoration: underline;
   }
 
   .mega-columns {
@@ -383,9 +652,9 @@ const { currentPath = '/' } = Astro.props;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--color-gold);
+    color: #B45309;
     margin-bottom: 8px;
-    padding-left: 10px;
+    padding-left: 8px;
   }
 
   .mega-sublist {
@@ -401,82 +670,159 @@ const { currentPath = '/' } = Astro.props;
     gap: 10px;
     padding: 8px 10px;
     border-radius: 8px;
-    font-size: 0.85rem;
-    color: #2D3D36;
+    font-size: 0.84rem;
+    color: #334155;
     text-decoration: none;
     transition: background 0.2s, color 0.2s, transform 0.2s;
   }
 
   .mega-sublist li a:hover {
-    background: #F3F7F5;
-    color: var(--color-dark-green);
+    background: #F1F5F9;
+    color: #0F291E;
     font-weight: 600;
     transform: translateX(3px);
   }
 
-  /* Header Actions */
+  /* Header Actions Cluster */
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
   }
 
-  .header-call-btn {
+  /* Command Search Trigger Button */
+  .cmd-search-trigger {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #FFFFFF;
-    font-size: 0.88rem;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: var(--radius-full);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    text-decoration: none;
-    transition: var(--transition);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #CBD5E1;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 7px 12px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  .header-call-btn i {
-    color: var(--color-gold);
+  .cmd-search-trigger:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(200, 169, 107, 0.5);
+    color: #FFFFFF;
+  }
+
+  .cmd-search-trigger i {
+    color: #C8A96B;
     font-size: 0.82rem;
   }
 
-  .header-call-btn:hover {
+  .cmd-kbd {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.65rem;
+    font-family: inherit;
+    color: #94A3B8;
+  }
+
+  /* WhatsApp Direct Pill */
+  .btn-whatsapp-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(37, 211, 102, 0.12);
+    border: 1px solid rgba(37, 211, 102, 0.4);
+    color: #25D366;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .online-green-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #25D366;
+    box-shadow: 0 0 6px #25D366;
+  }
+
+  .btn-whatsapp-pill:hover {
+    background: #25D366;
     color: #FFFFFF;
-    background: rgba(200, 169, 107, 0.22);
-    border-color: var(--color-gold);
+    box-shadow: 0 0 14px rgba(37, 211, 102, 0.4);
     transform: translateY(-1px);
   }
 
+  .btn-whatsapp-pill:hover .online-green-dot {
+    background: #FFFFFF;
+    box-shadow: 0 0 6px #FFFFFF;
+  }
+
+  /* List Property Button with Shimmer */
   .list-property-btn {
-    padding: 9px 22px;
-    font-size: 0.88rem;
-    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
-    color: var(--color-deep-green);
-    border-radius: var(--radius-full);
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    padding: 8px 18px;
+    font-size: 0.84rem;
+    background: linear-gradient(135deg, #C8A96B 0%, #DFBA73 100%);
+    color: #0F291E;
+    border-radius: 9999px;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+  }
+
+  .list-property-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transform: rotate(25deg);
+    animation: btnShimmer 3.5s infinite;
+  }
+
+  @keyframes btnShimmer {
+    0% { left: -60%; }
+    20%, 100% { left: 130%; }
   }
 
   .list-property-btn:hover {
-    background: var(--color-gold);
-    box-shadow: var(--gold-glow);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(200, 169, 107, 0.4);
   }
 
+  .list-property-btn .btn-arrow {
+    font-size: 0.74rem;
+    transition: transform 0.2s ease;
+  }
+
+  .list-property-btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* Mobile Toggle */
   .mobile-toggle {
     display: none;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(200, 169, 107, 0.35);
     color: #FFFFFF;
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -517,7 +863,7 @@ const { currentPath = '/' } = Astro.props;
     top: 100%;
     left: 0;
     right: 0;
-    background: #1F362E;
+    background: #132A1F;
     border-bottom: 2px solid var(--color-gold);
     padding: 20px 0 30px;
     max-height: calc(100vh - 80px);
@@ -539,7 +885,29 @@ const { currentPath = '/' } = Astro.props;
   .mobile-drawer-brand {
     padding: 0 16px 14px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+  }
+
+  .mobile-search-trigger-wrap {
+    padding: 0 16px 14px;
+  }
+
+  .mobile-cmd-search-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #CBD5E1;
+    font-size: 0.88rem;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .mobile-cmd-search-btn i {
+    color: #C8A96B;
   }
 
   .mobile-section-divider {
@@ -562,7 +930,7 @@ const { currentPath = '/' } = Astro.props;
   }
 
   .mobile-nav-link {
-    font-size: 0.96rem;
+    font-size: 0.94rem;
     font-weight: 500;
     color: #E2ECE7;
     display: flex;
@@ -579,8 +947,185 @@ const { currentPath = '/' } = Astro.props;
     background: rgba(63, 107, 91, 0.4);
   }
 
-  @media (max-width: 1060px) {
-    .desktop-nav, .header-call-btn {
+  .mobile-drawer-footer {
+    padding: 0 16px;
+  }
+
+  /* Command Palette Modal (⌘K) */
+  .cmd-palette-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 24, 18, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 80px 16px 20px;
+  }
+
+  .cmd-palette-modal {
+    width: 100%;
+    max-width: 620px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid rgba(200, 169, 107, 0.35);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.96) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .cmd-input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid #E2E8F0;
+    background: #F8FAFC;
+  }
+
+  .cmd-input-icon {
+    font-size: 1.1rem;
+    color: #059669;
+  }
+
+  #cmdPaletteInput {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: #0F172A;
+    outline: none;
+  }
+
+  .cmd-modal-esc {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #64748B;
+    background: #E2E8F0;
+    border-radius: 4px;
+    padding: 2px 6px;
+    cursor: pointer;
+  }
+
+  .cmd-results-list {
+    max-height: 380px;
+    overflow-y: auto;
+    padding: 8px;
+  }
+
+  .cmd-group-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #94A3B8;
+    padding: 8px 12px 4px;
+    text-transform: uppercase;
+  }
+
+  .cmd-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #1E293B;
+    transition: background 0.15s ease;
+  }
+
+  .cmd-item:hover {
+    background: #F1F5F9;
+  }
+
+  .cmd-item-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  .cmd-item-icon.green { background: #DCFCE7; color: #166534; }
+  .cmd-item-icon.gold { background: #FEF3C7; color: #B45309; }
+  .cmd-item-icon.teal { background: #CCFBF1; color: #0F766E; }
+  .cmd-item-icon.purple { background: #F3E8FF; color: #7E22CE; }
+  .cmd-item-icon.blue { background: #DBEAFE; color: #1E40AF; }
+
+  .cmd-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cmd-item-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #0F172A;
+  }
+
+  .cmd-item-desc {
+    font-size: 0.74rem;
+    color: #64748B;
+  }
+
+  .cmd-item-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: #F1F5F9;
+    color: #475569;
+    padding: 3px 8px;
+    border-radius: 9999px;
+  }
+
+  .cmd-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    font-size: 0.74rem;
+    color: #94A3B8;
+  }
+
+  .cmd-modal-footer kbd {
+    background: #E2E8F0;
+    border-radius: 3px;
+    padding: 1px 4px;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  /* Breakpoint Controls */
+  @media (max-width: 1140px) {
+    .cmd-search-trigger .cmd-text, .cmd-search-trigger .cmd-kbd {
+      display: none;
+    }
+    .cmd-search-trigger {
+      padding: 7px 10px;
+    }
+    .desktop-nav {
+      gap: 14px;
+    }
+  }
+
+  @media (max-width: 1040px) {
+    .desktop-nav, .cmd-search-trigger, .btn-whatsapp-pill {
       display: none;
     }
 
@@ -591,49 +1136,26 @@ const { currentPath = '/' } = Astro.props;
 
   @media (max-width: 520px) {
     .site-header {
-      padding: 12px 0;
+      padding: 10px 0;
     }
     .logo-brand {
-      font-size: 1rem;
+      font-size: 0.98rem;
     }
-    .logo-sub {
-      font-size: 0.55rem;
-      letter-spacing: 1.2px;
-    }
-    .list-property-btn {
-      padding: 8px 14px;
-      font-size: 0.8rem;
-    }
-    .list-property-btn span {
+    .pro-os-badge {
       display: none;
     }
-    .list-property-btn::after {
-      content: 'List';
-      display: inline;
+    .list-property-btn {
+      padding: 7px 14px;
+      font-size: 0.78rem;
     }
-    .header-actions {
-      gap: 10px;
-    }
-    .mobile-toggle {
-      width: 38px;
-      height: 38px;
-      font-size: 1.05rem;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .logo-crest {
-      width: 34px;
-      height: 34px;
-    }
-    .logo-brand {
-      font-size: 0.9rem;
+    .list-property-btn .btn-arrow {
+      display: none;
     }
   }
 </style>
 
-<script>
-  // Shrinking & smart hide/reveal header script (Performance-friendly requestAnimationFrame)
+<script is:inline>
+  // Shrinking & smart hide/reveal header script
   let lastScrollY = window.scrollY;
   let ticking = false;
   const header = document.getElementById('siteHeader');
@@ -646,17 +1168,15 @@ const { currentPath = '/' } = Astro.props;
   function updateHeader() {
     const currentScrollY = window.scrollY;
 
-    if (currentScrollY > 60) {
+    if (currentScrollY > 40) {
       header?.classList.add('header-shrunk');
     } else {
       header?.classList.remove('header-shrunk');
     }
 
     if (currentScrollY > 200 && currentScrollY > lastScrollY && !drawer?.classList.contains('open')) {
-      // Scrolling down -> hide header
       header?.classList.add('header-hidden');
     } else {
-      // Scrolling up or at top -> reveal header smoothly
       header?.classList.remove('header-hidden');
     }
 
@@ -681,7 +1201,6 @@ const { currentPath = '/' } = Astro.props;
     }
   }
 
-  // Mobile menu toggle
   toggleBtn?.addEventListener('click', () => {
     const isOpen = drawer?.classList.toggle('open');
     overlay?.classList.toggle('active', !!isOpen);
@@ -692,9 +1211,59 @@ const { currentPath = '/' } = Astro.props;
     }
   });
 
-  // Close when clicking overlay or mobile nav link
   overlay?.addEventListener('click', closeMobileDrawer);
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', closeMobileDrawer);
   });
+
+  // Command Palette Methods
+  window.openCmdPalette = function() {
+    const modal = document.getElementById('cmdPaletteOverlay');
+    if (modal) {
+      modal.style.display = 'flex';
+      closeMobileDrawer();
+      setTimeout(() => {
+        const input = document.getElementById('cmdPaletteInput');
+        if (input) {
+          input.focus();
+          input.select();
+        }
+      }, 50);
+    }
+  };
+
+  window.closeCmdPalette = function(e) {
+    const modal = document.getElementById('cmdPaletteOverlay');
+    if (modal) modal.style.display = 'none';
+  };
+
+  // Keyboard shortcut listener for Ctrl+K or Cmd+K
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      const modal = document.getElementById('cmdPaletteOverlay');
+      if (modal && modal.style.display === 'flex') {
+        window.closeCmdPalette();
+      } else {
+        window.openCmdPalette();
+      }
+    }
+    if (e.key === 'Escape') {
+      window.closeCmdPalette();
+    }
+  });
+
+  // Instant Search filter inside Command Palette
+  window.handleCmdSearch = function(query) {
+    const q = query.toLowerCase().trim();
+    const items = document.querySelectorAll('#cmdResultsList .cmd-item');
+    items.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (!q || text.includes(q)) {
+        item.style.display = 'flex';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  };
 </script>

@@ -4,33 +4,69 @@ import { business } from '@/data/business';
 
 <footer class="site-footer">
   <div class="container footer-content">
-    <div class="footer-grid">
-      <!-- Col 1: Brand & Professional Bio -->
+    
+    <!-- TIER 1: Sleek Executive Pre-Footer CTA Bar -->
+    <div class="pre-footer-cta-card">
+      <div class="pre-cta-content">
+        <div class="pre-cta-text">
+          <span class="pre-cta-badge">
+            <i class="fa-solid fa-shield-halved highlight-gold"></i>
+            <span>100% TITLE &amp; PLRA VERIFIED DEALS</span>
+          </span>
+          <h3 class="pre-cta-title">
+            Looking to Buy or Sell Property in <span class="highlight-gold">Chichawatni</span>?
+          </h3>
+          <p class="pre-cta-desc">
+            Direct owner deals, computerized Fard verification, and on-ground plot inspection led by Naeem Siddhu.
+          </p>
+        </div>
+        <div class="pre-cta-actions">
+          <a
+            href="https://wa.me/923063996764?text=Assalam-o-Alaikum%20Naeem%20Sahab%2C%20I%20want%20to%20consult%20regarding%20buying%20or%20selling%20property%20in%20Chichawatni."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-pre-whatsapp"
+          >
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>WhatsApp Naeem Siddhu</span>
+          </a>
+          <a href={`tel:${business.phone}`} class="btn-pre-call">
+            <i class="fa-solid fa-phone"></i>
+            <span>Call: {business.phoneFormatted}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 2: Ultra-Clean Executive 4-Column Grid -->
+    <div class="footer-grid-4col">
+      
+      <!-- Col 1: Brand Identity & Advisory Badge -->
       <div class="footer-col brand-col">
-        <a href="/" class="footer-logo">
+        <a href="/" class="footer-logo" aria-label="SIDDHU Property Advisor">
           <div class="logo-crest">
-            <img src="/assets/images/siddhu-logo-new.jpg" alt="SIDDHU Logo" width="40" height="40" />
+            <img src="/assets/images/siddhu-logo-new.jpg" alt="SIDDHU Logo" width="40" height="40" loading="lazy" decoding="async" />
           </div>
           <div class="logo-text">
             <span class="logo-brand">SIDDHU <span class="highlight-gold">PROPERTY</span></span>
             <span class="logo-sub">REAL ESTATE ADVISOR • CHICHAWATNI</span>
           </div>
         </a>
-        <p class="footer-bio">
-          Tehsil Chichawatni's trusted real estate consultancy. Delivering transparent residential house discovery, computerized Arazi Record Center (PLRA) title verification, and on-ground property advisory across all major housing colonies and urban revenue blocks.
+
+        <p class="footer-mission">
+          Sovereign title verification and direct-to-owner real estate infrastructure.
         </p>
 
-        <!-- Trust Badges -->
-        <div class="footer-trust-pills">
-          <span class="trust-pill"><i class="fa-solid fa-shield-halved highlight-gold"></i> PLRA Title Assistance</span>
-          <span class="trust-pill"><i class="fa-solid fa-file-signature highlight-teal"></i> Direct Seller Deals</span>
+        <div class="plra-verified-badge">
+          <i class="fa-solid fa-file-shield highlight-gold"></i>
+          <span>PLRA &amp; Sub-Registrar Verified Advisory</span>
         </div>
 
         <div class="footer-socials">
-          <a href={business.whatsappUrl} target="_blank" rel="noopener" aria-label="Official WhatsApp Support" class="social-link whatsapp">
+          <a href={business.whatsappUrl} target="_blank" rel="noopener" aria-label="WhatsApp Support" class="social-link whatsapp">
             <i class="fa-brands fa-whatsapp"></i>
           </a>
-          <a href={business.facebookUrl} target="_blank" rel="noopener" aria-label="Official Facebook Page" class="social-link facebook">
+          <a href={business.facebookUrl} target="_blank" rel="noopener" aria-label="Facebook Page" class="social-link facebook">
             <i class="fa-brands fa-facebook-f"></i>
           </a>
           <a href={business.googleBusinessProfileUrl} target="_blank" rel="noopener" aria-label="Google Business Profile" class="social-link google">
@@ -39,374 +75,485 @@ import { business } from '@/data/business';
         </div>
       </div>
 
-      <!-- Col 2: Real Estate Quick Links -->
+      <!-- Col 2: Platform Navigation (Strictly 5 Clean Links) -->
       <div class="footer-col">
-        <h4 class="footer-heading">Properties & Market</h4>
+        <h4 class="footer-heading">Platform Navigation</h4>
         <ul class="footer-links">
-          <li><a href="/#properties"><i class="fa-solid fa-chevron-right link-arrow"></i> Residential Houses for Sale</a></li>
-          <li><a href="/#areas"><i class="fa-solid fa-chevron-right link-arrow"></i> Interactive Tehsil Map</a></li>
-          <li><a href="/sell-my-property/index.html"><i class="fa-solid fa-chevron-right link-arrow"></i> List Your House or Plot</a></li>
-          <li><a href="/chichawatni-property-directory/index.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Colony & Area Directory</a></li>
-          <li><a href="/areas/hayat-abad-chichawatni.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Hayat Abad Properties</a></li>
-          <li><a href="/areas/model-town-chichawatni.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Model Town Properties</a></li>
-          <li><a href="/areas/housing-scheme-chichawatni.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Housing Colony Properties</a></li>
-          <li><a href="/areas/civil-lines-chichawatni.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Civil Lines Properties</a></li>
+          <li>
+            <a href="/"><i class="fa-solid fa-chevron-right link-arrow"></i> Home</a>
+          </li>
+          <li>
+            <a href="/properties.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Browse Properties</a>
+          </li>
+          <li>
+            <a href="/#areas"><i class="fa-solid fa-chevron-right link-arrow"></i> Interactive Map</a>
+          </li>
+          <li>
+            <a href="/chichawatni-property-directory/index.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Chichawatni Rakba Directory</a>
+          </li>
+          <li>
+            <a href="/sell-my-property/index.html"><i class="fa-solid fa-chevron-right link-arrow"></i> List Your Property</a>
+          </li>
         </ul>
       </div>
 
-      <!-- Col 3: Local Guides & Land Records -->
+      <!-- Col 3: Buyer & Seller Guides (Strictly 4 Clean Links) -->
       <div class="footer-col">
-        <h4 class="footer-heading">Verification & Guides</h4>
+        <h4 class="footer-heading">Buyer &amp; Seller Guides</h4>
         <ul class="footer-links">
-          <li><a href="/property-buying-guide.html"><i class="fa-solid fa-chevron-right link-arrow"></i> 5-Step Safe Buying Guide</a></li>
-          <li><a href="/chichawatni-land-records-plra-guide.html"><i class="fa-solid fa-chevron-right link-arrow"></i> PLRA Computerized Fard Guide</a></li>
-          <li><a href="/fbr-property-valuation-chichawatni.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Official FBR Property Valuation</a></li>
-          <li><a href="/chichawatni-city-guide.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Chichawatni Master City Guide</a></li>
-          <li><a href="/chichawatni-overseas-investor-guide.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Overseas Pakistani Investor Guide</a></li>
-          <li><a href="/chichawatni-commercial-property-guide.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Commercial Plots & Shops Guide</a></li>
-          <li><a href="/blog/index.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Property Market Blog & Insights</a></li>
-          <li><a href="/chichawatni-city-facts.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Tehsil Facts & History</a></li>
+          <li>
+            <a href="/chichawatni-land-records-plra-guide.html"><i class="fa-solid fa-chevron-right link-arrow"></i> PLRA Fard Verification</a>
+          </li>
+          <li>
+            <a href="/fbr-property-valuation-chichawatni.html"><i class="fa-solid fa-chevron-right link-arrow"></i> FBR Valuation Guide</a>
+          </li>
+          <li>
+            <a href="/property-buying-guide.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Safe Buying Checklist</a>
+          </li>
+          <li>
+            <a href="/chichawatni-overseas-investor-guide.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Overseas Investor Guide</a>
+          </li>
         </ul>
       </div>
 
-      <!-- Col 4: Office Contact -->
-      <div class="footer-col contact-col">
+      <!-- Col 4: Chichawatni Office (Executive Contact Card) -->
+      <div class="footer-col office-col">
         <h4 class="footer-heading">Chichawatni Office</h4>
-        <div class="contact-item">
-          <i class="fa-solid fa-location-dot highlight-gold"></i>
-          <span>{business.address.street}, {business.address.locality}, {business.address.city} {business.address.postalCode}, Punjab, Pakistan</span>
+        <div class="clean-contact-card">
+          <div class="contact-item">
+            <i class="fa-solid fa-location-dot contact-icon" style="color: #EF4444 !important;"></i>
+            <div>
+              <span class="contact-label">Office Address</span>
+              <p class="contact-val">Street 08, Tower Road Side, Hayat Abad, Chichawatni</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <i class="fa-solid fa-phone contact-icon" style="color: #10B981 !important;"></i>
+            <div>
+              <span class="contact-label">Direct Phone</span>
+              <a href="tel:+923063996764" class="contact-link">0306 3996764</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <i class="fa-solid fa-clock contact-icon" style="color: #F59E0B !important;"></i>
+            <div>
+              <span class="contact-label">Consultation Hours</span>
+              <p class="contact-val">Mon–Sat: 9AM–8PM</p>
+            </div>
+          </div>
         </div>
-        <div class="contact-item">
-          <i class="fa-solid fa-phone highlight-gold"></i>
-          <a href={`tel:${business.phone}`}>{business.phoneFormatted}</a>
-        </div>
-        <div class="contact-item">
-          <i class="fa-solid fa-envelope highlight-gold"></i>
-          <a href={`mailto:${business.email}`}>{business.email}</a>
-        </div>
-        <div class="contact-item">
-          <i class="fa-solid fa-clock highlight-gold"></i>
-          <span>Mon – Sat: 9:00 AM – 8:00 PM (Direct Consultations)</span>
-        </div>
-        <div class="footer-cta-box">
-          <a href={business.whatsappUrl} target="_blank" rel="noopener" class="btn-whatsapp" style="width: 100%; justify-content: center;">
-            <i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span>
-          </a>
-        </div>
+      </div>
+
+    </div>
+
+    <!-- TIER 3: Minimal Executive Bottom Bar -->
+    <div class="footer-bottom-bar">
+      <p class="legal-regulatory-note">
+        <strong>Official Legal Due Diligence:</strong> SIDDHU Property Advisor provides authorized real estate consultancy and cadastral record verification across Tehsil Chichawatni. Fard Malkiat verification via Punjab Land Records Authority (PLRA) is strictly conducted before any transaction.
+      </p>
+
+      <div class="bottom-bar-flex">
+        <p class="copyright-text">
+          &copy; 2026 <strong>SIDDHU Property Advisor</strong>. All rights reserved.
+        </p>
+
+        <ul class="bottom-legal-links">
+          <li><a href="/policy-pages.html#privacy">Privacy Policy</a></li>
+          <li class="bullet-dot">•</li>
+          <li><a href="/policy-pages.html#terms">Terms of Service</a></li>
+          <li class="bullet-dot">•</li>
+          <li><a href="/policy-pages.html#disclaimer">Legal Disclaimer</a></li>
+          <li class="bullet-dot">•</li>
+          <li><a href="/sitemap-index.xml">Sitemap</a></li>
+        </ul>
       </div>
     </div>
 
-    <!-- Legal & Disclaimer Row -->
-    <div class="footer-disclaimer">
-      <p>
-        <strong>Legal & Regulatory Advisory:</strong> SIDDHU Property Advisor is an independent professional real estate consultancy in Tehsil Chichawatni. We provide clients with authentic property discovery, on-ground inspections, and procedural assistance through the Punjab Land Records Authority (PLRA) Arazi Record Center and Sub-Registrar revenue offices. All transactions must be verified directly through official revenue registries prior to financial exchange.
-      </p>
-    </div>
-
-    <!-- Bottom Copyright -->
-    <div class="footer-bottom">
-      <p class="copyright">
-        &copy; {new Date().getFullYear()} SIDDHU Property Advisor. All rights reserved. Tehsil Chichawatni, District Sahiwal.
-      </p>
-      <ul class="legal-links">
-        <li><a href="/policy-pages.html#privacy">Privacy Policy</a></li>
-        <li><a href="/policy-pages.html#terms">Terms of Service</a></li>
-        <li><a href="/policy-pages.html#disclaimer">Legal Disclaimer</a></li>
-        <li><a href="/policy-pages.html#verification">Due Diligence Policy</a></li>
-      </ul>
-    </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background: #1F362E;
-    border-top: 2px solid rgba(200, 169, 107, 0.3);
-    padding: 70px 0 30px;
-    margin-top: 80px;
-    color: #CAD8D1;
+    background: #132A1F;
+    color: #FFFFFF;
+    border-top: 1px solid rgba(212, 175, 55, 0.25);
+    padding: 0 0 35px;
+    margin-top: 90px;
+    position: relative;
+    font-family: inherit;
   }
 
-  .footer-grid {
+  /* TIER 1: Floating Pre-Footer CTA Card */
+  .pre-footer-cta-card {
+    position: relative;
+    top: -45px;
+    background: linear-gradient(135deg, #183527 0%, #0F2319 100%);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 18px;
+    padding: 30px 38px;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    margin-bottom: -15px;
+  }
+  .pre-cta-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .pre-cta-text {
+    max-width: 620px;
+  }
+  .pre-cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    color: #FBBF24;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+  .pre-cta-title {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1.25;
+    margin: 0 0 6px;
+  }
+  .pre-cta-desc {
+    font-size: 0.9rem;
+    color: #CBD5E1;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .pre-cta-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn-pre-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #25D366;
+    color: #FFFFFF;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+    transition: all 0.2s ease;
+  }
+  .btn-pre-whatsapp:hover {
+    background: #1EBE5D;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+  }
+  .btn-pre-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: rgba(255, 255, 255, 0.07);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .btn-pre-call:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #D4AF37;
+    color: #FFFFFF;
+  }
+
+  /* TIER 2: Ultra-Clean Executive 4-Column Grid */
+  .footer-grid-4col {
     display: grid;
     grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
     gap: 40px;
-    margin-bottom: 50px;
+    padding: 40px 0 45px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  /* Brand Col */
+  /* Col 1: Brand */
   .footer-logo {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
     text-decoration: none;
+    margin-bottom: 14px;
   }
-
-  .logo-crest {
-    width: 40px;
-    height: 40px;
-    border-radius: 9px;
-    overflow: hidden;
-    border: 1px solid rgba(200, 169, 107, 0.5);
-    background: #000;
-  }
-
   .logo-crest img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    display: block;
   }
-
   .logo-text {
     display: flex;
     flex-direction: column;
   }
-
   .logo-brand {
     font-size: 1.15rem;
     font-weight: 800;
     color: #FFFFFF;
-    letter-spacing: 0.5px;
+    letter-spacing: -0.01em;
   }
-
   .logo-sub {
-    font-size: 0.62rem;
-    letter-spacing: 1.8px;
-    color: var(--color-gold);
-    font-weight: 700;
+    font-size: 0.65rem;
+    color: #A3B899;
+    letter-spacing: 0.08em;
+    font-weight: 600;
   }
-
-  .footer-bio {
-    font-size: 0.88rem;
-    line-height: 1.65;
-    margin-bottom: 18px;
-    color: #CAD8D1;
+  .footer-mission {
+    font-size: 0.86rem;
+    color: #CBD5E1;
+    line-height: 1.55;
+    margin: 0 0 16px;
   }
-
-  .footer-trust-pills {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 22px;
-  }
-
-  .trust-pill {
+  .plra-verified-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #E2ECE7;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(200, 169, 107, 0.2);
-    padding: 6px 12px;
-    border-radius: var(--radius-pill);
-    letter-spacing: 0.3px;
-    width: fit-content;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #FDE68A;
+    margin-bottom: 18px;
   }
-
   .footer-socials {
     display: flex;
     gap: 10px;
   }
-
   .social-link {
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-control);
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(200, 169, 107, 0.25);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
-    color: #E2ECE7;
-    transition: var(--transition);
+    font-size: 0.9rem;
+    color: #CBD5E1;
+    transition: all 0.2s ease;
+    text-decoration: none;
   }
-
   .social-link:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
+    color: #FFFFFF;
   }
-
   .social-link.whatsapp:hover {
     background: #25D366;
-    color: #1F362E;
     border-color: #25D366;
   }
-
   .social-link.facebook:hover {
     background: #1877F2;
-    color: #FFFFFF;
     border-color: #1877F2;
   }
-
   .social-link.google:hover {
     background: #EA4335;
-    color: #FFFFFF;
     border-color: #EA4335;
   }
 
   /* Headings & Links */
   .footer-heading {
-    font-size: 1.08rem;
+    font-size: 0.95rem;
     color: #FFFFFF;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     position: relative;
     padding-bottom: 8px;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.02em;
   }
-
   .footer-heading::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 28px;
+    width: 20px;
     height: 2px;
-    background: var(--color-gold);
+    background: #D4AF37;
     border-radius: 2px;
   }
-
   .footer-links {
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
   }
-
   .footer-links li a {
-    font-size: 0.85rem;
-    color: #CAD8D1;
+    color: #CBD5E1;
+    font-size: 0.86rem;
     text-decoration: none;
-    transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    line-height: 1.4;
+    transition: all 0.15s ease;
   }
-
   .link-arrow {
     font-size: 0.65rem;
-    color: var(--color-gold);
+    color: #D4AF37;
     opacity: 0.7;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.15s;
   }
-
   .footer-links li a:hover {
-    color: #FFFFFF;
-    transform: translateX(4px);
+    color: #D4AF37;
+    transform: translateX(3px);
   }
-
   .footer-links li a:hover .link-arrow {
     opacity: 1;
-    transform: translateX(2px);
   }
 
-  /* Contact Items */
-  .contact-col {
+  /* Col 4: Contact Card */
+  .clean-contact-card {
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
-
   .contact-item {
     display: flex;
+    align-items: flex-start;
     gap: 12px;
-    font-size: 0.88rem;
-    line-height: 1.5;
-    color: #CAD8D1;
   }
-
-  .contact-item i {
+  .contact-icon {
+    font-size: 0.95rem;
     margin-top: 3px;
     flex-shrink: 0;
-    color: var(--color-gold);
   }
-
-  .contact-item a {
-    color: #E2ECE7;
+  .contact-label {
+    display: block;
+    font-size: 0.68rem;
+    color: #94A3B8;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+  .contact-val {
+    margin: 0;
+    font-size: 0.84rem;
+    color: #E2E8F0;
+    line-height: 1.45;
+  }
+  .contact-link {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #34D399;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .contact-link:hover {
+    color: #10B981;
+    text-decoration: underline;
   }
 
-  .contact-item a:hover {
-    color: var(--color-gold);
+  /* TIER 3: Minimal Executive Bottom Bar */
+  .footer-bottom-bar {
+    padding-top: 24px;
   }
-
-  .footer-cta-box {
-    margin-top: 8px;
+  .legal-regulatory-note {
+    font-size: 0.74rem;
+    color: #94A3B8;
+    line-height: 1.5;
+    margin: 0 0 16px;
+    text-align: center;
   }
-
-  /* Disclaimer */
-  .footer-disclaimer {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 20px 0;
-    margin-bottom: 24px;
-    font-size: 0.8rem;
-    line-height: 1.6;
-    color: #9AB0A6;
+  .bottom-bar-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
   }
-
-  .footer-disclaimer strong {
-    color: #CAD8D1;
+  .copyright-text {
+    font-size: 0.78rem;
+    color: #94A3B8;
+    margin: 0;
   }
-
-  /* Bottom */
-  .footer-bottom {
+  .copyright-text strong {
+    color: #E2E8F0;
+  }
+  .bottom-legal-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 10px;
     flex-wrap: wrap;
-    gap: 16px;
-    font-size: 0.82rem;
-    color: #9AB0A6;
   }
-
-  .copyright {
-    color: #9AB0A6;
-  }
-
-  .legal-links {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-  }
-
-  .legal-links li a {
-    color: #CAD8D1;
+  .bottom-legal-links li a {
+    color: #94A3B8;
+    font-size: 0.76rem;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.15s;
+  }
+  .bottom-legal-links li a:hover {
+    color: #D4AF37;
+  }
+  .bullet-dot {
+    color: #475569;
+    font-size: 0.7rem;
   }
 
-  .legal-links li a:hover {
-    color: var(--color-gold);
-  }
-
+  /* Responsive Design */
   @media (max-width: 1024px) {
-    .footer-grid {
+    .footer-grid-4col {
       grid-template-columns: 1fr 1fr;
+      gap: 32px;
     }
   }
 
   @media (max-width: 640px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
+    .site-footer {
+      margin-top: 70px;
+      padding-bottom: 25px;
     }
-
-    .footer-bottom {
+    .pre-footer-cta-card {
+      padding: 22px 20px;
+      top: -35px;
+    }
+    .pre-cta-title {
+      font-size: 1.25rem;
+    }
+    .pre-cta-actions {
+      width: 100%;
       flex-direction: column;
-      text-align: center;
     }
-
-    .legal-links {
+    .btn-pre-whatsapp, .btn-pre-call {
+      width: 100%;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
+    }
+    .footer-grid-4col {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 25px 0 30px;
+    }
+    .bottom-bar-flex {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .legal-regulatory-note {
+      text-align: left;
     }
   }
 </style>

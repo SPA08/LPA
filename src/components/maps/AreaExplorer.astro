@@ -2,10 +2,34 @@
 import { localities } from '@/data/locations';
 import { cityPlaces } from '@/data/cityIntelligence';
 import { business } from '@/data/business';
+import { cadastralDataset } from '@/data/cadastralDataset';
 
 // Deduplicate and assemble curated base locations with all towns, private schemes & rural chaks
 const seenMapIds = new Set<string>();
 const curatedLocations = [
+  ...cadastralDataset.map(c => ({
+    id: c.id,
+    name: c.name,
+    category: c.category,
+    group: c.group,
+    districtHub: 'Chichawatni',
+    perMarlaRate: c.rate,
+    lat: c.lat,
+    lng: c.lng,
+    address: c.parentChak || 'Tehsil Chichawatni',
+    badge: c.statusBadge,
+    desc: c.description,
+    legal: c.legalStatus,
+    rakba: c.rakba,
+    streets: c.streets || '',
+    rate: c.rate,
+    canal: c.canal || '',
+    water: c.water || '',
+    categoryGroup: c.categoryGroup,
+    highlights: c.highlights || ['Verified Road Access', 'Electricity & Water Available', 'Arazi Record Registry Verified'],
+    isVerified: true,
+    source: 'Cadastral Land Record'
+  })),
   ...localities.map(loc => {
     let group = 'Residential';
     if (loc.category === 'Village & Chak') group = 'Village';
@@ -21,10 +45,12 @@ const curatedLocations = [
       name: loc.name,
       category: loc.category,
       group: group,
+      districtHub: loc.districtHub || 'Chichawatni',
+      perMarlaRate: loc.perMarlaRate || '',
       lat: loc.lat,
       lng: loc.lng,
-      address: loc.parentChak || 'Tehsil Chichawatni',
-      badge: loc.statusBadge || 'Verified Locality',
+      address: loc.parentChak || (loc.districtHub === 'Sahiwal' ? 'District Sahiwal' : 'Tehsil Chichawatni'),
+      badge: loc.statusBadge || (loc.districtHub === 'Sahiwal' ? 'Sahiwal Premier Town' : 'Verified Locality'),
       desc: loc.description,
       legal: loc.legalStatus,
       highlights: loc.highlights || ['Verified Road Access', 'Electricity & Water Available', 'Arazi Record Registry Verified'],
@@ -37,6 +63,8 @@ const curatedLocations = [
     name: p.name,
     category: p.category,
     group: p.category,
+    districtHub: 'Chichawatni',
+    perMarlaRate: '',
     lat: p.lat,
     lng: p.lng,
     address: `${p.locality} • ${p.roadAddress}`,
@@ -59,14 +87,32 @@ const curatedLocations = [
     <div class="section-header">
       <span class="section-badge">
         <i class="fa-solid fa-map-location-dot highlight-gold"></i>
-        <span>GEOGRAPHIC INTELLIGENCE & CIVIC GIS</span>
+        <span>GEOGRAPHIC INTELLIGENCE & REGIONAL GIS</span>
       </span>
       <h2>
-        Chichawatni <span class="editorial-italic highlight-gold">Interactive Property & Civic Map</span>
+        Chichawatni & Sahiwal <span class="editorial-italic highlight-gold">Interactive Property & Town Map</span>
       </h2>
       <p>
-        Cadastral-grade GPS intelligence across Chichawatni’s TMA colonies, private estates, and rural Chaks
+        Cadastral-grade GPS intelligence across Chichawatni’s TMA colonies, Bypass corridors, rural Chaks, and Sahiwal's Top 10 Premier Towns.
       </p>
+
+      <!-- 2-Hub Regional Switcher -->
+      <div class="map-regional-hub-bar" id="mapRegionalHubBar">
+        <button type="button" class="hub-toggle-btn active" data-hub="all" onclick="window.switchMapHub('all', this);">
+          <i class="fa-solid fa-globe"></i>
+          <span>All Regions ({curatedLocations.length})</span>
+        </button>
+        <button type="button" class="hub-toggle-btn" data-hub="Chichawatni" onclick="window.switchMapHub('Chichawatni', this);">
+          <i class="fa-solid fa-landmark"></i>
+          <span>Tehsil Chichawatni Hub</span>
+          <span class="hub-tag">In, Near & Outside</span>
+        </button>
+        <button type="button" class="hub-toggle-btn" data-hub="Sahiwal" onclick="window.switchMapHub('Sahiwal', this);">
+          <i class="fa-solid fa-city"></i>
+          <span>District Sahiwal Top 10 Towns</span>
+          <span class="hub-tag gold">Top 10 Premier</span>
+        </button>
+      </div>
     </div>
 
     <!-- Mobile View Mode Segmented Switcher (Visible only < 992px) -->
@@ -96,6 +142,7 @@ const curatedLocations = [
             <input
               type="text"
               id="mapLocalitySearch"
+              aria-label="Search town, chak, school, or hospital"
               placeholder="Search town, chak, school, or hospital..."
               class="map-search-input"
               autocomplete="off"
@@ -228,19 +275,28 @@ const curatedLocations = [
               <span>All Locations</span>
             </button>
             <div class="detail-badge-group">
-              <span class="detail-category-tag" id="detailCategoryTag">Residential</span>
-              <span class="detail-distance-badge" id="detailDistanceBadge">0.8 km</span>
+              <span class="detail-category-tag cat-residential" id="detailCategoryTag">Residential • Premier Town</span>
+              <span class="detail-distance-badge" id="detailDistanceBadge">0.8 km from center</span>
             </div>
           </div>
 
           <div class="detail-content-scroll">
-            <h3 class="detail-name" id="detailTitle">Locality Title</h3>
+            <h3 class="detail-name" id="detailTitle">Hayat Abad, Chichawatni</h3>
             
             <div class="detail-meta-row">
               <p class="detail-address">
                 <i class="fa-solid fa-location-dot highlight-gold"></i>
-                <span id="detailAddressText">Tower Road, Hayat Abad, Chichawatni</span>
+                <span id="detailAddressText">Tower Road / Bypass Corridor, Hayat Abad, Chichawatni</span>
               </p>
+            </div>
+
+            <!-- Real Per-Marla Valuation Rate Box -->
+            <div class="detail-rate-box" id="detailRateBox">
+              <div class="rate-info">
+                <span class="rate-label">ESTIMATED ASKING RATE (2026)</span>
+                <span class="rate-value" id="detailPerMarlaRate">22–32 Lakh / Marla</span>
+              </div>
+              <span class="tma-badge" id="detailTmaBadge"><i class="fa-solid fa-certificate"></i> TMA Approved</span>
             </div>
 
             <!-- GPS Coordinates Box with One-Click Copy -->
@@ -259,9 +315,9 @@ const curatedLocations = [
             <div class="detail-block">
               <h4 class="detail-block-title">
                 <i class="fa-solid fa-circle-info highlight-gold"></i>
-                <span>About this Area / Village</span>
+                <span>About this Sector / Town</span>
               </h4>
-              <p class="detail-description" id="detailDesc">Area description and strategic property valuation overview.</p>
+              <p class="detail-description" id="detailDesc">Hayat Abad is the premier residential sector of Chichawatni, featuring high-demand 5, 7, 10 & 12 Marla double-story family houses, immediate access to Tower Road commercial market, and direct bypass connectivity.</p>
             </div>
 
             <!-- Legal / Verification Status -->
@@ -271,7 +327,7 @@ const curatedLocations = [
                 <span>Revenue & Registry Status</span>
               </h4>
               <div class="legal-highlight-block">
-                <p id="detailLegal">Tehsil Revenue Registry & Land Record Center verified.</p>
+                <p id="detailLegal">Tehsil Municipal Administration (TMA) approved layout with computerized title registry verified at Chichawatni Arazi Record Center (PLRA).</p>
               </div>
             </div>
 
@@ -282,7 +338,10 @@ const curatedLocations = [
                 <span>Infrastructure Highlights</span>
               </h4>
               <ul class="detail-highlights-list" id="detailHighlights">
-                <!-- Injected via JS -->
+                <li><i class="fa-solid fa-check highlight-gold"></i> <span>Tower Road Commercial Market Access</span></li>
+                <li><i class="fa-solid fa-check highlight-gold"></i> <span>Sui Gas, WAPDA Electricity & Water Filtration</span></li>
+                <li><i class="fa-solid fa-check highlight-gold"></i> <span>Computerized PLRA Title Registry (سندِ ملکیت)</span></li>
+                <li><i class="fa-solid fa-check highlight-gold"></i> <span>Direct Link to Chichawatni Bypass & GT Road N-5</span></li>
               </ul>
             </div>
           </div>
@@ -293,7 +352,7 @@ const curatedLocations = [
               id="detailGmapsBtn"
               href="#"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="btn-saas-directions"
             >
               <i class="fa-solid fa-diamond-turn-right"></i>
@@ -314,7 +373,7 @@ const curatedLocations = [
           <div class="map-live-sync-pill" id="liveSyncPill">
             <span class="live-dot-pulse"></span>
             <span class="sync-text">Tehsil GIS • <strong>{curatedLocations.length}</strong> Locations</span>
-            <button type="button" class="api-refresh-micro-btn" onclick="window.refreshOverpassApi(true);" title="Sync Live Overpass Amenities">
+            <button type="button" class="api-refresh-micro-btn" onclick="window.refreshOverpassApi(true);" title="Sync Live Overpass Amenities" aria-label="Sync Live Overpass Amenities">
               <i class="fa-solid fa-arrows-rotate"></i>
             </button>
           </div>
@@ -364,14 +423,33 @@ const curatedLocations = [
       </div>
 
     </div>
+
+    <!-- Dedicated Cadastral Directory Link Bar -->
+    <div class="map-directory-link-bar">
+      <div class="directory-bar-content">
+        <div class="directory-bar-icon">
+          <i class="fa-solid fa-book-atlas"></i>
+        </div>
+        <div class="directory-bar-text">
+          <h4>Looking for Complete Chichawatni Cadastral &amp; Rakba Records?</h4>
+          <p>Browse all 16 Municipal Blocks, TMA Registered Schemes, Private Intiqal Towns, Commercial Bazaars, and Tehsil Chaks with live Acre &rlarr; Kanal &rlarr; Murabba conversions.</p>
+        </div>
+      </div>
+      <a href="/chichawatni-property-directory/index.html" class="btn-directory-cta">
+        <span>View Full Chichawatni Land &amp; Rakba Directory</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
   </div>
 </section>
 
 <!-- Client-Side GIS Map Engine -->
-<script is:inline define:vars={{ initialCuratedLocations: curatedLocations, officeCoords: business.coordinates }}>
+<script is:inline define:vars={{ officeCoords: business.coordinates }}>
   (function() {
     // Geospatial Constants
     const CHICHAWATNI_CENTER = { lat: 30.5333, lng: 72.7000 };
+    const SAHIWAL_CENTER = { lat: 30.6682, lng: 73.1114 };
     const OVERPASS_RADIUS_METERS = 6000;
     const CACHE_STORAGE_KEY = 'siddhu_chichawatni_overpass_v3';
     const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
@@ -385,14 +463,28 @@ const curatedLocations = [
     let markersLayerGroup = null;
     let markersMap = {};
     let activeMapCategory = 'all';
+    let activeRegionalHub = 'all';
     let activeMarkerId = null;
     let searchDebounceTimer = null;
     let userLocationMarker = null;
     let userAccuracyCircle = null;
 
     // Global Dataset Store
-    window.BASE_VERIFIED_LOCATIONS = initialCuratedLocations || [];
-    window.ALL_MAP_LOCATIONS = [...window.BASE_VERIFIED_LOCATIONS];
+    window.BASE_VERIFIED_LOCATIONS = [];
+    window.ALL_MAP_LOCATIONS = [];
+
+    async function loadLocationsData() {
+      if (window.BASE_VERIFIED_LOCATIONS && window.BASE_VERIFIED_LOCATIONS.length > 0) return;
+      try {
+        const res = await fetch('/assets/data/mapLocations.json');
+        const data = await res.json();
+        window.BASE_VERIFIED_LOCATIONS = data || [];
+        window.ALL_MAP_LOCATIONS = [...window.BASE_VERIFIED_LOCATIONS];
+        renderAllLocationCardsAndMarkers();
+      } catch (e) {
+        console.warn('Map locations load error:', e);
+      }
+    }
 
     // SVG Pin Icons for SaaS Markers
     const SVG_ICONS = {
@@ -495,9 +587,13 @@ const curatedLocations = [
     }
 
     // Initialize Map Instance
-    function initSaaSMap() {
+    async function initSaaSMap() {
       const container = document.getElementById('osV4Map');
       if (!container || typeof L === 'undefined' || mapInstance) return;
+
+      if (!window.BASE_VERIFIED_LOCATIONS || window.BASE_VERIFIED_LOCATIONS.length === 0) {
+        await loadLocationsData();
+      }
 
       try {
         // Create Map
@@ -582,7 +678,7 @@ const curatedLocations = [
               <h4 class="popup-title">SIDDHU Property Advisor</h4>
               <p class="popup-address">Street 08, Tower Road Side, Hayat Abad, Chichawatni</p>
               <div class="popup-actions">
-                <a href="https://www.google.com/maps/dir/?api=1&destination=${officeCoords.lat},${officeCoords.lng}" target="_blank" rel="noopener" class="popup-nav-btn">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=${officeCoords.lat},${officeCoords.lng}" target="_blank" rel="noopener noreferrer" class="popup-nav-btn">
                   <i class="fa-solid fa-diamond-turn-right"></i> Directions
                 </a>
                 <a href="tel:${officeCoords.phone || '+923063996764'}" class="popup-call-btn">
@@ -601,6 +697,11 @@ const curatedLocations = [
 
         // Trigger Async Real-Time Overpass Fetch with Cache Check
         fetchLiveOverpassAmenities(false);
+
+        // Pre-select Hayat Abad, Chichawatni by default with real metrics
+        setTimeout(() => {
+          window.selectLocality('hayat-abad-chichawatni');
+        }, 350);
 
         // Invalidate size on load & resize
         setTimeout(() => mapInstance && mapInstance.invalidateSize(), 300);
@@ -649,6 +750,7 @@ const curatedLocations = [
         card.className = `locality-list-item cat-${loc.group.toLowerCase()}`;
         card.setAttribute('data-id', loc.id);
         card.setAttribute('data-cat', loc.group);
+        card.setAttribute('data-hub', loc.districtHub || 'Chichawatni');
         card.setAttribute('data-name', loc.name);
         card.setAttribute('data-address', loc.address);
 
@@ -687,6 +789,7 @@ const curatedLocations = [
               <i class="fa-solid ${groupIconClass}"></i> ${groupLabel}
             </span>
             <span class="item-badge-pill">${loc.badge || 'Verified'}</span>
+            ${loc.perMarlaRate ? `<span class="item-rate-badge">${loc.perMarlaRate}</span>` : ''}
             <span class="item-dist-label">${distanceStr}</span>
           </div>
           <h4 class="item-name">${loc.name}</h4>
@@ -735,6 +838,22 @@ const curatedLocations = [
             icon: createSaaSPinIcon(loc.group)
           });
 
+          const rakbaBlock = loc.rakba ? `
+            <div class="popup-cadastral-rakba">
+              <span class="rakba-pill"><i class="fa-solid fa-shapes"></i> ${loc.rakba}</span>
+            </div>
+          ` : '';
+
+          const specBlock = (loc.streets || loc.canal || loc.perMarlaRate || loc.rate) ? `
+            <div class="popup-cadastral-specs">
+              ${loc.streets ? `<span class="cad-spec-item"><i class="fa-solid fa-road"></i> ${loc.streets}</span>` : ''}
+              ${loc.canal ? `<span class="cad-spec-item"><i class="fa-solid fa-water"></i> ${loc.canal}</span>` : ''}
+              ${(loc.perMarlaRate || loc.rate) ? `<span class="cad-spec-item cad-rate"><i class="fa-solid fa-tag"></i> ${loc.perMarlaRate || loc.rate}</span>` : ''}
+            </div>
+          ` : '';
+
+          const waUrl = `https://wa.me/923063996764?text=${encodeURIComponent(`Assalam-o-Alaikum Naeem Sahab, I want to inquire about the property records, rakba & rates for ${loc.name} in Chichawatni.`)}`;
+
           marker.bindPopup(`
             <div class="saas-popup-card">
               <div class="popup-header-tag tag-${loc.group.toLowerCase()}">
@@ -742,15 +861,20 @@ const curatedLocations = [
               </div>
               <h4 class="popup-title">${loc.name}</h4>
               <p class="popup-address">${loc.address}</p>
+              ${rakbaBlock}
+              ${specBlock}
               <div class="popup-distance-row">
-                <i class="fa-solid fa-road highlight-gold"></i>
-                <span>${distanceStr} (${loc.lat.toFixed(4)}°N, ${loc.lng.toFixed(4)}°E)</span>
+                <i class="fa-solid fa-location-crosshairs highlight-gold"></i>
+                <span>${distanceStr} • ${loc.lat.toFixed(4)}°N, ${loc.lng.toFixed(4)}°E</span>
               </div>
               <div class="popup-actions">
-                <button type="button" class="popup-detail-btn" onclick="window.selectLocality('${loc.id}');">
-                  <i class="fa-solid fa-circle-info"></i> Full Details
+                <button type="button" class="popup-detail-btn" onclick="window.selectLocality('${loc.id}');" title="Full Area Record">
+                  <i class="fa-solid fa-circle-info"></i> Record
                 </button>
-                <a href="https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}" target="_blank" rel="noopener" class="popup-nav-btn">
+                <a href="${waUrl}" target="_blank" rel="noopener" class="popup-wa-btn" title="Inquire on WhatsApp">
+                  <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}" target="_blank" rel="noopener" class="popup-nav-btn" title="Get GPS Directions">
                   <i class="fa-solid fa-diamond-turn-right"></i> Directions
                 </a>
               </div>
@@ -971,13 +1095,15 @@ out body 50;`;
 
       items.forEach(item => {
         const cat = item.getAttribute('data-cat') || '';
+        const hub = item.getAttribute('data-hub') || 'Chichawatni';
         const name = (item.getAttribute('data-name') || '').toLowerCase();
         const addr = (item.getAttribute('data-address') || '').toLowerCase();
 
         const matchCat = activeMapCategory === 'all' || cat === activeMapCategory;
+        const matchHub = activeRegionalHub === 'all' || hub.toLowerCase() === activeRegionalHub.toLowerCase();
         const matchSearch = !searchVal || name.includes(searchVal) || addr.includes(searchVal);
 
-        if (matchCat && matchSearch) {
+        if (matchCat && matchHub && matchSearch) {
           item.style.display = 'flex';
           visibleCount++;
         } else {
@@ -990,10 +1116,12 @@ out body 50;`;
         const marker = markersMap[loc.id];
         if (!marker) return;
 
+        const locHub = loc.districtHub || 'Chichawatni';
         const matchCat = activeMapCategory === 'all' || loc.group === activeMapCategory;
+        const matchHub = activeRegionalHub === 'all' || locHub.toLowerCase() === activeRegionalHub.toLowerCase();
         const matchSearch = !searchVal || loc.name.toLowerCase().includes(searchVal) || loc.address.toLowerCase().includes(searchVal);
 
-        if (matchCat && matchSearch) {
+        if (matchCat && matchHub && matchSearch) {
           if (clusterGroup && !clusterGroup.hasLayer(marker)) clusterGroup.addLayer(marker);
           else if (markersLayerGroup && !markersLayerGroup.hasLayer(marker)) markersLayerGroup.addLayer(marker);
         } else {
@@ -1009,6 +1137,27 @@ out body 50;`;
     }
 
     // Public Window Methods for UI Actions
+    window.switchMapHub = function(hub, btn) {
+      activeRegionalHub = hub;
+      document.querySelectorAll('#mapRegionalHubBar .hub-toggle-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      else {
+        document.querySelector(`#mapRegionalHubBar .hub-toggle-btn[data-hub="${hub}"]`)?.classList.add('active');
+      }
+
+      if (mapInstance) {
+        if (hub === 'Sahiwal') {
+          mapInstance.flyTo([SAHIWAL_CENTER.lat, SAHIWAL_CENTER.lng], 13.5, { duration: 1.2 });
+        } else if (hub === 'Chichawatni') {
+          mapInstance.flyTo([CHICHAWATNI_CENTER.lat, CHICHAWATNI_CENTER.lng], 13, { duration: 1.2 });
+        } else {
+          mapInstance.flyTo([CHICHAWATNI_CENTER.lat, CHICHAWATNI_CENTER.lng], 11.5, { duration: 1.2 });
+        }
+      }
+
+      applyMapFilters();
+    };
+
     window.setMapCategory = function(cat, btn) {
       activeMapCategory = cat;
       document.querySelectorAll('#categoryChipsRow .chip-btn').forEach(b => b.classList.remove('active'));
@@ -1018,10 +1167,8 @@ out body 50;`;
       // Smart Zoom Dynamics based on category selection:
       if (mapInstance) {
         if (cat === 'Village') {
-          // Zoom out to show wider Tehsil rural expanse
           mapInstance.flyTo([CHICHAWATNI_CENTER.lat, CHICHAWATNI_CENTER.lng], 11.5, { duration: 1.0 });
         } else if (cat === 'Residential' || cat === 'Private') {
-          // Zoom into urban center
           mapInstance.flyTo([CHICHAWATNI_CENTER.lat, CHICHAWATNI_CENTER.lng], 14, { duration: 1.0 });
         }
       }
@@ -1103,8 +1250,20 @@ out body 50;`;
         document.getElementById('detailDistanceBadge').textContent = loc._distanceStr || formatDistanceStr(loc.lat, loc.lng);
         document.getElementById('detailAddressText').textContent = loc.address;
         document.getElementById('detailCoordsMono').textContent = `${loc.lat.toFixed(4)}° N, ${loc.lng.toFixed(4)}° E`;
-        document.getElementById('detailDesc').textContent = loc.desc || 'Verified locality in Tehsil Chichawatni.';
-        document.getElementById('detailLegal').textContent = loc.legal || 'Registered under Tehsil Revenue and Arazi Record Center.';
+
+        const rateEl = document.getElementById('detailPerMarlaRate');
+        if (rateEl) {
+          rateEl.textContent = loc.perMarlaRate || (loc.group === 'Residential' ? '20–32 Lakh / Marla' : 'Market Demand');
+        }
+        const tmaBadgeEl = document.getElementById('detailTmaBadge');
+        if (tmaBadgeEl) {
+          tmaBadgeEl.innerHTML = loc.districtHub === 'Sahiwal'
+            ? '<i class="fa-solid fa-certificate"></i> Sahiwal CDA/TMA Standard'
+            : '<i class="fa-solid fa-certificate"></i> TMA Approved';
+        }
+
+        document.getElementById('detailDesc').textContent = loc.desc || 'Verified locality in Tehsil Chichawatni / District Sahiwal.';
+        document.getElementById('detailLegal').textContent = loc.legal || 'Registered under Tehsil Revenue and Arazi Record Center (PLRA).';
 
         const gmapsBtn = document.getElementById('detailGmapsBtn');
         if (gmapsBtn) {
@@ -1313,6 +1472,8 @@ out body 50;`;
 
     // Check Leaflet Readiness and Bootstrap
     function checkAndInit() {
+      loadLocationsData();
+
       if (typeof L === 'undefined') {
         let attempts = 0;
         const timer = setInterval(() => {
@@ -1345,6 +1506,139 @@ out body 50;`;
     background: #F4F6F4;
     border-bottom: 1px solid var(--border-subtle);
     position: relative;
+  }
+
+  /* 2-Hub Regional Switcher */
+  .map-regional-hub-bar {
+    display: inline-flex;
+    align-items: center;
+    background: #FFFFFF;
+    padding: 6px;
+    border-radius: var(--radius-full, 9999px);
+    border: 1px solid #CBD5E1;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    margin-top: 18px;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hub-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radius-full, 9999px);
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #475569;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hub-toggle-btn i {
+    font-size: 0.85rem;
+    color: #94A3B8;
+  }
+
+  .hub-toggle-btn .hub-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: #F1F5F9;
+    color: #64748B;
+  }
+
+  .hub-toggle-btn .hub-tag.gold {
+    background: #FEF3C7;
+    color: #B45309;
+  }
+
+  .hub-toggle-btn:hover {
+    color: #0F291E;
+    background: #F8FAFC;
+  }
+
+  .hub-toggle-btn.active {
+    background: #0F291E;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(15, 41, 30, 0.25);
+  }
+
+  .hub-toggle-btn.active i {
+    color: #C8A96B;
+  }
+
+  .hub-toggle-btn.active .hub-tag {
+    background: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+  }
+
+  .hub-toggle-btn.active .hub-tag.gold {
+    background: #C8A96B;
+    color: #0F291E;
+  }
+
+  /* Item Rate Tag inside Sidebar Cards */
+  .item-rate-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: #ECFDF5;
+    color: #047857;
+    border: 1px solid rgba(5, 150, 105, 0.3);
+  }
+
+  /* Detail Rate Box */
+  .detail-rate-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .detail-rate-box .rate-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .detail-rate-box .rate-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #166534;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+
+  .detail-rate-box .rate-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0F291E;
+    line-height: 1.1;
+  }
+
+  .detail-rate-box .tma-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #047857;
+    background: #DCFCE7;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(5, 150, 105, 0.2);
+    white-space: nowrap;
   }
 
   /* Mobile Tabs (< 992px) */
@@ -2655,6 +2949,133 @@ out body 50;`;
     border: 1px solid #29473D;
   }
 
+  /* Cadastral Popup Rich Specs */
+  .popup-cadastral-rakba {
+    margin: 6px 0 4px;
+  }
+  .rakba-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid #FDE68A;
+  }
+  .popup-cadastral-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 4px 0 6px;
+  }
+  .cad-spec-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #F3F4F6;
+    color: #374151;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #E5E7EB;
+  }
+  .cad-spec-item.cad-rate {
+    background: #ECFDF5;
+    color: #065F46;
+    border-color: #A7F3D0;
+    font-weight: 700;
+  }
+  .popup-wa-btn {
+    background: #25D366;
+    color: #FFFFFF;
+    border: 1px solid #25D366;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 9999px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .popup-wa-btn:hover {
+    background: #1EBE5D;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  /* Dedicated Cadastral Directory Link Bar */
+  .map-directory-link-bar {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #132A1F 0%, #1F3D2E 100%);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 16px;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  .directory-bar-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .directory-bar-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #FBBF24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .directory-bar-text h4 {
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+  }
+  .directory-bar-text p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #A3B899;
+    line-height: 1.4;
+  }
+  .btn-directory-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #D4AF37 0%, #B89628 100%);
+    color: #0F172A;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 12px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+    flex-shrink: 0;
+  }
+  .btn-directory-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    color: #000000;
+  }
+
   /* Responsive Breakpoints */
   @media (max-width: 992px) {
     .mobile-map-segmented-tabs {
@@ -2708,6 +3129,18 @@ out body 50;`;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .map-directory-link-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 18px 20px;
+      gap: 16px;
+    }
+    .btn-directory-cta {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
     }
   }
 </style>
